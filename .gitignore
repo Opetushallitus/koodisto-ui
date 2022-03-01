@@ -1,7 +1,5 @@
 .idea/
 build/
-.gradle/
-.nyc_output
 src/react-app-env.d.ts
 coverage/
 cypress/videos
