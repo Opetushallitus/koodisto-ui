@@ -1,0 +1,16 @@
+git:
+  depth: false
+branches:
+  only:
+    - master
+jobs:
+  include:
+    - stage: "Build"
+      language: node_js
+      node_js:
+        - 14.17.5
+      install:
+        - npm install
+      script:
+        - npm run build
+        - npm run cypress:ci
