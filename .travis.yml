@@ -22,7 +22,8 @@ before_install:
   - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
 jobs:
   include:
-    - stage: "Build React"
+    - stage: "Build"
+      name: "React Production Build"
       language: node_js
       node_js:
         - 14.17.5
