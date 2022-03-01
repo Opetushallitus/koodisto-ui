@@ -51,6 +51,7 @@ jobs:
         - git clone https://github.com/Opetushallitus/ci-tools.git
         - export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
         - export ARTIFACT_NAME="koodisto-ui"
+        - source ci-tools/common/setup-tools.sh
         - cp -R ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
         - cd server && mvn clean install && cd -
       script:
