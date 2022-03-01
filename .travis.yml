@@ -35,6 +35,16 @@ jobs:
         - cp -R $TRAVIS_BUILD_DIR/build ~/$TRAVIS_BUILD_NUMBER/
       after_success:
         - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
+    - stage: "Build server & deploy"
+      name: "to ecr"
+        language: java
+        jdk:
+          - openjdk11
+        install:
+          - git clone https://github.com/Opetushallitus/ci-tools.git
+          - export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
+          - cp ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
+          - cd server && mvn clean install && cd -
 
 
 
