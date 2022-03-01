@@ -16,6 +16,10 @@ before_install:
   - pyenv global 3.6.7
   - pip install -U pip
   - pip install awscli
+  - mkdir -p ~/$TRAVIS_BUILD_NUMBER
+  - aws s3 sync s3://$s3bucket/$TRAVIS_BUILD_NUMBER ~/$TRAVIS_BUILD_NUMBER
+  - touch ~/$TRAVIS_BUILD_NUMBER/$TRAVIS_BUILD_NUMBER.$TRAVIS_BRANCH
+  - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
 jobs:
   include:
     - stage: "Build"
