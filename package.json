@@ -1,5 +1,5 @@
 {
-    "homepage": "/koodisto-ui",
+    "homepage": "/koodisto-app",
     "name": "koodisto-ui",
     "version": "0.1.0",
     "private": true,
@@ -34,7 +34,7 @@
         "husky": "^7.0.0"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "BROWSER=none react-scripts start",
         "build": "npm run lint && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
@@ -42,7 +42,7 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-ui && npm run cypress:run' 'npm run start'",
+        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-app && npm run cypress:run' 'npm run start'",
         "prepare": "husky install"
     },
     "browserslist": {
