@@ -22,7 +22,7 @@ before_install:
   - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
 jobs:
   include:
-    - stage: "Build"
+    - stage: "Build UI"
       name: "React Production Build"
       language: node_js
       node_js:
@@ -35,8 +35,8 @@ jobs:
         - cp -R $TRAVIS_BUILD_DIR/build ~/$TRAVIS_BUILD_NUMBER/
       after_success:
         - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
-    - stage: "Build server & deploy"
-      name: "to ecr"
+    - stage: "Build Server & Deploy"
+      name: "To ECR"
       language: java
       jdk:
         - openjdk11
@@ -45,10 +45,9 @@ jobs:
       install:
         - git clone https://github.com/Opetushallitus/ci-tools.git
         - export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
-        - cp ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
+        - cp -R ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
         - cd server && mvn clean install && cd -
       script:
         - ./ci-tools/common/pull-image.sh
         - ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
         - ./ci-tools/build/upload-image.sh $ARTIFACT_NAME
-        -
