@@ -37,20 +37,18 @@ jobs:
         - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
     - stage: "Build server & deploy"
       name: "to ecr"
-        language: java
-        jdk:
-          - openjdk11
-        services:
-          - docker
-        install:
-          - git clone https://github.com/Opetushallitus/ci-tools.git
-          - export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
-          - cp ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
-          - cd server && mvn clean install && cd -
-        script:
-          - ./ci-tools/common/pull-image.sh
-          - ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
-          - ./ci-tools/build/upload-image.sh $ARTIFACT_NAME
-
-
-
+      language: java
+      jdk:
+        - openjdk11
+      services:
+        - docker
+      install:
+        - git clone https://github.com/Opetushallitus/ci-tools.git
+        - export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
+        - cp ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
+        - cd server && mvn clean install && cd -
+      script:
+        - ./ci-tools/common/pull-image.sh
+        - ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
+        - ./ci-tools/build/upload-image.sh $ARTIFACT_NAME
+        -
