@@ -32,6 +32,9 @@ jobs:
       script:
         - npm run build
         - npm run cypress:ci
+        - cp -R $TRAVIS_BUILD_DIR/build ~/$TRAVIS_BUILD_NUMBER/
+      after_success:
+        - aws s3 sync ~/$TRAVIS_BUILD_NUMBER s3://$s3bucket/$TRAVIS_BUILD_NUMBER
 
 
 
