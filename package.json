@@ -30,7 +30,8 @@
         "eslint-plugin-react": "^7.29.2",
         "eslint-plugin-react-hooks": "^4.3.0",
         "prettier": "^2.5.1",
-        "wait-on": "^6.0.1"
+        "wait-on": "^6.0.1",
+        "husky": "^7.0.0"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -41,7 +42,8 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-ui && npm run cypress:run' 'npm run start'"
+        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-ui && npm run cypress:run' 'npm run start'",
+        "prepare": "husky install"
     },
     "browserslist": {
         "production": [
