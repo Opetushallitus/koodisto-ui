@@ -55,6 +55,7 @@ jobs:
         - source ci-tools/common/setup-tools.sh
         - cp -R ~/$TRAVIS_BUILD_NUMBER/build $TRAVIS_BUILD_DIR/
         - cd server && mvn clean install && cd -
+        - cp server/target/koodisto-ui.jar $DOCKER_BUILD_DIR/artifact/$ARTIFACT_NAME.jar
       script:
         - ./ci-tools/common/pull-image.sh
         - ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
