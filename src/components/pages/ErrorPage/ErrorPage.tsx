@@ -1,5 +1,4 @@
 import * as React from 'react';
-import sad from './sad.png';
 import styles from './ErrorPage.module.css';
 
 type Props = {
@@ -9,12 +8,7 @@ type Props = {
 export default function ErrorPage(props: Props) {
     return (
         <div className={styles.VirheKirjautunut}>
-            <div className={styles.VirheKirjautunutTausta}>
-                <div>
-                    <img src={sad} alt={''} />
-                </div>
-                {props.children}
-            </div>
+            <div className={styles.VirheKirjautunutTausta}>{props.children}</div>
         </div>
     );
 }
