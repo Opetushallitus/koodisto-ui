@@ -38,7 +38,7 @@
         "wait-on": "^6.0.1"
     },
     "scripts": {
-        "start": "concurrently  --success first --kill-others 'npm run mock-api' 'npm run server' 'BROWSER=none react-scripts start'",
+        "start": "concurrently  --success first --kill-others 'npm run mock-api' 'BROWSER=none react-scripts start'",
         "mock-api": "cd mock-api && npm run mock-api",
         "server": "cd server && mvn spring-boot:run",
         "build": "npm run lint && react-scripts build",
@@ -48,7 +48,7 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-app && npm run cypress:run' 'npm run mock-api' 'npm run server' 'BROWSER=none react-scripts start'",
+        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-app && npm run cypress:run' 'npm run mock-api' 'BROWSER=none react-scripts start'",
         "prepare": "husky install"
     },
     "browserslist": {

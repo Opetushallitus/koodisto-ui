@@ -9,7 +9,7 @@ cache:
     - $HOME/.npm
     - $HOME/.cache
     - node_modules
-    - mock-api/node_modules
+    - kayttooikeus-service-api/node_modules
 env:
   global:
     # AWS_ACCESS_KEY_ID
@@ -36,7 +36,7 @@ jobs:
         - 14.17.5
       install:
         - npm install
-        - cd mock-api && npm install && cd -
+        - cd kayttooikeus-service-api && npm install && cd -
       script:
         - npm run build
         - npm run cypress:ci
