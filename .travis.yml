@@ -35,6 +35,7 @@ jobs:
         - 14.17.5
       install:
         - npm install
+        - cd mock-api && npm install && cd -
       script:
         - npm run build
         - npm run cypress:ci
