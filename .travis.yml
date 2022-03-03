@@ -9,6 +9,7 @@ cache:
     - $HOME/.npm
     - $HOME/.cache
     - node_modules
+    - mock-api/node_modules
 env:
   global:
     # AWS_ACCESS_KEY_ID
