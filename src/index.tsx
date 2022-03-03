@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { ErrorInfo } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import App from './App';
 import InitializeApp from './InitializeApp/InitializeApp';
 import { ROOT_OID } from './context/constants';
+import ErrorPage from './components/pages/ErrorPage/ErrorPage';
 
 const cookies = new Cookies();
 axios.interceptors.request.use((config) => {
@@ -14,12 +15,32 @@ axios.interceptors.request.use((config) => {
     }
     return config;
 });
-
+export class ErrorBoundary extends React.Component<unknown, { hasError: boolean }> {
+    constructor(props: unknown) {
+        super(props);
+        this.state = { hasError: false };
+    }
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+        console.error(error, errorInfo);
+    }
+    render() {
+        const { hasError } = this.state;
+        if (hasError) {
+            return <ErrorPage>Service Unavailable</ErrorPage>;
+        }
+        return this.props.children;
+    }
+}
 ReactDOM.render(
     <React.StrictMode>
-        <InitializeApp>
-            <App />
-        </InitializeApp>
+        <ErrorBoundary>
+            <InitializeApp>
+                <App />
+            </InitializeApp>
+        </ErrorBoundary>
     </React.StrictMode>,
     document.getElementById('root')
 );
