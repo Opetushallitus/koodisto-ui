@@ -1,5 +1,5 @@
 import * as React from 'react';
-import sad from '../../../img/sad.png';
+import sad from './sad.png';
 import styles from './ErrorPage.module.css';
 
 type Props = {
