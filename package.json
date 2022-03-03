@@ -48,7 +48,7 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-app && npm run cypress:run' 'npm run start'",
+        "cypress:ci": "START_SERVER_AND_TEST_INSECURE=1 concurrently  --success first --kill-others 'wait-on http://localhost:3000/koodisto-app && npm run cypress:run' 'npm run mock-api' 'npm run server' 'BROWSER=none react-scripts start'",
         "prepare": "husky install"
     },
     "browserslist": {
