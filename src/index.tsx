@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import App from './App';
-import InitializeApp from './InitializeApp/InitializeApp';
+import { Provider } from 'jotai';
+import Raamit from './Raamit/Raamit';
 import { ROOT_OID } from './context/constants';
 import ErrorPage from './components/pages/ErrorPage/ErrorPage';
+import Loading from './components/pages/Loading/Loading';
 
 const cookies = new Cookies();
 axios.interceptors.request.use((config) => {
@@ -36,11 +38,15 @@ export class ErrorBoundary extends React.Component<unknown, { hasError: boolean 
 }
 ReactDOM.render(
     <React.StrictMode>
-        <ErrorBoundary>
-            <InitializeApp>
-                <App />
-            </InitializeApp>
-        </ErrorBoundary>
+        <Provider>
+            <ErrorBoundary>
+                <React.Suspense fallback={<Loading />}>
+                    <Raamit>
+                        <App />
+                    </Raamit>
+                </React.Suspense>
+            </ErrorBoundary>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

@@ -1,7 +1,11 @@
 import React from 'react';
 
 function App() {
-    return <div>koodisto</div>;
+    return (
+        <div>
+            <h1>koodisto</h1>
+        </div>
+    );
 }
 
 export default App;

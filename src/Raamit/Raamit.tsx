@@ -1,10 +1,14 @@
 import React from 'react';
+import { healthCheckAtom } from '../api/healthCheck';
+import { useAtom } from 'jotai';
 
 const VIRKAILIJA_RAAMIT_PROD_URL = '/virkailija-raamit/apply-raamit.js';
 const VIRKAILIJA_RAAMIT_DEV_URL = '/koodisto-app/dev-raamit.js';
 const SCRIPT_ELEMENT_ID = 'virkailija-raamit-script';
 
-const InitializeApp: React.FC = ({ children }) => {
+const Raamit: React.FC = ({ children }) => {
+    const [health] = useAtom(healthCheckAtom);
+    console.log(health);
     if (process.env.NODE_ENV === 'development' && !document.getElementById(SCRIPT_ELEMENT_ID)) {
         const scriptElement = document.createElement('script');
         scriptElement.src = VIRKAILIJA_RAAMIT_DEV_URL;
@@ -18,4 +22,4 @@ const InitializeApp: React.FC = ({ children }) => {
     }
     return <>{children}</>;
 };
-export default InitializeApp;
+export default Raamit;
