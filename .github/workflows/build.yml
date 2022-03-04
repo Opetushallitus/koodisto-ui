@@ -53,3 +53,31 @@ jobs:
         run: mvn --version
       - name: Build Spring-Boot
         run: cd server && mvn clean install && cd -
+      - name: Upload koodisto-ui-spring-boot
+        uses: actions/upload-artifact@v2
+        with:
+          name: koodisto-ui-spring-boot
+          path: server/target/koodisto-ui.jar
+
+  deploy-container:
+    needs: [cypress,react-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download koodisto-ui-spring-boot
+        uses: actions/download-artifact@v2
+        with:
+          name: koodisto-ui-spring-boot
+      - name: Build Docker Conainer
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          git clone https://github.com/Opetushallitus/ci-tools.git
+          source ci-tools/common/setup-tools.sh
+          export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
+          export ARTIFACT_NAME="koodisto-ui"
+          mv koodisto-ui.jar $DOCKER_BUILD_DIR/artifact/koodisto-ui.jar
+          ./ci-tools/common/pull-image.sh
+          ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
+          ./ci-tools/build/upload-image.sh $ARTIFACT_NAME
