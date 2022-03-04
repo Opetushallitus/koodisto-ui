@@ -81,5 +81,5 @@ jobs:
           mv koodisto-ui.jar $DOCKER_BUILD_DIR/artifact/$ARTIFACT_NAME.jar
           ls -l $DOCKER_BUILD_DIR/artifact/
           ./ci-tools/common/pull-image.sh
-          ./ci-tools/build/build-fatjar.sh $ARTIFACT_NAME
-          ./ci-tools/build/upload-image.sh $ARTIFACT_NAME
+          ./ci-tools/github-build/build-fatjar.sh $ARTIFACT_NAME
+          ./ci-tools/github-build/upload-image.sh $ARTIFACT_NAME
