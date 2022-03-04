@@ -79,7 +79,7 @@ jobs:
           export BASE_IMAGE="baseimage-fatjar-openjdk11:master"
           export ARTIFACT_NAME="koodisto-ui"
           mv koodisto-ui.jar $DOCKER_BUILD_DIR/artifact/$ARTIFACT_NAME.jar
-          ls -l $DOCKER_BUILD_DIR/artifact/
+          touch $DOCKER_BUILD_DIR/config/empty.props
           ./ci-tools/common/pull-image.sh
           ./ci-tools/github-build/build-fatjar.sh $ARTIFACT_NAME
           ./ci-tools/github-build/upload-image.sh $ARTIFACT_NAME
