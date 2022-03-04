@@ -49,7 +49,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          cache: maven
+          cache: 'maven'
       - name: Maven version
         run: mvn --version
       - name: Build Spring-Boot
