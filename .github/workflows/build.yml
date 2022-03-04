@@ -11,16 +11,15 @@ on:
       - '**.md'
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Use node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'npm'
       - name: Install dependencies
         run: npm install
       - run: cd mock-api && npm install && cd -
