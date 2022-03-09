@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Column, FilterProps, useFilters, useTable } from 'react-table';
+import { Cell, Column, FilterProps, HeaderGroup, Row, useFilters, useTable } from 'react-table';
 
 const TableContainer = styled.div`
     overflow-x: scroll;
@@ -30,11 +30,10 @@ export const DefaultColumnFilter = <T extends Record<string, unknown>>({
     column: { filterValue, preFilteredRows, setFilter },
 }: FilterProps<T>) => {
     const count = preFilteredRows.length;
-
     return (
         <input
             value={filterValue || ''}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setFilter(e.target.value || undefined);
             }}
             placeholder={`Search ${count} records...`}
@@ -61,10 +60,10 @@ const TableComponent = <T extends object>({ columns, data }: TableProps<T>) => {
         <TableContainer>
             <Table {...getTableProps()}>
                 <thead>
-                    {headerGroups.map((headerGroup) => (
+                    {headerGroups.map((headerGroup: HeaderGroup<T>) => (
                         // eslint-disable-next-line react/jsx-key
                         <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
+                            {headerGroup.headers.map((column: HeaderGroup<T>) => (
                                 // eslint-disable-next-line react/jsx-key
                                 <Th {...column.getHeaderProps()}>
                                     {column.render('Header')}
@@ -75,12 +74,12 @@ const TableComponent = <T extends object>({ columns, data }: TableProps<T>) => {
                     ))}
                 </thead>
                 <Tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
+                    {rows.map((row: Row<T>) => {
                         prepareRow(row);
                         return (
                             // eslint-disable-next-line react/jsx-key
                             <Tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
+                                {row.cells.map((cell: Cell<T>) => {
                                     // eslint-disable-next-line react/jsx-key
                                     return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>;
                                 })}
