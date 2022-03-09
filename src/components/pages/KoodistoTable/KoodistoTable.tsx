@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import { useAtom } from 'jotai';
 import { Column } from 'react-table';
-import { Koodisto, koodistoAtom } from '../../../api/codes';
+import { Koodisto, koodistoAtom } from '../../../api/koodisto';
 import Table, { DefaultColumnFilter } from '../../Table/Table';
 
 const KoodistoTable = () => {

@@ -13,11 +13,11 @@ export type Koodisto = {
     };
     organisaatioOid: string;
 };
-export type Metadata = {
+type Metadata = {
     kieli: Kieli;
     nimi: string;
 };
-export type KoodistoRyhma = {
+type KoodistoRyhma = {
     id: number;
     koodistoRyhmaUri: string;
     koodistos: Koodisto[];
