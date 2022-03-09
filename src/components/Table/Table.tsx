@@ -25,7 +25,7 @@ const Tbody = styled.tbody`
         background: rgba(255, 255, 255, 0);
     }
 `;
-// Define a default UI for filtering
+
 export const DefaultColumnFilter = <T extends Record<string, unknown>>({
     column: { filterValue, preFilteredRows, setFilter },
 }: FilterProps<T>) => {
@@ -35,7 +35,7 @@ export const DefaultColumnFilter = <T extends Record<string, unknown>>({
         <input
             value={filterValue || ''}
             onChange={(e) => {
-                setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
+                setFilter(e.target.value || undefined);
             }}
             placeholder={`Search ${count} records...`}
         />
@@ -48,7 +48,6 @@ type TableProps<T extends object> = {
 const TableComponent = <T extends object>({ columns, data }: TableProps<T>) => {
     const defaultColumn = React.useMemo(
         () => ({
-            // Let's set up our default Filter UI
             Filter: DefaultColumnFilter,
         }),
         []
