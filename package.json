@@ -1,6 +1,6 @@
 {
     "homepage": "/koodisto-app",
-    "name": "koodisto-ui",
+    "name": "koodisto-app",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
