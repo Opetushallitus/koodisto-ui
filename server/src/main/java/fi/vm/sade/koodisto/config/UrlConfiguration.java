@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 public class UrlConfiguration extends OphProperties {
     @Autowired
     public UrlConfiguration(Environment environment) {
-        addFiles("/koodisto-app-oph.properties");
         this.addOverride("host.virkailija", environment.getRequiredProperty("host.virkailija"));
         this.addOverride("url-virkailija", environment.getRequiredProperty("url-virkailija"));
         this.addDefault("host.alb", environment.getRequiredProperty("host.alb"));
