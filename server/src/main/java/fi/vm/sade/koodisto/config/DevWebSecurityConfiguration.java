@@ -41,10 +41,7 @@ public class DevWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/").authenticated()
                 .antMatchers("/health").permitAll()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler())
                 .and().httpBasic();
