@@ -16,6 +16,6 @@ export const casMeAtom = atom(async (get) => {
     const { data } = await axios.get<CASMeApi>(`${get(urlAtom)}cas/me`);
     return data;
 });
-export const casMeLangAtom = atom(async (get) => {
+export const casMeLangAtom = atom((get) => {
     return get(casMeAtom).lang;
 });
