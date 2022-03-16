@@ -8,7 +8,7 @@ type CASMeApi = {
     lastName: string;
     groups: string[];
     roles: string;
-    lang: string;
+    lang: 'fi' | 'sv' | 'en';
 };
 
 const urlAtom = atom((get) => '/kayttooikeus-service/');
@@ -16,6 +16,6 @@ export const casMeAtom = atom(async (get) => {
     const { data } = await axios.get<CASMeApi>(`${get(urlAtom)}cas/me`);
     return data;
 });
-export const casMeLangAtom = atom((get) => {
+export const casMeLangAtom = atom(async (get) => {
     return get(casMeAtom).lang;
 });
