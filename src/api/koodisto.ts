@@ -60,7 +60,6 @@ const koodistoApiToKoodisto = (a: KoodistoApi, lang: Kieli): Koodisto => {
 
 export const koodistoAtom = atom<Koodisto[]>((get: Getter) => {
     const lowerLang = get(casMeLangAtom);
-    console.log('lowerLang', lowerLang);
     const lang = lowerLang.toUpperCase() as Kieli;
     return get(koodistoRyhmaAtom)
         .flatMap((a: KoodistoRyhma) => a.koodistos.map((k: KoodistoApi) => ({ ...k, ryhmaMetadata: a.metadata })))
