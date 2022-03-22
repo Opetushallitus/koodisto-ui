@@ -1,6 +1,6 @@
 import { API_BASE_PATH } from '../context/constants';
 import { atom, Getter } from 'jotai';
-import { ApiDate, Kieli } from '../types/types';
+import { ApiDate, Kieli, Metadata } from '../types/types';
 import { casMeLangAtom } from './kayttooikeus';
 import { parseApiDate, translateMetadata } from '../utils/utils';
 import axios from 'axios';
@@ -24,10 +24,6 @@ type KoodistoApi = {
     };
     organisaatioOid: string;
     ryhmaMetadata: Metadata[];
-};
-export type Metadata = {
-    kieli: Kieli;
-    nimi: string;
 };
 type KoodistoRyhma = {
     id: number;
