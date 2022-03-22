@@ -7,7 +7,7 @@ describe('CSV functionality tests', () => {
         cy.visit(`${BASE_PATH}`);
         cy.get(`svg[name="${koodistoUri}-uploadicon"]`).should('be.visible');
     });
-    it('can download ', () => {
+    it('can download arvosanat', () => {
         cy.intercept(`${API_BASE_PATH}/json/arvosanat/koodi`, { fixture: 'arvosanat.json' });
         const downloadsFolder = Cypress.config('downloadsFolder');
         const downloadedFilename = path.join(downloadsFolder, `${koodistoUri}.csv`);
