@@ -40,11 +40,10 @@ const pushBlobToUser = ({ fileName, blob }: { fileName: string; blob: Blob }) =>
 
 const convertCsvToExcelAcceptedBlob = (csv: string) => {
     const csvWithBom = `${decodeURIComponent('%EF%BB%BF')}${csv}`;
-    const csvArray = new Uint16Array(
-        csvWithBom.split('').map(function (k) {
-            return k.charCodeAt(0);
-        })
-    );
+    const charCodeArray = Array.from(csvWithBom).map(function (k) {
+        return k.charCodeAt(0);
+    });
+    const csvArray = new Uint16Array(charCodeArray);
     return new Blob([csvArray], { type: 'text/csv;charset=UTF-16LE;' });
 };
 
