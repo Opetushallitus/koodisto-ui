@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 import { Koodi } from '../types/types';
 import { fetchKoodisto } from '../api/koodisto';
 
-const mapKoodiToCSV = (koodi: Koodi) => {
+export const mapKoodiToCSV = (koodi: Koodi) => {
     const langPacks = koodi.metadata
         .map((a) => {
             const langPack = {};
