@@ -1,20 +1,8 @@
-import axios from 'axios';
 import Papa from 'papaparse';
-import { API_BASE_PATH } from '../context/constants';
-import { Metadata } from '../types/types';
+import {Koodi} from '../types/types';
+import {fetchKoodisto} from "../api/koodisto";
 
-type Koodi = {
-    versio: number;
-    version: number;
-    koodiUri: string;
-    koodiArvo: string;
-    paivitysPvm: string;
-    resourceUri: string;
-    tila: string;
-    voimassaAlkuPvm: string;
-    voimassaLoppuPvm: string;
-    metadata: Metadata[];
-};
+
 const mapKoodiToCSV = (koodi: Koodi) => {
     const langPacks = koodi.metadata
         .map((a) => {
@@ -26,7 +14,7 @@ const mapKoodiToCSV = (koodi: Koodi) => {
             });
             return langPack;
         })
-        .reduce((p, c) => ({ ...p, ...c }), {});
+        .reduce((p, c) => ({...p, ...c}), {});
     return {
         versio: koodi.versio,
         koodiUri: koodi.koodiUri,
@@ -38,7 +26,7 @@ const mapKoodiToCSV = (koodi: Koodi) => {
         ...langPacks,
     };
 };
-const pushBlobToUser = ({ fileName, blob }: { fileName: string; blob: Blob }) => {
+const pushBlobToUser = ({fileName, blob}: { fileName: string; blob: Blob }) => {
     const link = document.createElement('a');
     if (link.download !== undefined) {
         const url = URL.createObjectURL(blob);
@@ -50,10 +38,6 @@ const pushBlobToUser = ({ fileName, blob }: { fileName: string; blob: Blob }) =>
         document.body.removeChild(link);
     }
 };
-const fetchKoodisto = async (koodistoUri: string) => {
-    const { data } = await axios.get<Koodi[]>(`${API_BASE_PATH}/json/${koodistoUri}/koodi`);
-    return data;
-};
 
 const convertCsvToExcelAcceptedBlob = (csv: string) => {
     const csvWithBom = `${decodeURIComponent('%EF%BB%BF')}${csv}`;
@@ -62,15 +46,17 @@ const convertCsvToExcelAcceptedBlob = (csv: string) => {
             return k.charCodeAt(0);
         })
     );
-    return new Blob([csvArray], { type: 'text/csv;charset=UTF-16LE;' });
+    return new Blob([csvArray], {type: 'text/csv;charset=UTF-16LE;'});
 };
 
 const downloadCsv = async (koodistoUri: string) => {
-    const data = await fetchKoodisto(koodistoUri);
+    const response = await fetchKoodisto(koodistoUri);
+    if (!response) return;
+    const {data} = response;
     data.sort((a, b) => a.koodiUri.localeCompare(b.koodiUri));
     const csvData = data.map(mapKoodiToCSV);
-    const csv = Papa.unparse(csvData, { quotes: true, quoteChar: '"', delimiter: '\t', newline: '\r\n' });
+    const csv = Papa.unparse(csvData, {quotes: true, quoteChar: '"', delimiter: '\t', newline: '\r\n'});
     const blob = convertCsvToExcelAcceptedBlob(csv);
-    pushBlobToUser({ fileName: `${koodistoUri}.csv`, blob });
+    pushBlobToUser({fileName: `${koodistoUri}.csv`, blob});
 };
 export default downloadCsv;

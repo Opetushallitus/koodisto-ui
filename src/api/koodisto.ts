@@ -1,9 +1,9 @@
 import { API_BASE_PATH } from '../context/constants';
 import { atom, Getter } from 'jotai';
-import { ApiDate, Kieli, Metadata } from '../types/types';
+import { ApiDate, Kieli, Koodi, Metadata } from '../types/types';
 import { casMeLangAtom } from './kayttooikeus';
 import { parseApiDate, translateMetadata } from '../utils/utils';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export type Koodisto = {
     koodistoUri: string;
@@ -62,3 +62,13 @@ export const koodistoAtom = atom<Koodisto[]>((get: Getter) => {
         .filter(distinctTypeFilter)
         .map((a) => koodistoApiToKoodisto(a, lang));
 });
+
+export const fetchKoodisto = async (koodistoUri: string): Promise<AxiosResponse<Koodi[]> | undefined> => {
+    return axios
+        .get<Koodi[]>(`${API_BASE_PATH}/json/${koodistoUri}/koodi`)
+        .catch((e) => {
+            console.error(e);
+            return undefined;
+        })
+        .then((data) => data);
+};

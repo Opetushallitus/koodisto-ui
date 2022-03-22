@@ -13,3 +13,16 @@ export type Metadata = {
     huomioitavakoodi?: string;
     sisaltaakoodiston?: string;
 };
+
+export type Koodi = {
+    versio: number;
+    version: number;
+    koodiUri: string;
+    koodiArvo: string;
+    paivitysPvm: string;
+    resourceUri: string;
+    tila: string;
+    voimassaAlkuPvm: string;
+    voimassaLoppuPvm: string;
+    metadata: Metadata[];
+};
