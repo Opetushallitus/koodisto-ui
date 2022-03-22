@@ -90,7 +90,12 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
                 Header: '',
                 accessor: (values: Koodisto) => {
                     return (
-                        <IconWrapper icon="el:download" inline={true} onClick={() => downloadCsv(values.koodistoUri)} />
+                        <IconWrapper
+                            name={`${values.koodistoUri}-uploadicon`}
+                            icon="el:download"
+                            inline={true}
+                            onClick={() => downloadCsv(values.koodistoUri)}
+                        />
                     );
                 },
             },
