@@ -49,6 +49,8 @@ jobs:
         run: npm install
       - name: Install mock dependencies
         run: cd mock-api && npm install && cd -
+      - name: Run jest
+        run: npm run test
       - name: Run react Build
         run: npm run build
       - name: Set up JDK 11
