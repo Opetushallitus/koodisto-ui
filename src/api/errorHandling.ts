@@ -5,7 +5,7 @@ function handleError<T>(error: AxiosError<T> | unknown) {
     if (Axios.isAxiosError(error)) {
         const axiosError = error;
         if (axiosError.response) {
-            console.error(axiosError.response);
+            console.error('axiosError', axiosError.response);
             if (axiosError.response.data?.errorKey) {
                 warning({ title: axiosError.response.data.errorKey, message: axiosError.response.data.errorMessage });
             } else if (axiosError.response.data?.errorMessage) {
