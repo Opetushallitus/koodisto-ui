@@ -1,7 +1,7 @@
 import Axios, { AxiosError, AxiosResponse } from 'axios';
 import { danger, warning } from '../components/Notification/Notification';
 
-function handleError<T>(error: AxiosError<T> | unknown) {
+const handleError = <T>(error: AxiosError<T> | unknown) => {
     if (Axios.isAxiosError(error)) {
         const axiosError = error;
         if (axiosError.response) {
@@ -18,7 +18,7 @@ function handleError<T>(error: AxiosError<T> | unknown) {
         danger({ message: error as string });
         console.error(error);
     }
-}
+};
 const errorHandlingWrapper = async <A = never, B = AxiosResponse<A>>(
     workhorse: () => Promise<B>
 ): Promise<B | undefined> => {
@@ -28,12 +28,4 @@ const errorHandlingWrapper = async <A = never, B = AxiosResponse<A>>(
     });
 };
 
-function useErrorHandlingWrapper(workhorse: () => void) {
-    try {
-        return workhorse();
-    } catch (error) {
-        handleError(error);
-    }
-}
-
-export { errorHandlingWrapper, useErrorHandlingWrapper };
+export { errorHandlingWrapper };
