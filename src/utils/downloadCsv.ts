@@ -1,15 +1,15 @@
 import Papa from 'papaparse';
-import { Koodi } from '../types/types';
+import { Koodi, Metadata } from '../types/types';
 import { fetchKoodisto } from '../api/koodisto';
 
 export const mapKoodiToCSV = (koodi: Koodi) => {
     const langPacks = koodi.metadata
         .map((a) => {
-            const langPack = {};
-            const keys = Object.keys(a);
+            const langPack: { [key: string]: string | undefined } = {};
+            const keys = Object.keys(a) as (keyof Metadata)[];
             keys.filter((k) => k !== 'kieli').forEach((k) => {
-                // @ts-ignore
-                langPack[`${k.toUpperCase()}_${a.kieli}`] = a[k];
+                const key = `${k.toUpperCase()}_${a.kieli}`;
+                langPack[key] = a[k];
             });
             return langPack;
         })
