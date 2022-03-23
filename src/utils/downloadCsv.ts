@@ -3,17 +3,14 @@ import { Koodi, Metadata } from '../types/types';
 import { fetchKoodisto } from '../api/koodisto';
 
 export const mapKoodiToCSV = (koodi: Koodi) => {
-    const langPacks = koodi.metadata
-        .map((a) => {
-            const langPack: { [key: string]: string | undefined } = {};
-            const keys = Object.keys(a) as (keyof Metadata)[];
-            keys.filter((k) => k !== 'kieli').forEach((k) => {
-                const key = `${k.toUpperCase()}_${a.kieli}`;
-                langPack[key] = a[k];
-            });
-            return langPack;
-        })
-        .reduce((p, c) => ({ ...p, ...c }), {});
+    const reducedMetdata = koodi.metadata.reduce((p, a) => {
+        const languageKeyedMetadata: { [key: string]: string | undefined } = {};
+        const keys = Object.keys(a) as (keyof Metadata)[];
+        keys.filter((k) => k !== 'kieli').forEach(
+            (k) => (languageKeyedMetadata[`${k.toUpperCase()}_${a.kieli}`] = a[k])
+        );
+        return { ...p, ...languageKeyedMetadata };
+    }, {});
     return {
         versio: koodi.versio,
         koodiUri: koodi.koodiUri,
@@ -22,7 +19,7 @@ export const mapKoodiToCSV = (koodi: Koodi) => {
         voimassaAlkuPvm: koodi.voimassaAlkuPvm,
         voimassaLoppuPvm: koodi.voimassaLoppuPvm,
         tila: koodi.tila,
-        ...langPacks,
+        ...reducedMetdata,
     };
 };
 const pushBlobToUser = ({ fileName, blob }: { fileName: string; blob: Blob }) => {
