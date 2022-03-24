@@ -22,6 +22,8 @@ const messageInputs = ({ title, message, timeOut }: NotificationProps): iNotific
     message: message ? <FormattedMessage id={message} defaultMessage={message} /> : undefined,
     dismiss: {
         duration: timeOut || DEFAULT_TIMEOUT,
+        pauseOnHover: true,
+        showIcon: true,
     },
 });
 const Notification = () => {
