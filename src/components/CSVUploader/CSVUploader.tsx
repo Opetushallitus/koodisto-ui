@@ -41,14 +41,10 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
     const headers = useMemo<(keyof CsvKoodiObject)[]>(() => [...getHeaders(csvKoodiArray || [])], [csvKoodiArray]);
     const dataMemo = useMemo<CsvKoodiObject[]>(
         () =>
-            csvKoodiArray?.map((a) => {
-                console.log(
-                    a.koodiArvo,
-                    data?.[0].koodiArvo,
-                    data?.find((b) => b.koodiArvo === a.koodiArvo) === undefined
-                );
-                return { ...a, newRow: data?.find((b) => b.koodiArvo === a.koodiArvo) === undefined };
-            }) || [],
+            csvKoodiArray?.map((a) => ({
+                ...a,
+                newRow: data?.find((b) => b.koodiArvo === a.koodiArvo) === undefined,
+            })) || [],
         [csvKoodiArray, data]
     );
 

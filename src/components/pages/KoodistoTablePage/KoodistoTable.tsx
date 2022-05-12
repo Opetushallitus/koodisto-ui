@@ -7,11 +7,10 @@ import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 import { ButtonLabelPrefix, HeaderContainer } from './KoodistoTablePage';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import IconWrapper from '../../IconWapper/IconWrapper';
-import downloadCsv from '../../../utils/downloadCsv';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Table, { TextFilterComponent, SelectFilterComponent } from '../../Table/Table';
-import CSVUploader from '../../CSVUploader/CSVUploader';
+import Table, { SelectFilterComponent, TextFilterComponent } from '../../Table/Table';
+
 type KoodistoTableProps = {
     handleLisaaKoodistoRyhma: () => void;
 };
@@ -40,7 +39,6 @@ export type SelectOptionType = {
 };
 
 const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma }) => {
-    const [uploadCsvKoodistoUri, setUploadCsvKoodistoUri] = useState<string | undefined>(undefined);
     const [atomData] = useAtom(koodistoAtom);
     const { formatMessage } = useIntl();
     const data = useMemo<TablePageKoodisto[]>(() => {
@@ -48,9 +46,6 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
         return [...atomData];
     }, [atomData]);
     const [filteredRows, setFilteredRows] = useState<Row<TablePageKoodisto>[]>([]);
-    const uploadCsv = (koodistoUri: string) => {
-        setUploadCsvKoodistoUri(koodistoUri);
-    };
     const columns = React.useMemo<Column<TablePageKoodisto>[]>(
         () => [
             {
@@ -124,29 +119,6 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
                     },
                 ],
             },
-            {
-                id: 'downloadCsv',
-                Header: '',
-                accessor: (values: TablePageKoodisto) => (
-                    <TableCellText>
-                        <IconWrapper
-                            name={`${values.koodistoUri}-uploadicon`}
-                            icon="el:download"
-                            inline={true}
-                            onClick={() => downloadCsv(values.koodistoUri)}
-                        />
-                    </TableCellText>
-                ),
-            },
-            {
-                id: 'uploadCsv',
-                Header: '',
-                accessor: (values: TablePageKoodisto) => (
-                    <TableCellText>
-                        <IconWrapper icon="el:upload" inline={true} onClick={() => uploadCsv(values.koodistoUri)} />
-                    </TableCellText>
-                ),
-            },
         ],
         [formatMessage]
     );
@@ -182,12 +154,6 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
                     setFilteredRows(rows);
                 }}
             />
-            {!!uploadCsvKoodistoUri && (
-                <CSVUploader
-                    koodistoUri={uploadCsvKoodistoUri}
-                    closeUploader={() => setUploadCsvKoodistoUri(undefined)}
-                />
-            )}
         </>
     );
 };

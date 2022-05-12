@@ -13,6 +13,7 @@ import Loading from '../Loading/Loading';
 import InfoFields from './InfoFields';
 import KoodistoPageAccordion from './KoodistoPageAccordion';
 import { fetchOrganisaatio } from '../../../api/organisaatio';
+import CSVUploader from '../../CSVUploader/CSVUploader';
 
 const MainContainer = styled.div`
     flex-grow: 1;
@@ -35,7 +36,7 @@ const MainHeaderButtonsContainer = styled.div`
     display: flex;
     flex-direction: column;
     > * {
-        &:first-child {
+        :not(:last-child) {
             margin: 0 0 1rem 0;
         }
     }
@@ -69,6 +70,7 @@ const KoodistoPage: React.FC = () => {
     const navigate = useNavigate();
     const { formatMessage, locale } = useIntl();
     const [koodisto, setKoodisto] = useState<KoodistoPageKoodisto | undefined>();
+    const [uploadCsvVisible, setUploadCsvVisible] = useState<boolean>(false);
 
     const incomingVersioOption: SelectOptionType = {
         label: formatMessage(
@@ -151,7 +153,7 @@ const KoodistoPage: React.FC = () => {
                             defaultMessage={'Muokkaa koodistoa'}
                         />
                     </Button>
-                    <Button variant={'outlined'}>
+                    <Button variant={'outlined'} onClick={() => setUploadCsvVisible(true)}>
                         <FormattedMessage
                             id={'KOODISTOSIVU_TUO_VIE_KOODISTO_BUTTON'}
                             defaultMessage={'Lataa / tuo koodisto'}
@@ -167,6 +169,9 @@ const KoodistoPage: React.FC = () => {
                     levelsWithCodes={koodisto.levelsWithCodes}
                 />
             </MainContainer>
+            {uploadCsvVisible && koodistoUri && (
+                <CSVUploader koodistoUri={koodistoUri} closeUploader={() => setUploadCsvVisible(false)} />
+            )}
         </>
     );
 };
