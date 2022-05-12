@@ -11,6 +11,7 @@ import { getHeaders, mapCsvToKoodi, mapHeadersToColumns, validData } from './upl
 import { batchUpsertKoodi, useKoodisto } from '../../api/koodisto';
 import Loading from '../pages/Loading/Loading';
 import { danger, success } from '../Notification/Notification';
+import downloadCsv from '../../utils/downloadCsv';
 
 type Props = {
     koodistoUri: string;
@@ -64,6 +65,10 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
             }
             body={
                 <>
+                    <Button onClick={() => downloadCsv(koodistoUri)}>
+                        <FormattedMessage id={'LATAA_CSV_LATAA'} defaultMessage={'Lataa'} />
+                    </Button>
+                    <hr />
                     <CSVReader<CsvKoodiObject>
                         onUploadAccepted={(results) => {
                             const wrongKoodistoUri = results.data?.find((a) => {
