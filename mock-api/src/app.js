@@ -21,4 +21,5 @@ app.use('/organisaatio-service', apiMocker('src/api/organisaatio-service'));
 app.use('/lokalisointi', apiMocker('src/api/lokalisointi'));
 app.use('/koodisto-service', koodistoService);
 console.log(`Mock API Server is up and running at: http://localhost:${port}`);
+console.log(`Dev server should answer at: http://localhost:3000/koodisto-app/`);
 app.listen(port);

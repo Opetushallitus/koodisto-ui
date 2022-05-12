@@ -1,32 +1,53 @@
 {
+    "LATAA_CSV_EI_DATAA": {
+        "defaultMessage": "EI DATAA"
+    },
+    "LATAA_CSV_OTSIKKO": {
+        "defaultMessage": "LATAA CSV {koodistoUri}"
+    },
+    "LATAA_CSV_PERUUTA": {
+        "defaultMessage": "PERUUTA"
+    },
+    "LATAA_CSV_TALLENNA": {
+        "defaultMessage": "TALLENNA"
+    },
+    "LATAA_CVS_VALITSE_TIEDOSTO": {
+        "defaultMessage": "VALITSE TIEDOSTO"
+    },
+    "TAULUKKOSIVU_OTSIKKO": {
+        "defaultMessage": "Koodistojen ylläpito"
+    },
+    "TAULUKKO_DROPDOWN_FILTTERI": {
+        "defaultMessage": "Valitse arvo listalta"
+    },
     "TAULUKKO_KOODISTORYHMA_OTSIKKO": {
-        "defaultMessage": "KOODISTORYHMA"
+        "defaultMessage": "Koodistoryhma"
     },
     "TAULUKKO_KUVAUS_OTSIKKO": {
-        "defaultMessage": "VOIT RAJATA HAKUA"
+        "defaultMessage": "Voit rajata koodistoryhmällä tai nimellä"
     },
     "TAULUKKO_LISAA_KOODISTORYHMA_BUTTON": {
-        "defaultMessage": "LUO UUSI KOODISTORYHMA"
+        "defaultMessage": "Luo / poista koodistoryhmä"
     },
     "TAULUKKO_LISAA_KOODISTO_BUTTON": {
-        "defaultMessage": "LUO UUSI KOODISTO"
+        "defaultMessage": "Luo uusi koodisto"
     },
     "TAULUKKO_NIMI_OTSIKKO": {
-        "defaultMessage": "NIMI"
+        "defaultMessage": "Nimi"
     },
     "TAULUKKO_NIMI_PUUTTUU_KOODISTOLTA": {
-        "defaultMessage": "NIMI PUUTTUU {koodistoUri}"
+        "defaultMessage": "Nimi puuttuu {koodistoUri}"
     },
     "TAULUKKO_OTSIKKO": {
-        "defaultMessage": "OTSIKKO ({filteredCount} / {totalCount})"
+        "defaultMessage": "Koodistot ({filteredCount} / {totalCount})"
     },
     "TAULUKKO_VAKIO_FILTTERI": {
-        "defaultMessage": "HAETAAN {count} KOODISTOSTA"
+        "defaultMessage": "Haetaan {count} koodistosta"
     },
     "TAULUKKO_VOIMASSA_ALKU_PVM_OTSIKKO": {
-        "defaultMessage": "VOIMASSA ALKU PVM"
+        "defaultMessage": "Voimassa alkaen"
     },
     "TAULUKKO_VOIMASSA_LOPPU_PVM_OTSIKKO": {
-        "defaultMessage": "VOIMASSA LOPPU PVM"
+        "defaultMessage": "Voimassa asti"
     }
 }

@@ -11,11 +11,9 @@ import downloadCsv from '../../../utils/downloadCsv';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Table, { TextFilterComponent, SelectFilterComponent } from '../../Table/Table';
+import CSVUploader from '../../CSVUploader/CSVUploader';
 type KoodistoTableProps = {
     handleLisaaKoodistoRyhma: () => void;
-};
-const uploadCsv = (koodistoUri: string) => {
-    console.info(koodistoUri);
 };
 
 const HeaderContentDivider = styled.div`
@@ -42,6 +40,7 @@ export type SelectOptionType = {
 };
 
 const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma }) => {
+    const [uploadCsvKoodistoUri, setUploadCsvKoodistoUri] = useState<string | undefined>(undefined);
     const [atomData] = useAtom(koodistoAtom);
     const { formatMessage } = useIntl();
     const data = useMemo<TablePageKoodisto[]>(() => {
@@ -49,6 +48,9 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
         return [...atomData];
     }, [atomData]);
     const [filteredRows, setFilteredRows] = useState<Row<TablePageKoodisto>[]>([]);
+    const uploadCsv = (koodistoUri: string) => {
+        setUploadCsvKoodistoUri(koodistoUri);
+    };
     const columns = React.useMemo<Column<TablePageKoodisto>[]>(
         () => [
             {
@@ -180,6 +182,12 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ handleLisaaKoodistoRyhma 
                     setFilteredRows(rows);
                 }}
             />
+            {!!uploadCsvKoodistoUri && (
+                <CSVUploader
+                    koodistoUri={uploadCsvKoodistoUri}
+                    closeUploader={() => setUploadCsvKoodistoUri(undefined)}
+                />
+            )}
         </>
     );
 };

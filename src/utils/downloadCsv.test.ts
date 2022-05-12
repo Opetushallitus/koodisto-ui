@@ -34,7 +34,7 @@ describe('downloadCsv', () => {
                 versio: 0,
                 voimassaAlkuPvm: '',
                 voimassaLoppuPvm: '',
-                NIMI_FI: 'bar',
+                nimi_FI: 'bar',
             });
         });
     });

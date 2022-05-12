@@ -4,22 +4,25 @@ import { fetchKoodisByKoodisto } from '../api/koodisto';
 import { info } from '../components/Notification/Notification';
 
 export const mapKoodiToCSV = (koodi: Koodi) => {
-    const reducedMetdata = koodi.metadata.reduce((p, a) => {
+    const allLang = ['FI', 'SV', 'EN'];
+    const metadataKeys = ['nimi', 'lyhytNimi', 'kuvaus'] as (keyof Metadata)[];
+    const reducedMetdata = allLang.reduce((p, language) => {
         const languageKeyedMetadata: { [key: string]: string | undefined } = {};
-        const keys = Object.keys(a) as (keyof Metadata)[];
-        keys.filter((k) => k !== 'kieli').forEach(
-            (k) => (languageKeyedMetadata[`${k.toUpperCase()}_${a.kieli}`] = a[k])
-        );
+        const languageMetadata =
+            koodi.metadata.find((a) => a.kieli === language) ||
+            ({
+                nimi: '',
+                lyhytnimi: '',
+                kuvaus: '',
+            } as Metadata);
+        metadataKeys.forEach((k) => (languageKeyedMetadata[`${k}_${language}`] = languageMetadata[k]));
         return { ...p, ...languageKeyedMetadata };
     }, {});
     return {
-        versio: koodi.versio,
-        koodiUri: koodi.koodiUri,
+        koodistoUri: koodi.koodisto?.koodistoUri,
         koodiArvo: koodi.koodiArvo,
-        paivitysPvm: koodi.paivitysPvm,
         voimassaAlkuPvm: koodi.voimassaAlkuPvm,
         voimassaLoppuPvm: koodi.voimassaLoppuPvm,
-        tila: koodi.tila,
         ...reducedMetdata,
     };
 };
