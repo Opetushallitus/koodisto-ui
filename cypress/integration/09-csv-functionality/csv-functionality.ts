@@ -6,12 +6,12 @@ beforeEach(() => {
 });
 describe('CSV functionality tests', () => {
     it('shows download button on koodisto page', () => {
-        cy.intercept(`${API_BASE_PATH}/codes`, { fixture: 'codes.json' });
+        cy.intercept(`${API_BASE_PATH}/codes/${koodistoUri}/1`, { fixture: `${koodistoUri}Koodisto.json` });
         cy.visit(`${BASE_PATH}/koodisto/${koodistoUri}/1`);
         cy.get(`[name="${koodistoUri}-csv"]`).scrollIntoView().should('be.visible');
     });
     it('can download arvosanat', () => {
-        cy.intercept(`${API_BASE_PATH}/json/arvosanat/koodi`, { fixture: 'arvosanat.json' });
+        cy.intercept(`${API_BASE_PATH}/json/${koodistoUri}/koodi*`, { fixture: `${koodistoUri}.json` });
         const downloadsFolder = Cypress.config('downloadsFolder');
         const downloadedFilename = path.join(downloadsFolder, `${koodistoUri}.csv`);
         cy.get(`[name="${koodistoUri}-csv"]`).click();
