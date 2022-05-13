@@ -8,13 +8,12 @@ export const mapKoodiToCSV = (koodi: Koodi) => {
     const metadataKeys = ['nimi', 'lyhytNimi', 'kuvaus'] as (keyof Metadata)[];
     const reducedMetdata = allLang.reduce((p, language) => {
         const languageKeyedMetadata: { [key: string]: string | undefined } = {};
-        const languageMetadata =
-            koodi.metadata.find((a) => a.kieli === language) ||
-            ({
-                nimi: '',
-                lyhytnimi: '',
-                kuvaus: '',
-            } as Metadata);
+        const languageMetadata = {
+            nimi: '',
+            lyhytNimi: '',
+            kuvaus: '',
+            ...koodi.metadata.find((a) => a.kieli === language),
+        };
         metadataKeys.forEach((k) => (languageKeyedMetadata[`${k}_${language}`] = languageMetadata[k]));
         return { ...p, ...languageKeyedMetadata };
     }, {});
