@@ -5,11 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { ParseResult } from 'papaparse';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import styled from 'styled-components';
-// const GREY = '#CCC';
-// const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
-// const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
-// const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(DEFAULT_REMOVE_HOVER_COLOR, 40);
-// const GREY_DIM = '#686868';
 const Reader = styled.div`
     display: flex;
     flex-direction: row;
@@ -48,7 +43,6 @@ const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
             {({
                 getRootProps,
                 acceptedFile,
-                ProgressBar,
             }: {
                 getRootProps: () => never;
                 acceptedFile: { name: string };
@@ -71,7 +65,6 @@ const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
                             />
                         </UploadArea>
                     )}
-                    <ProgressBar style={{ margin: '0.2rem', backgroundColor: '#0a789c' }} />
                 </div>
             )}
         </CSVReader>

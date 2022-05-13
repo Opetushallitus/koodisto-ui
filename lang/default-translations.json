@@ -50,9 +50,6 @@
   "KOODISTOVERSIO_DROPDOWN": {
     "defaultMessage": "Koodistoversio"
   },
-  "LATAA_CSV_EI_DATAA": {
-    "defaultMessage": "Tai raahaa tiedosto tähän"
-  },
   "LATAA_CSV_LATAA": {
     "defaultMessage": "Lataa CSV"
   },
@@ -70,6 +67,9 @@
   },
   "LATAA_CVS_VALITSE_TIEDOSTO": {
     "defaultMessage": "Valitse tiedosto"
+  },
+  "LATAA_CVS_VALITSE_TIEDOSTO_ALUE": {
+    "defaultMessage": "Tai raahaa tiedosto tähän"
   },
   "TAULUKKOSIVU_OTSIKKO": {
     "defaultMessage": "Koodistojen ylläpito"
