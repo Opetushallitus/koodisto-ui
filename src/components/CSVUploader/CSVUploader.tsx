@@ -48,6 +48,40 @@ type Props = {
     closeUploader: () => void;
 };
 
+const onUpload = ({
+    data,
+    koodistoUri,
+    setCsvKoodiArray,
+}: {
+    data: CsvKoodiObject[];
+    koodistoUri: string;
+    setCsvKoodiArray: (csvKoodiArray: CsvKoodiObject[]) => void;
+}): void => {
+    const wrongKoodistoUri = data?.find((a) => {
+        return a.koodistoUri !== koodistoUri;
+    });
+    if (wrongKoodistoUri) {
+        setCsvKoodiArray([]);
+        danger({
+            title: (
+                <FormattedMessage
+                    id={'CSV_UPLOAD_INVALID_KOODISTORI_TITLE'}
+                    defaultMessage={'Virheellinen koodistoUri tiedostossa.'}
+                />
+            ),
+            message: (
+                <FormattedMessage
+                    id={'CSV_UPLOAD_INVALID_KOODISTORI_MESSAGE'}
+                    defaultMessage={'Tiedostosta löytyi koodistoUri {wrongKoodistoUri}'}
+                    values={{ wrongKoodistoUri: wrongKoodistoUri.koodistoUri }}
+                />
+            ),
+        });
+    } else {
+        setCsvKoodiArray(data);
+    }
+};
+
 const persistData = async ({
     data,
     koodistoUri,
@@ -124,31 +158,9 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
                         </UploadContainerItem>
                         <UploadContainerItem>
                             <CSVReader<CsvKoodiObject>
-                                onUploadAccepted={(results) => {
-                                    const wrongKoodistoUri = results.data?.find((a) => {
-                                        return a.koodistoUri !== koodistoUri;
-                                    });
-                                    if (wrongKoodistoUri) {
-                                        setCsvKoodiArray([]);
-                                        danger({
-                                            title: (
-                                                <FormattedMessage
-                                                    id={'CSV_UPLOAD_INVALID_KOODISTORI_TITLE'}
-                                                    defaultMessage={'Virheellinen koodistoUri tiedostossa.'}
-                                                />
-                                            ),
-                                            message: (
-                                                <FormattedMessage
-                                                    id={'CSV_UPLOAD_INVALID_KOODISTORI_MESSAGE'}
-                                                    defaultMessage={'Tiedostosta löytyi koodistoUri {wrongKoodistoUri}'}
-                                                    values={{ wrongKoodistoUri: wrongKoodistoUri.koodistoUri }}
-                                                />
-                                            ),
-                                        });
-                                    } else {
-                                        setCsvKoodiArray(results.data);
-                                    }
-                                }}
+                                onUploadAccepted={(results) =>
+                                    onUpload({ data: results.data, setCsvKoodiArray, koodistoUri })
+                                }
                             />
                         </UploadContainerItem>
                         <UploadContainerItem>

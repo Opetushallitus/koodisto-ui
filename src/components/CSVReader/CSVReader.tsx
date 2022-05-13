@@ -43,27 +43,12 @@ type Props<T> = {
 
 const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
     const { CSVReader } = useCSVReader();
-    // const [zoneHover, setZoneHover] = useState(false);
-    // const [removeHoverColor, setRemoveHoverColor] = useState(DEFAULT_REMOVE_HOVER_COLOR);
     return (
-        <CSVReader
-            onUploadAccepted={onUploadAccepted}
-            config={{ header: true }}
-            // onDragOver={(event: DragEvent) => {
-            //     event.preventDefault();
-            //     setZoneHover(true);
-            // }}
-            // onDragLeave={(event: DragEvent) => {
-            //     event.preventDefault();
-            //     setZoneHover(false);
-            // }}
-        >
+        <CSVReader onUploadAccepted={onUploadAccepted} config={{ header: true }}>
             {({
                 getRootProps,
                 acceptedFile,
                 ProgressBar,
-                getRemoveFileProps,
-                Remove,
             }: {
                 getRootProps: () => never;
                 acceptedFile: { name: string };
@@ -80,7 +65,10 @@ const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
                     </Reader>
                     {!acceptedFile && (
                         <UploadArea {...getRootProps()}>
-                            <FormattedMessage id={'LATAA_CSV_EI_DATAA'} defaultMessage={'Tai raahaa tiedosto tähän'} />
+                            <FormattedMessage
+                                id={'LATAA_CVS_VALITSE_TIEDOSTO_ALUE'}
+                                defaultMessage={'Tai raahaa tiedosto tähän'}
+                            />
                         </UploadArea>
                     )}
                     <ProgressBar style={{ margin: '0.2rem', backgroundColor: '#0a789c' }} />
