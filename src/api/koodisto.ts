@@ -123,9 +123,17 @@ export const koodistoAtom = atom<TablePageKoodisto[]>((get: Getter) => {
         .map((a) => koodistoApiToKoodisto(a, lang));
 });
 
-export const fetchKoodisByKoodisto = async (koodistoUri: string): Promise<Koodi[] | undefined> => {
+export const fetchKoodisByKoodisto = async ({
+    koodistoUri,
+    koodistoVersio,
+}: {
+    koodistoUri: string;
+    koodistoVersio?: number;
+}): Promise<Koodi[] | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.get<Koodi[]>(`${API_BASE_PATH}/json/${koodistoUri}/koodi`);
+        const { data } = await axios.get<Koodi[]>(`${API_BASE_PATH}/json/${koodistoUri}/koodi`, {
+            params: koodistoVersio !== undefined ? { koodistoVersio } : {},
+        });
         return data;
     });
 };
@@ -166,7 +174,7 @@ export const batchUpsertKoodi = async (
 };
 export const fetchKoodistoByUriAndVersio = async (
     koodistoUri: string,
-    versio: string
+    versio: number
 ): Promise<KoodistoPageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
         const { data } = await axios.get<KoodistoPageKoodisto>(`${API_BASE_PATH}/codes/${koodistoUri}/${versio}`);

@@ -67,6 +67,7 @@ const SelectContainer = styled.div`
 
 const KoodistoPage: React.FC = () => {
     const { versio, koodistoUri } = useParams();
+    const versioNumber = versio ? +versio : undefined;
     const navigate = useNavigate();
     const { formatMessage, locale } = useIntl();
     const [koodisto, setKoodisto] = useState<KoodistoPageKoodisto | undefined>();
@@ -84,8 +85,8 @@ const KoodistoPage: React.FC = () => {
     };
     useEffect(() => {
         (async () => {
-            if (koodistoUri && versio) {
-                const koodistoData = await fetchKoodistoByUriAndVersio(koodistoUri, versio);
+            if (koodistoUri && versioNumber) {
+                const koodistoData = await fetchKoodistoByUriAndVersio(koodistoUri, versioNumber);
                 if (koodistoData) {
                     const organisaatio = await fetchOrganisaatio(koodistoData.organisaatioOid);
                     koodistoData.organisaatioNimi = organisaatio?.nimi[locale as 'fi' | 'sv' | 'en'];
@@ -93,23 +94,23 @@ const KoodistoPage: React.FC = () => {
                 }
             }
         })();
-    }, [koodistoUri, versio, locale]);
+    }, [koodistoUri, locale, versioNumber]);
 
     if (!koodisto) {
         return <Loading />;
     }
     const koodistonMetadata = translateMetadata(koodisto.metadata, locale.toUpperCase() as Kieli);
     const versioOptions = koodisto.codesVersions
-        .map((versio) => {
+        .map((a) => {
             return {
                 label: formatMessage(
                     {
                         id: 'KOODISTOSIVU_VERSIO_DROPDOWN_LABEL',
                         defaultMessage: 'Versio {versio}',
                     },
-                    { versio }
+                    { a }
                 ),
-                value: versio.toString(),
+                value: a.toString(),
             };
         })
         .concat([incomingVersioOption]);
@@ -170,7 +171,11 @@ const KoodistoPage: React.FC = () => {
                 />
             </MainContainer>
             {uploadCsvVisible && koodistoUri && (
-                <CSVUploader koodistoUri={koodistoUri} closeUploader={() => setUploadCsvVisible(false)} />
+                <CSVUploader
+                    koodistoUri={koodistoUri}
+                    koodistoVersio={versioNumber}
+                    closeUploader={() => setUploadCsvVisible(false)}
+                />
             )}
         </>
     );

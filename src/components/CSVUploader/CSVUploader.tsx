@@ -45,6 +45,7 @@ const Footer = styled.div`
 `;
 type Props = {
     koodistoUri: string;
+    koodistoVersio?: number;
     closeUploader: () => void;
 };
 
@@ -110,7 +111,7 @@ const persistData = async ({
     }
 };
 
-const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
+const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUploader }) => {
     const [csvKoodiArray, setCsvKoodiArray] = useState<CsvKoodiObject[]>([]);
     const now = useMemo<number>(() => Date.now(), [koodistoUri]);
     const { formatMessage } = useIntl();
@@ -143,7 +144,7 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
                             />
                         </DownloadContainerItem>
                         <DownloadContainerItem>
-                            <Button onClick={() => downloadCsv(koodistoUri)}>
+                            <Button onClick={() => downloadCsv({ koodistoUri, koodistoVersio })}>
                                 <FormattedMessage id={'LATAA_CSV_LATAA'} defaultMessage={'Lataa CSV'} />
                             </Button>
                         </DownloadContainerItem>

@@ -47,8 +47,8 @@ const convertCsvToExcelAcceptedBlob = (csv: string) => {
     return new Blob([csvArray], { type: 'text/csv;charset=UTF-16LE;' });
 };
 
-const downloadCsv = async (koodistoUri: string) => {
-    const data = await fetchKoodisByKoodisto(koodistoUri);
+const downloadCsv = async ({ koodistoUri, koodistoVersio }: { koodistoUri: string; koodistoVersio?: number }) => {
+    const data = await fetchKoodisByKoodisto({ koodistoUri, koodistoVersio });
     if (!data) return;
     data.sort((a, b) => a.koodiUri.localeCompare(b.koodiUri));
     const csvData = data.map(mapKoodiToCSV);
