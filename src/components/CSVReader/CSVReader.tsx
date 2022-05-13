@@ -9,10 +9,13 @@ import styled from 'styled-components';
 const Reader = styled.div`
     display: flex;
     flex-direction: row;
+    padding-bottom: 1rem;
 `;
 const AcceptedFile = styled.div`
     border: 1px solid #ccc;
-    width: 80%;
+    width: 30rem;
+    margin-left: 1rem;
+    border-radius: 4px;
 `;
 
 type Props<T> = {

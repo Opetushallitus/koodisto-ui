@@ -45,7 +45,7 @@ type Props = {
 const Modal: React.FC<Props> = ({ onClose, footer, header, body }: Props) => {
     return (
         <StyledOPModal open onClose={onClose}>
-            <StyledModalHeader onClose={onClose}>{header}</StyledModalHeader>
+            {header && <StyledModalHeader onClose={onClose}>{header}</StyledModalHeader>}
             <ModalBody>
                 <StyledModalBodyFrame>
                     <StyledModalBodyField>{body}</StyledModalBodyField>

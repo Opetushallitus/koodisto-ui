@@ -160,7 +160,6 @@ export const batchUpsertKoodi = async (
     koodi: UpsertKoodi[]
 ): Promise<KoodistoPageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
-        console.info(koodistoUri, koodi);
         const { data } = await axios.post<KoodistoPageKoodisto>(`${API_INTERNAL_PATH}/koodi/${koodistoUri}`, koodi);
         return data;
     });
