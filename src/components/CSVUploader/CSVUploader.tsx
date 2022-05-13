@@ -88,15 +88,19 @@ const persistData = async ({
     koodistoUri,
     closeUploader,
     formatMessage,
+    setSaving,
 }: {
     data: CsvKoodiObject[];
     koodistoUri: string;
     closeUploader: () => void;
     formatMessage: MessageFormatter;
+    setSaving: (saving: boolean) => void;
 }) => {
     const koodi = data.map(mapCsvToKoodi);
+    setSaving(true);
     const result = await batchUpsertKoodi(koodistoUri, koodi);
     if (result) {
+        setSaving(false);
         success({
             title: formatMessage({ id: 'CSV_UPLOAD_SUCCESS', defaultMessage: 'Tuonti onnistui' }),
             message: formatMessage(
@@ -113,6 +117,7 @@ const persistData = async ({
 
 const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUploader }) => {
     const [csvKoodiArray, setCsvKoodiArray] = useState<CsvKoodiObject[]>([]);
+    const [saving, setSaving] = useState<boolean>(false);
     const now = useMemo<number>(() => (koodistoUri.length > 0 ? Date.now() : 0), [koodistoUri]);
     const { formatMessage } = useIntl();
     const { data, loading } = useKoodisto(koodistoUri, now);
@@ -167,17 +172,21 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUpload
                                 }
                             />
                         </UploadContainerItem>
-                        <UploadContainerItem>
-                            {!!csvKoodiArray.length && <Table columns={columns} data={dataMemo} />}
-                        </UploadContainerItem>
+                        {(saving && <Loading />) || (
+                            <UploadContainerItem>
+                                {!!csvKoodiArray.length && <Table columns={columns} data={dataMemo} />}
+                            </UploadContainerItem>
+                        )}
                     </UploadContainer>
                 </>
             }
             footer={
                 <Footer>
                     <Button
-                        disabled={!validData(csvKoodiArray)}
-                        onClick={() => persistData({ closeUploader, data: dataMemo, koodistoUri, formatMessage })}
+                        disabled={!validData(csvKoodiArray) || saving}
+                        onClick={() =>
+                            persistData({ setSaving, closeUploader, data: dataMemo, koodistoUri, formatMessage })
+                        }
                     >
                         <FormattedMessage id={'LATAA_CSV_TALLENNA'} defaultMessage={'Tallenna'} />
                     </Button>
