@@ -21,6 +21,7 @@ export const mapKoodiToCSV = (koodi: Koodi) => {
     return {
         koodistoUri: koodi.koodisto?.koodistoUri,
         koodiArvo: koodi.koodiArvo,
+        versio: koodi.versio,
         voimassaAlkuPvm: koodi.voimassaAlkuPvm,
         voimassaLoppuPvm: koodi.voimassaLoppuPvm,
         ...reducedMetdata,

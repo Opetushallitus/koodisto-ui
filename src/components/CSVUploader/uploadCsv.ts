@@ -1,12 +1,17 @@
-import { CsvKoodiObject, UpsertKoodi, Kieli } from '../../types/types';
+import { CsvKoodiObject, Kieli, MessageFormatter, UpsertKoodi } from '../../types/types';
 import { Column } from 'react-table';
-import { useIntl } from 'react-intl';
 
 export const getHeaders = (data?: CsvKoodiObject[]): (keyof CsvKoodiObject)[] =>
     (data?.[0] ? Object.keys(data[0]) : []) as (keyof CsvKoodiObject)[];
-export const mapHeadersToColumns = (headers?: (keyof CsvKoodiObject)[]): Column<CsvKoodiObject>[] =>
+
+export const mapHeadersToColumns = ({
+    headers,
+    formatMessage,
+}: {
+    headers?: (keyof CsvKoodiObject)[];
+    formatMessage: MessageFormatter;
+}): Column<CsvKoodiObject>[] =>
     headers?.map((key): Column<CsvKoodiObject> => {
-        const { formatMessage } = useIntl();
         if (key === 'newRow')
             return {
                 Header: 'new',
@@ -29,13 +34,15 @@ export const mapHeadersToColumns = (headers?: (keyof CsvKoodiObject)[]): Column<
                 accessor: key,
             } as Column<CsvKoodiObject>;
     }) || [];
+
 export const validData = (data: CsvKoodiObject[] | undefined): boolean => {
-    return !!data;
+    return !!data && data.length > 0;
 };
 
 export const mapCsvToKoodi = (csvRow: CsvKoodiObject): UpsertKoodi => {
     const topLevel = {
         koodiArvo: csvRow.koodiArvo,
+        versio: csvRow.versio,
         voimassaAlkuPvm: csvRow.voimassaAlkuPvm,
         voimassaLoppuPvm: csvRow.voimassaLoppuPvm || undefined,
     };

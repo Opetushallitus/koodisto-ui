@@ -1,3 +1,7 @@
+import { IntlFormatters, MessageDescriptor } from '@formatjs/intl/src/types';
+import { FormatXMLElementFn, PrimitiveType } from 'intl-messageformat';
+import { Options as IntlMessageFormatOptions } from 'intl-messageformat/src/core';
+
 export type Kieli = 'EN' | 'FI' | 'SV';
 export type ApiDate = `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
 
@@ -69,3 +73,9 @@ export type CsvKoodiObject = Omit<Koodi, 'metadata' | 'versio' | 'version'> & {
     sisaltaaMerkityksen_EN: string;
     newRow: boolean;
 };
+
+export type MessageFormatter = (
+    descriptor: MessageDescriptor,
+    values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
+    opts?: IntlMessageFormatOptions
+) => string;

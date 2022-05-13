@@ -6,16 +6,13 @@ import * as React from 'react';
 import { useMemo, useState } from 'react';
 import Table from '../Table/Table';
 import { Column } from 'react-table';
-import { CsvKoodiObject } from '../../types/types';
+import { CsvKoodiObject, MessageFormatter } from '../../types/types';
 import { getHeaders, mapCsvToKoodi, mapHeadersToColumns, validData } from './uploadCsv';
 import { batchUpsertKoodi, useKoodisto } from '../../api/koodisto';
 import Loading from '../pages/Loading/Loading';
 import { danger, success } from '../Notification/Notification';
 import downloadCsv from '../../utils/downloadCsv';
 import styled from 'styled-components';
-import { FormatXMLElementFn, PrimitiveType } from 'intl-messageformat';
-import { Options as IntlMessageFormatOptions } from 'intl-messageformat/src/core';
-import { MessageDescriptor } from '@formatjs/intl/src/types';
 
 const DownloadContainer = styled.div`
     padding-bottom: 1rem;
@@ -52,19 +49,15 @@ type Props = {
 };
 
 const persistData = async ({
-    data = [],
+    data,
     koodistoUri,
     closeUploader,
     formatMessage,
 }: {
-    data?: CsvKoodiObject[];
+    data: CsvKoodiObject[];
     koodistoUri: string;
     closeUploader: () => void;
-    formatMessage: (
-        descriptor: MessageDescriptor,
-        values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>,
-        opts?: IntlMessageFormatOptions
-    ) => string;
+    formatMessage: MessageFormatter;
 }) => {
     const koodi = data.map(mapCsvToKoodi);
     const result = await batchUpsertKoodi(koodistoUri, koodi);
@@ -99,7 +92,7 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
     );
 
     const columns = React.useMemo<Column<CsvKoodiObject>[]>(
-        () => mapHeadersToColumns(['newRow' as keyof CsvKoodiObject, ...headers]),
+        () => mapHeadersToColumns({ headers: ['newRow' as keyof CsvKoodiObject, ...headers], formatMessage }),
         [headers]
     );
     if (loading) return <Loading />;
@@ -159,9 +152,7 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
                             />
                         </UploadContainerItem>
                         <UploadContainerItem>
-                            {(csvKoodiArray.length && <Table columns={columns} data={dataMemo} />) || (
-                                <FormattedMessage id={'LATAA_CSV_EI_DATAA'} defaultMessage={'Valitse tiedosto.'} />
-                            )}
+                            {!!csvKoodiArray.length && <Table columns={columns} data={dataMemo} />}
                         </UploadContainerItem>
                     </UploadContainer>
                 </>
