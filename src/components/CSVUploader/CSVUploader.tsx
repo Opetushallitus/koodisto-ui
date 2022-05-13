@@ -1,6 +1,6 @@
 import Modal from '../Modal/Modal';
 import { FormattedMessage, useIntl } from 'react-intl';
-import CSVReader from '../CSVReader/CSVReader';
+import CSVReaderModal from '../CSVReaderModal/CSVReaderModal';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import * as React from 'react';
 import { useMemo, useState } from 'react';
@@ -158,7 +158,7 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUpload
                             />
                         </UploadContainerItem>
                         <UploadContainerItem>
-                            <CSVReader<CsvKoodiObject>
+                            <CSVReaderModal<CsvKoodiObject>
                                 onUploadAccepted={(results) =>
                                     onUpload({ data: results.data, setCsvKoodiArray, koodistoUri })
                                 }

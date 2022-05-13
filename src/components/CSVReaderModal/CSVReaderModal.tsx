@@ -36,7 +36,7 @@ type Props<T> = {
     onUploadAccepted?: (data: ParseResult<T>, file?: File, event?: DragEvent | Event) => void;
 };
 
-const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
+const CSVReaderModal = <T extends object>({ onUploadAccepted }: Props<T>) => {
     const { CSVReader } = useCSVReader();
     return (
         <CSVReader onUploadAccepted={onUploadAccepted} config={{ header: true }}>
@@ -47,7 +47,7 @@ const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
                 getRootProps: () => never;
                 acceptedFile: { name: string };
                 ProgressBar: React.FC<{ style: unknown }>;
-                getRemoveFileProps: () => undefined;
+                getRemoveFileProps: () => unknown;
                 Remove: React.FC<{ color: unknown }>;
             }) => (
                 <div>
@@ -70,4 +70,4 @@ const CSVReader = <T extends object>({ onUploadAccepted }: Props<T>) => {
         </CSVReader>
     );
 };
-export default CSVReader;
+export default CSVReaderModal;

@@ -108,7 +108,7 @@ const KoodistoPage: React.FC = () => {
                         id: 'KOODISTOSIVU_VERSIO_DROPDOWN_LABEL',
                         defaultMessage: 'Versio {versio}',
                     },
-                    { a }
+                    { versio: a }
                 ),
                 value: a.toString(),
             };
