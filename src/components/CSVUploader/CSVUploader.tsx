@@ -93,7 +93,7 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, closeUploader }) => {
 
     const columns = React.useMemo<Column<CsvKoodiObject>[]>(
         () => mapHeadersToColumns({ headers: ['newRow' as keyof CsvKoodiObject, ...headers], formatMessage }),
-        [headers]
+        [formatMessage, headers]
     );
     if (loading) return <Loading />;
     return (

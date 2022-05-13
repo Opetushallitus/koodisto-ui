@@ -1,4 +1,4 @@
-import { IntlFormatters, MessageDescriptor } from '@formatjs/intl/src/types';
+import { MessageDescriptor } from '@formatjs/intl/src/types';
 import { FormatXMLElementFn, PrimitiveType } from 'intl-messageformat';
 import { Options as IntlMessageFormatOptions } from 'intl-messageformat/src/core';
 
