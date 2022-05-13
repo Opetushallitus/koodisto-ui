@@ -113,7 +113,7 @@ const persistData = async ({
 
 const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUploader }) => {
     const [csvKoodiArray, setCsvKoodiArray] = useState<CsvKoodiObject[]>([]);
-    const now = useMemo<number>(() => Date.now(), [koodistoUri]);
+    const now = useMemo<number>(() => (koodistoUri.length > 0 ? Date.now() : 0), [koodistoUri]);
     const { formatMessage } = useIntl();
     const { data, loading } = useKoodisto(koodistoUri, now);
     const headers = useMemo<(keyof CsvKoodiObject)[]>(() => [...getHeaders(csvKoodiArray || [])], [csvKoodiArray]);
@@ -144,7 +144,10 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUpload
                             />
                         </DownloadContainerItem>
                         <DownloadContainerItem>
-                            <Button onClick={() => downloadCsv({ koodistoUri, koodistoVersio })}>
+                            <Button
+                                onClick={() => downloadCsv({ koodistoUri, koodistoVersio })}
+                                name={`${koodistoUri}-download`}
+                            >
                                 <FormattedMessage id={'LATAA_CSV_LATAA'} defaultMessage={'Lataa CSV'} />
                             </Button>
                         </DownloadContainerItem>

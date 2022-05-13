@@ -154,7 +154,7 @@ const KoodistoPage: React.FC = () => {
                             defaultMessage={'Muokkaa koodistoa'}
                         />
                     </Button>
-                    <Button variant={'outlined'} onClick={() => setUploadCsvVisible(true)}>
+                    <Button variant={'outlined'} onClick={() => setUploadCsvVisible(true)} name={`${koodistoUri}-csv`}>
                         <FormattedMessage
                             id={'KOODISTOSIVU_TUO_VIE_KOODISTO_BUTTON'}
                             defaultMessage={'Lataa / tuo koodisto'}
