@@ -86,13 +86,11 @@ const onUpload = ({
 const persistData = async ({
     data,
     koodistoUri,
-    closeUploader,
     formatMessage,
     setSaving,
 }: {
     data: CsvKoodiObject[];
     koodistoUri: string;
-    closeUploader: () => void;
     formatMessage: MessageFormatter;
     setSaving: (saving: boolean) => void;
 }) => {
@@ -100,7 +98,6 @@ const persistData = async ({
     setSaving(true);
     const result = await batchUpsertKoodi(koodistoUri, koodi);
     if (result) {
-        setSaving(false);
         success({
             title: formatMessage({ id: 'CSV_UPLOAD_SUCCESS', defaultMessage: 'Tuonti onnistui' }),
             message: formatMessage(
@@ -111,7 +108,6 @@ const persistData = async ({
                 { koodistoUri: result.koodistoUri }
             ),
         });
-        closeUploader();
     }
 };
 
@@ -184,9 +180,11 @@ const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUpload
                 <Footer>
                     <Button
                         disabled={!validData(csvKoodiArray) || saving}
-                        onClick={() =>
-                            persistData({ setSaving, closeUploader, data: dataMemo, koodistoUri, formatMessage })
-                        }
+                        onClick={async () => {
+                            await persistData({ setSaving, data: dataMemo, koodistoUri, formatMessage });
+                            setSaving(false);
+                            closeUploader();
+                        }}
                     >
                         <FormattedMessage id={'LATAA_CSV_TALLENNA'} defaultMessage={'Tallenna'} />
                     </Button>

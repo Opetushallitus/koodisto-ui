@@ -1,7 +1,8 @@
-import { API_BASE_PATH, BASE_PATH } from '../../../src/context/constants';
+import { API_BASE_PATH, API_INTERNAL_PATH, BASE_PATH } from '../../../src/context/constants';
 import path from 'path';
+
 const koodistoUri = 'arvosanat';
-beforeEach(() => {
+before(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
 });
 describe('CSV functionality tests', () => {
@@ -20,5 +21,18 @@ describe('CSV functionality tests', () => {
             expect(file.length).to.be.gt(100);
             expect(file).to.contain('Godkänt');
         });
+    });
+
+    it('upload csv file', () => {
+        cy.get('input[type="file"]').attachFile({
+            filePath: `${koodistoUri}_upload.csv`,
+            encoding: 'utf-16le',
+        });
+        cy.contains('Cypress_Muokattu').should('be.visible');
+        cy.intercept('POST', `${API_INTERNAL_PATH}/koodi/${koodistoUri}`, (req) => {
+            req.reply({ fixture: 'arvosanatKoodisto.json' });
+            expect(req.body[0].metadata[0]).to.include({ nimi: 'Cypress_Muokattu', kieli: 'FI' });
+        });
+        cy.get('button').contains('Tallenna').click();
     });
 });
