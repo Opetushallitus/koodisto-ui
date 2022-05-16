@@ -40,37 +40,21 @@ export type UpsertKoodi = {
     voimassaLoppuPvm?: string;
     metadata: Metadata[];
 };
-export type CsvKoodiObject = Omit<Koodi, 'metadata' | 'versio' | 'version'> & {
+export type CsvKoodiObject = {
     koodistoUri: string;
+    koodiArvo: string;
     versio: string;
-    version: string;
+    voimassaAlkuPvm?: string;
+    voimassaLoppuPvm?: string;
     nimi_FI: string;
     nimi_SV: string;
     nimi_EN: string;
     lyhytNimi_FI: string;
     lyhytNimi_SV: string;
     lyhytNimi_EN: string;
-    eiSisallaMerkitysta_FI: string;
-    eiSisallaMerkitysta_SV: string;
-    eiSisallaMerkitysta_EN: string;
-    huomioitavaKoodi_FI: string;
-    huomioitavaKoodi_SV: string;
-    huomioitavaKoodi_EN: string;
-    kasite_FI: string;
-    kasite_SV: string;
-    kasite_EN: string;
-    kayttoohje_FI: string;
-    kayttoohje_SV: string;
-    kayttoohje_EN: string;
     kuvaus_FI: string;
     kuvaus_SV: string;
     kuvaus_EN: string;
-    sisaltaaKoodiston_FI: string;
-    sisaltaaKoodiston_SV: string;
-    sisaltaaKoodiston_EN: string;
-    sisaltaaMerkityksen_FI: string;
-    sisaltaaMerkityksen_SV: string;
-    sisaltaaMerkityksen_EN: string;
     newRow: boolean;
 };
 

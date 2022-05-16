@@ -43,7 +43,7 @@ export const mapCsvToKoodi = (csvRow: CsvKoodiObject): UpsertKoodi => {
     const topLevel = {
         koodiArvo: csvRow.koodiArvo,
         versio: csvRow.versio,
-        voimassaAlkuPvm: csvRow.voimassaAlkuPvm,
+        voimassaAlkuPvm: csvRow.voimassaAlkuPvm || undefined,
         voimassaLoppuPvm: csvRow.voimassaLoppuPvm || undefined,
     };
     const metadata_FI = {
