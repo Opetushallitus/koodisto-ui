@@ -12,7 +12,7 @@ describe('CSVUploader', () => {
             mapCsvToKoodi({
                 koodistoUri: 'foo',
                 koodiArvo: '0',
-                versio: '',
+                versio: undefined,
                 voimassaAlkuPvm: '',
                 voimassaLoppuPvm: '',
                 nimi_EN: 'FOO_ZERO',
@@ -37,7 +37,7 @@ describe('CSVUploader', () => {
             mapCsvToKoodi({
                 koodistoUri: 'foo-start',
                 koodiArvo: '0',
-                versio: '',
+                versio: undefined,
                 voimassaAlkuPvm: '2022-01-01',
                 voimassaLoppuPvm: '',
                 nimi_EN: 'FOO_ZERO',
@@ -62,7 +62,7 @@ describe('CSVUploader', () => {
             mapCsvToKoodi({
                 koodistoUri: 'foo-start',
                 koodiArvo: '0',
-                versio: '6',
+                versio: 6,
                 voimassaAlkuPvm: '2022-01-01',
                 voimassaLoppuPvm: '2033-01-01',
                 nimi_EN: 'FOO_ZERO',
