@@ -1,12 +1,13 @@
-import { API_BASE_PATH, BASE_PATH } from '../../../src/context/constants';
+import { API_BASE_PATH, API_INTERNAL_PATH, BASE_PATH } from '../../../src/context/constants';
 import path from 'path';
+
 const koodistoUri = 'arvosanat';
 beforeEach(() => {
     cy.task('deleteFolder', Cypress.config('downloadsFolder'));
 });
 describe('CSV functionality tests', () => {
     it('shows download icon on landing page', () => {
-        cy.intercept(`${API_BASE_PATH}/codes`, { fixture: 'codes.json' });
+        cy.intercept(`${API_INTERNAL_PATH}/koodisto`, { fixture: 'codes.json' });
         cy.visit(`${BASE_PATH}`);
         cy.get(`svg[name="${koodistoUri}-uploadicon"]`).scrollIntoView().should('be.visible');
     });
