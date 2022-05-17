@@ -53,7 +53,7 @@ const mapCsvRowToMetadata = (csvRow: CsvKoodiObject, kieli: Kieli) => {
 export const mapCsvToKoodi = (csvRow: CsvKoodiObject): UpsertKoodi => {
     return {
         koodiArvo: csvRow.koodiArvo,
-        versio: csvRow.versio,
+        versio: !csvRow.versio || isNaN(+csvRow.versio) ? undefined : +csvRow.versio,
         voimassaAlkuPvm: csvRow.voimassaAlkuPvm || undefined,
         voimassaLoppuPvm: csvRow.voimassaLoppuPvm || undefined,
         metadata: [
