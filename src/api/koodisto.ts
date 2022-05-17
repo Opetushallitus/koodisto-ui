@@ -14,6 +14,7 @@ export type TablePageKoodisto = {
     nimi?: string;
     ryhmaNimi?: string;
     ryhmaId?: number;
+    koodiCount: number;
 };
 
 export type KoodistoVersio = {
@@ -76,6 +77,7 @@ type ApiKoodistoList = {
     metadata: Metadata[];
     voimassaAlkuPvm: ApiDate;
     voimassaLoppuPvm: ApiDate;
+    koodiCount: number;
 };
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
@@ -98,6 +100,7 @@ const apiKoodistoListToKoodistoList = (a: ApiKoodistoList, lang: Kieli): TablePa
         voimassaLoppuPvm: a.voimassaLoppuPvm && parseApiDate(a.voimassaLoppuPvm),
         nimi,
         ryhmaNimi,
+        koodiCount: a.koodiCount,
     };
 };
 
