@@ -36,6 +36,7 @@ export type Koodi = UpsertKoodi & {
 };
 export type UpsertKoodi = {
     koodiArvo: string;
+    versio?: number;
     voimassaAlkuPvm?: string;
     voimassaLoppuPvm?: string;
     metadata: Metadata[];
@@ -43,7 +44,7 @@ export type UpsertKoodi = {
 export type CsvKoodiObject = {
     koodistoUri: string;
     koodiArvo: string;
-    versio: string;
+    versio: number;
     voimassaAlkuPvm?: string;
     voimassaLoppuPvm?: string;
     nimi_FI: string;
