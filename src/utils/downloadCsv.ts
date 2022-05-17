@@ -6,7 +6,7 @@ import { info } from '../components/Notification/Notification';
 export const mapKoodiToCSV = (koodi: Koodi) => {
     const allLang = ['FI', 'SV', 'EN'];
     const metadataKeys = ['nimi', 'lyhytNimi', 'kuvaus'] as (keyof Metadata)[];
-    const reducedMetdata = allLang.reduce((p, language) => {
+    const reducedMetadata = allLang.reduce((p, language) => {
         const languageKeyedMetadata: { [key: string]: string | undefined } = {};
         const languageMetadata = {
             nimi: '',
@@ -23,7 +23,7 @@ export const mapKoodiToCSV = (koodi: Koodi) => {
         versio: koodi.versio,
         voimassaAlkuPvm: koodi.voimassaAlkuPvm,
         voimassaLoppuPvm: koodi.voimassaLoppuPvm,
-        ...reducedMetdata,
+        ...reducedMetadata,
     };
 };
 const pushBlobToUser = ({ fileName, blob }: { fileName: string; blob: Blob }) => {

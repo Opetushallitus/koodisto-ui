@@ -46,7 +46,6 @@ const CSVReaderModal = <T extends object>({ onUploadAccepted }: Props<T>) => {
             }: {
                 getRootProps: () => never;
                 acceptedFile: { name: string };
-                ProgressBar: React.FC<{ style: unknown }>;
                 getRemoveFileProps: () => unknown;
                 Remove: React.FC<{ color: unknown }>;
             }) => (
