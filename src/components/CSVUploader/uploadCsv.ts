@@ -38,7 +38,14 @@ export const mapHeadersToColumns = ({
 export const validData = (data: CsvKoodiObject[] | undefined): boolean => {
     return !!data && data.length > 0;
 };
-
+const mapCsvRowToMetadata = (csvRow: CsvKoodiObject, kieli: Kieli) => {
+    return {
+        kieli,
+        kuvaus: csvRow[`kuvaus_${kieli}`] || undefined,
+        lyhytNimi: csvRow[`lyhytNimi_${kieli}`] || undefined,
+        nimi: csvRow[`nimi_${kieli}`],
+    };
+};
 export const mapCsvToKoodi = (csvRow: CsvKoodiObject): UpsertKoodi => {
     const topLevel = {
         koodiArvo: csvRow.koodiArvo,
@@ -46,30 +53,15 @@ export const mapCsvToKoodi = (csvRow: CsvKoodiObject): UpsertKoodi => {
         voimassaAlkuPvm: csvRow.voimassaAlkuPvm || undefined,
         voimassaLoppuPvm: csvRow.voimassaLoppuPvm || undefined,
     };
-    const metadata_FI = {
-        kieli: 'FI' as Kieli,
-        kuvaus: csvRow.kuvaus_FI || undefined,
-        lyhytNimi: csvRow.lyhytNimi_FI || undefined,
-        nimi: csvRow.nimi_FI,
-    };
-    const metadata_SV = {
-        kieli: 'SV' as Kieli,
-        kuvaus: csvRow.kuvaus_SV || undefined,
-        lyhytNimi: csvRow.lyhytNimi_SV || undefined,
-        nimi: csvRow.nimi_SV,
-    };
-    const metadata_EN = {
-        kieli: 'EN' as Kieli,
-        kuvaus: csvRow.kuvaus_EN || undefined,
-        lyhytNimi: csvRow.lyhytNimi_EN || undefined,
-        nimi: csvRow.nimi_EN,
-    };
+    const metadata_FI = mapCsvRowToMetadata(csvRow, 'FI');
+    const metadata_SV = mapCsvRowToMetadata(csvRow, 'SV');
+    const metadata_EN = mapCsvRowToMetadata(csvRow, 'EN');
     return {
         ...topLevel,
         metadata: [
-            ...(metadata_FI.nimi ? [{ ...metadata_FI }] : []),
-            ...(metadata_SV.nimi ? [{ ...metadata_SV }] : []),
-            ...(metadata_EN.nimi ? [{ ...metadata_EN }] : []),
+            ...(metadata_FI.nimi ? [metadata_FI] : []),
+            ...(metadata_SV.nimi ? [metadata_SV] : []),
+            ...(metadata_EN.nimi ? [metadata_EN] : []),
         ],
     };
 };
