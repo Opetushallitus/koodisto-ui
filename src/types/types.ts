@@ -4,7 +4,7 @@ import { Options as IntlMessageFormatOptions } from 'intl-messageformat/src/core
 import { KoodistoRelation } from '../api/koodisto';
 
 export type Kieli = 'EN' | 'FI' | 'SV';
-export type Locale = 'en' | 'fi' | 'sv';
+export type Locale = Lowercase<Kieli>;
 export type ApiDate = `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
 
 export type Metadata = {
