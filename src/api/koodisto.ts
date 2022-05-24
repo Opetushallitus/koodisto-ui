@@ -10,8 +10,8 @@ import { fetchOrganisaatioNimi } from './organisaatio';
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
 export type KoodistoRelation = {
-    codesUri: string;
-    codesVersion: number;
+    koodistoUri: string;
+    koodistoVersio: number;
     passive: boolean;
     nimi: {
         fi: string;
@@ -43,14 +43,15 @@ type ApiPageKoodisto = ApiBaseKoodisto & {
     omistaja: string | null;
     organisaatioOid: string;
     lukittu: boolean | null;
-    codesGroupUri: string;
+    koodistoRyhmaMetadata: Metadata[];
     paivitysPvm: ApiDate;
     paivittajaOid: string;
     tila: string;
-    codesVersions: number[];
-    withinCodes: KoodistoRelation[];
-    includesCodes: KoodistoRelation[];
-    levelsWithCodes: KoodistoRelation[];
+    koodiVersio: number[];
+    sisaltyyKoodistoihin: KoodistoRelation[];
+    sisaltaaKoodistot: KoodistoRelation[];
+    rinnastuuKoodistoihin: KoodistoRelation[];
+    koodiList: Koodi[];
 };
 type ApiListKoodisto = ApiBaseKoodisto & {
     koodistoRyhmaMetadata: ApiRyhmaMetadata[];
@@ -59,10 +60,7 @@ type ApiListKoodisto = ApiBaseKoodisto & {
 
 const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoodisto => {
     const nimi = translateMetadata(a.metadata, lang)?.nimi;
-    const ryhmaNimi = translateMetadata(
-        !!a.koodistoRyhmaMetadata ? a.koodistoRyhmaMetadata : [{ kieli: 'FI', nimi: 'N/A' }],
-        lang
-    )?.nimi;
+    const ryhmaNimi = translateMetadata(a.koodistoRyhmaMetadata, lang)?.nimi;
     return {
         ryhmaId: a.koodistoRyhmaMetadata?.[0]?.id || undefined,
         koodistoUri: a.koodistoUri,
@@ -133,7 +131,7 @@ export const batchUpsertKoodi = async (
 export const fetchPageKoodisto = async (koodistoUri: string, versio: number): Promise<PageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
         const { data: apiPageKoodisto } = await axios.get<ApiPageKoodisto>(
-            `${API_BASE_PATH}/codes/${koodistoUri}/${versio}`
+            `${API_INTERNAL_PATH}/koodisto/${koodistoUri}/${versio}`
         );
         if (apiPageKoodisto) {
             const organisaatioNimi = await fetchOrganisaatioNimi(apiPageKoodisto.organisaatioOid);
