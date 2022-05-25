@@ -1,12 +1,11 @@
 import { API_BASE_PATH, API_INTERNAL_PATH } from '../context/constants';
 import { atom, Getter } from 'jotai';
-import { ApiDate, Kieli, Koodi, ListKoodisto, Metadata, PageKoodisto, UpsertKoodi } from '../types';
+import { ApiDate, Kieli, Koodi, ListKoodisto, Metadata, PageKoodisto, UpsertKoodi, KoodistoRelation } from '../types';
 import { casMeLangAtom } from './kayttooikeus';
 import { parseApiDate, translateMetadata } from '../utils';
 import { errorHandlingWrapper } from './errorHandling';
 import axios from 'axios';
 import { fetchOrganisaatioNimi } from './organisaatio';
-import { KoodistoRelation } from '../types';
 
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
