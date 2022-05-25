@@ -1,201 +1,199 @@
 {
-  "koodistoRyhmaMetadata": [
-    {
-      "id": 4,
-      "uri": "koulutuskoodistot",
-      "nimi": "Koulutuskoodistot",
-      "kieli": "FI"
-    }
-  ],
-  "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codes/arvosanat",
-  "koodistoUri": "arvosanat",
-  "versio": 1,
-  "organisaatioOid": "1.2.246.562.10.00000000001",
-  "paivitysPvm": "2015-02-20T12:33:54.963+00:00",
-  "paivittajaOid": null,
-  "voimassaAlkuPvm": "2013-01-01",
-  "voimassaLoppuPvm": null,
-  "tila": "LUONNOS",
-  "metadata": [
-    {
-      "kieli": "SV",
-      "nimi": "arvosanat",
-      "kuvaus": "arvosanat"
-    },
-    {
-      "kieli": "FI",
-      "nimi": "arvosanat",
-      "kuvaus": "arvosanat"
-    },
-    {
-      "kieli": "EN",
-      "nimi": "arvosanat",
-      "kuvaus": "arvosanat"
-    }
-  ],
-  "koodiVersio": [
-    1
-  ],
-  "sisaltyyKoodistoihin": [],
-  "sisaltaaKoodistot": [],
-  "rinnastuuKoodistoihin": [],
-  "koodiList": [
-    {
-      "koodiArvo": "5",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:18.063+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
+    "koodistoRyhmaMetadata": [
         {
-          "nimi": "5",
-          "kieli": "SV"
-        },
-        {
-          "nimi": "5",
-          "kieli": "FI"
+            "id": 4,
+            "uri": "koulutuskoodistot",
+            "nimi": "Koulutuskoodistot",
+            "kieli": "FI"
         }
-      ]
-    },
-    {
-      "koodiArvo": "10",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:18.160+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
+    ],
+    "resourceUri": "https://virkailija.hahtuvaopintopolku.fi/koodisto-service/rest/codes/arvosanat",
+    "koodistoUri": "arvosanat",
+    "versio": 1,
+    "organisaatioOid": "1.2.246.562.10.00000000001",
+    "paivitysPvm": "2015-02-20T12:33:54.963+00:00",
+    "paivittajaOid": null,
+    "voimassaAlkuPvm": "2013-01-01",
+    "voimassaLoppuPvm": null,
+    "tila": "LUONNOS",
+    "metadata": [
         {
-          "nimi": "10",
-          "kieli": "SV"
+            "kieli": "SV",
+            "nimi": "arvosanat",
+            "kuvaus": "arvosanat"
         },
         {
-          "nimi": "10",
-          "kieli": "FI"
+            "kieli": "FI",
+            "nimi": "arvosanat",
+            "kuvaus": "arvosanat"
+        },
+        {
+            "kieli": "EN",
+            "nimi": "arvosanat",
+            "kuvaus": "arvosanat"
         }
-      ]
-    },
-    {
-      "koodiArvo": "9",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:17.949+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
+    ],
+    "koodiVersio": [1],
+    "sisaltyyKoodistoihin": [],
+    "sisaltaaKoodistot": [],
+    "rinnastuuKoodistoihin": [],
+    "koodiList": [
         {
-          "nimi": "9",
-          "kieli": "SV"
+            "koodiArvo": "5",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:18.063+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "5",
+                    "kieli": "SV"
+                },
+                {
+                    "nimi": "5",
+                    "kieli": "FI"
+                }
+            ]
         },
         {
-          "nimi": "9",
-          "kieli": "FI"
+            "koodiArvo": "10",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:18.160+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "10",
+                    "kieli": "SV"
+                },
+                {
+                    "nimi": "10",
+                    "kieli": "FI"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "9",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:17.949+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "9",
+                    "kieli": "SV"
+                },
+                {
+                    "nimi": "9",
+                    "kieli": "FI"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "S",
+            "versio": 1,
+            "paivitysPvm": "2015-02-23T14:04:17.451+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2015-02-01",
+            "metadata": [
+                {
+                    "nimi": "Hyväksytty",
+                    "kieli": "FI"
+                },
+                {
+                    "nimi": "Hyväksytty",
+                    "kieli": "EN"
+                },
+                {
+                    "nimi": "Godkänt",
+                    "kieli": "SV"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "4",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:17.998+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "4",
+                    "kieli": "SV"
+                },
+                {
+                    "nimi": "4",
+                    "kieli": "FI"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "Ei arvosanaa",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:18.095+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "Ei arvosanaa",
+                    "kieli": "FI"
+                },
+                {
+                    "nimi": "Inget vitsord",
+                    "kieli": "SV"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "7",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:18.127+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "7",
+                    "kieli": "SV"
+                },
+                {
+                    "nimi": "7",
+                    "kieli": "FI"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "8",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:17.912+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "8",
+                    "kieli": "FI"
+                },
+                {
+                    "nimi": "8",
+                    "kieli": "SV"
+                }
+            ]
+        },
+        {
+            "koodiArvo": "6",
+            "versio": 1,
+            "paivitysPvm": "2013-10-28T13:32:18.030+00:00",
+            "paivittajaOid": null,
+            "voimassaAlkuPvm": "2013-09-03",
+            "metadata": [
+                {
+                    "nimi": "6",
+                    "kieli": "FI"
+                },
+                {
+                    "nimi": "6",
+                    "kieli": "SV"
+                }
+            ]
         }
-      ]
-    },
-    {
-      "koodiArvo": "S",
-      "versio": 1,
-      "paivitysPvm": "2015-02-23T14:04:17.451+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2015-02-01",
-      "metadata": [
-        {
-          "nimi": "Hyväksytty",
-          "kieli": "FI"
-        },
-        {
-          "nimi": "Hyväksytty",
-          "kieli": "EN"
-        },
-        {
-          "nimi": "Godkänt",
-          "kieli": "SV"
-        }
-      ]
-    },
-    {
-      "koodiArvo": "4",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:17.998+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
-        {
-          "nimi": "4",
-          "kieli": "SV"
-        },
-        {
-          "nimi": "4",
-          "kieli": "FI"
-        }
-      ]
-    },
-    {
-      "koodiArvo": "Ei arvosanaa",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:18.095+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
-        {
-          "nimi": "Ei arvosanaa",
-          "kieli": "FI"
-        },
-        {
-          "nimi": "Inget vitsord",
-          "kieli": "SV"
-        }
-      ]
-    },
-    {
-      "koodiArvo": "7",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:18.127+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
-        {
-          "nimi": "7",
-          "kieli": "SV"
-        },
-        {
-          "nimi": "7",
-          "kieli": "FI"
-        }
-      ]
-    },
-    {
-      "koodiArvo": "8",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:17.912+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
-        {
-          "nimi": "8",
-          "kieli": "FI"
-        },
-        {
-          "nimi": "8",
-          "kieli": "SV"
-        }
-      ]
-    },
-    {
-      "koodiArvo": "6",
-      "versio": 1,
-      "paivitysPvm": "2013-10-28T13:32:18.030+00:00",
-      "paivittajaOid": null,
-      "voimassaAlkuPvm": "2013-09-03",
-      "metadata": [
-        {
-          "nimi": "6",
-          "kieli": "FI"
-        },
-        {
-          "nimi": "6",
-          "kieli": "SV"
-        }
-      ]
-    }
-  ]
+    ]
 }

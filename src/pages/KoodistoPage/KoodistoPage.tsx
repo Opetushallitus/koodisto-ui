@@ -98,7 +98,7 @@ export const KoodistoPage: React.FC = () => {
     if (!koodisto) {
         return <Loading />;
     }
-    const koodistonMetadata = translateMetadata(koodisto.metadata, lang);
+    const koodistonMetadata = translateMetadata({ metadata: koodisto.metadata, lang });
     const versioOptions = koodisto.koodiVersio.map((a) => {
         return {
             label: formatMessage(

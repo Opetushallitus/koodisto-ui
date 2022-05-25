@@ -59,8 +59,8 @@ type ApiListKoodisto = ApiBaseKoodisto & {
 };
 
 const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoodisto => {
-    const nimi = translateMetadata(a.metadata, lang)?.nimi;
-    const ryhmaNimi = translateMetadata(a.koodistoRyhmaMetadata, lang)?.nimi;
+    const nimi = translateMetadata({ metadata: a.metadata, lang })?.nimi;
+    const ryhmaNimi = translateMetadata({ metadata: a.koodistoRyhmaMetadata, lang })?.nimi;
     return {
         ryhmaId: a.koodistoRyhmaMetadata?.[0]?.id || undefined,
         koodistoUri: a.koodistoUri,

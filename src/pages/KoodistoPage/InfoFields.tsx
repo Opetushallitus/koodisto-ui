@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { Locale, PageKoodisto } from '../../types';
+import { PageKoodisto } from '../../types';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
 import { casMeLangAtom, casMeLocaleAtom } from '../../api/kayttooikeus';
@@ -33,8 +33,8 @@ interface InfoFieldsProps {
 const InfoFields = ({ koodisto }: InfoFieldsProps) => {
     const [lang] = useAtom(casMeLangAtom);
     const [locale] = useAtom(casMeLocaleAtom);
-    const kuvaus = translateMetadata(koodisto.metadata, lang)?.kuvaus || '';
-    const ryhmaNimi = translateMetadata(koodisto.koodistoRyhmaMetadata, lang)?.nimi || '';
+    const kuvaus = translateMetadata({ metadata: koodisto.metadata, lang })?.kuvaus || '';
+    const ryhmaNimi = translateMetadata({ metadata: koodisto.koodistoRyhmaMetadata, lang })?.nimi || '';
     return (
         <InfoContainer>
             <InfoRow>
@@ -67,7 +67,7 @@ const InfoFields = ({ koodisto }: InfoFieldsProps) => {
                     defaultMessage={'Organisaatio'}
                     tagName={'span'}
                 />
-                <InfoValue>{koodisto.organisaatioNimi?.[locale as Locale]}</InfoValue>
+                <InfoValue>{koodisto.organisaatioNimi?.[locale]}</InfoValue>
             </InfoRow>
             <InfoRow>
                 <FormattedMessage id={'KOODISTOSIVU_AVAIN_PAIVITETTY'} defaultMessage={'Päivitetty'} tagName={'span'} />

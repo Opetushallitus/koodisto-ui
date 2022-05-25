@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
-import { Koodi, Kieli } from '../../types';
+import { Koodi } from '../../types';
 import { Column, Row } from 'react-table';
 import { useIntl, FormattedDate } from 'react-intl';
 import { Table } from '../../components/Table';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
-import { casMeLocaleAtom } from '../../api/kayttooikeus';
+import { casMeLangAtom } from '../../api/kayttooikeus';
 
 type Props = { koodiList: Koodi[] };
 export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
     const { formatMessage } = useIntl();
-    const [locale] = useAtom(casMeLocaleAtom);
+    const [lang] = useAtom(casMeLangAtom);
     const data = useMemo<Koodi[]>(() => {
         koodiList.sort((a, b) => a.koodiArvo.localeCompare(b.koodiArvo));
         return [...koodiList];
@@ -35,7 +35,7 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                 id: 'nimi',
                 Header: formatMessage({ id: 'TAULUKKO_KOODI_NIMI', defaultMessage: 'Nimi' }),
                 Cell: ({ row }: { row: Row<Koodi> }) => {
-                    const metadata = translateMetadata(row.original.metadata, locale.toUpperCase() as Kieli);
+                    const metadata = translateMetadata({ metadata: row.original.metadata, lang });
                     return <div>{metadata?.nimi}</div>;
                 },
             },
@@ -54,7 +54,7 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                 },
             },
         ],
-        [formatMessage, locale]
+        [formatMessage, lang]
     );
     return <Table<Koodi> columns={columns} data={data} />;
 };
