@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useMemo } from 'react';
 import { Column, Row } from 'react-table';
-import { KoodistoRelation } from '../../api/koodisto';
 import { useIntl } from 'react-intl';
 import { Table } from '../../components/Table';
 import { Link } from 'react-router-dom';
+import { KoodistoRelation } from '../../types';
 
 type KoodistoRelationsTableProps = {
     koodistoRelations: KoodistoRelation[];

@@ -6,24 +6,9 @@ import { parseApiDate, translateMetadata } from '../utils';
 import { errorHandlingWrapper } from './errorHandling';
 import axios from 'axios';
 import { fetchOrganisaatioNimi } from './organisaatio';
+import { KoodistoRelation } from '../types';
 
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
-
-export type KoodistoRelation = {
-    koodistoUri: string;
-    koodistoVersio: number;
-    passive: boolean;
-    nimi: {
-        fi: string;
-        sv: string;
-        en: string;
-    };
-    kuvaus: {
-        fi: string;
-        sv: string;
-        en: string;
-    };
-};
 
 type ApiRyhmaMetadata = {
     id: number;
