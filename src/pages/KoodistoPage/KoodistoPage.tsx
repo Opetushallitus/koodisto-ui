@@ -11,7 +11,7 @@ import { Kieli, PageKoodisto, SelectOptionType } from '../../types';
 import { Loading } from '../../components/Loading';
 import InfoFields from './InfoFields';
 import KoodistoPageAccordion from './KoodistoPageAccordion';
-import { CSVFunctionModal } from '../../components/CSVFunctionModal';
+import { CSVFunctionModal } from '../../modals/CSVFunctionModal';
 
 const MainContainer = styled.div`
     flex-grow: 1;
