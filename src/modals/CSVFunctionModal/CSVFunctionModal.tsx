@@ -1,16 +1,16 @@
-import { Modal } from '../Modal';
+import { Modal } from '../../components/Modal';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { KoodiCSVReader } from './KoodiCSVReader';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { Table } from '../Table';
+import { Table } from '../../components/Table';
 import { Column } from 'react-table';
 import { CsvKoodiObject, Koodi, MessageFormatter } from '../../types';
 import { getHeaders, mapCsvToKoodi, mapHeadersToColumns, validData } from './uploadCsv';
 import { batchUpsertKoodi, fetchKoodiListByKoodisto } from '../../api/koodisto';
-import { Loading } from '../Loading';
-import { danger, success } from '../Notification';
+import { Loading } from '../../components/Loading';
+import { danger, success } from '../../components/Notification';
 import { downloadCsv } from '../../utils';
 import styled from 'styled-components';
 
