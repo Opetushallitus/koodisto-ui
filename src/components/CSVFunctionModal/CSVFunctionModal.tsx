@@ -1,6 +1,6 @@
 import { Modal } from '../Modal';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { CSVReaderModal } from '../CSVReaderModal';
+import { KoodiCSVReader } from './KoodiCSVReader';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -111,7 +111,7 @@ const persistData = async ({
     }
 };
 
-export const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUploader }) => {
+export const CSVFunctionModal: React.FC<Props> = ({ koodistoUri, koodistoVersio, closeUploader }) => {
     const [csvKoodiArray, setCsvKoodiArray] = useState<CsvKoodiObject[]>([]);
 
     const [persistedKoodiList, setPersistedKoodiList] = useState<Koodi[] | undefined>(undefined);
@@ -169,7 +169,7 @@ export const CSVUploader: React.FC<Props> = ({ koodistoUri, koodistoVersio, clos
                             />
                         </UploadContainerItem>
                         <UploadContainerItem>
-                            <CSVReaderModal<CsvKoodiObject>
+                            <KoodiCSVReader<CsvKoodiObject>
                                 onUploadAccepted={(results) =>
                                     onUpload({ data: results.data, setCsvKoodiArray, koodistoUri })
                                 }
