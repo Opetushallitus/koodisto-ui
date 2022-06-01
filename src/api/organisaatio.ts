@@ -1,4 +1,4 @@
-import axios from 'axios';
+import gaxios from 'gaxios';
 import { errorHandlingWrapper } from './errorHandling';
 import { OrganisaatioNimi } from '../types';
 
@@ -8,7 +8,7 @@ type Organisaatio = {
 
 export const fetchOrganisaatioNimi = async (oid: string): Promise<OrganisaatioNimi | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.get<Organisaatio>(`/organisaatio-service/api/${oid}`);
+        const { data } = await gaxios.request<Organisaatio>({ method: 'GET', url: `/organisaatio-service/api/${oid}` });
         return data.nimi;
     });
 };

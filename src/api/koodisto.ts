@@ -4,8 +4,8 @@ import { ApiDate, Kieli, Koodi, ListKoodisto, Metadata, PageKoodisto, UpsertKood
 import { casMeLangAtom } from './kayttooikeus';
 import { parseApiDate, translateMetadata } from '../utils';
 import { errorHandlingWrapper } from './errorHandling';
-import axios from 'axios';
 import { fetchOrganisaatioNimi } from './organisaatio';
+import gaxios from 'gaxios';
 
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
@@ -58,7 +58,7 @@ const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoo
 };
 
 const apiKoodistoListAtom = atom<Promise<ApiListKoodisto[]>>(async (get: Getter) => {
-    const { data } = await axios.get<ApiListKoodisto[]>(get(urlAtom));
+    const { data } = await gaxios.request<ApiListKoodisto[]>({ method: 'GET', url: get(urlAtom) });
     return data;
 });
 
@@ -75,7 +75,9 @@ export const fetchKoodiListByKoodisto = async ({
     koodistoVersio?: number;
 }): Promise<Koodi[] | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.get<Koodi[]>(`${API_BASE_PATH}/json/${koodistoUri}/koodi`, {
+        const { data } = await gaxios.request<Koodi[]>({
+            method: 'GET',
+            url: `${API_BASE_PATH}/json/${koodistoUri}/koodi`,
             params: koodistoVersio !== undefined ? { koodistoVersio } : {},
         });
         return data;
@@ -84,13 +86,21 @@ export const fetchKoodiListByKoodisto = async ({
 
 export const createKoodisto = async (koodistoUri: string, koodi: UpsertKoodi): Promise<number | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.post<number>(`${API_BASE_PATH}/codeelement/${koodistoUri}`, koodi);
+        const { data } = await gaxios.request<number>({
+            method: 'POST',
+            url: `${API_BASE_PATH}/codeelement/${koodistoUri}`,
+            data: { koodi },
+        });
         return data;
     });
 };
 export const updateKoodisto = async (koodi: UpsertKoodi): Promise<number | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.put<number>(`${API_BASE_PATH}/codeelement/save`, koodi);
+        const { data } = await gaxios.request<number>({
+            method: 'PUT',
+            url: `${API_BASE_PATH}/codeelement/save`,
+            data: { koodi },
+        });
         return data;
     });
 };
@@ -107,16 +117,21 @@ export const batchUpsertKoodi = async (
     koodi: UpsertKoodi[]
 ): Promise<PageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data } = await axios.post<ApiPageKoodisto>(`${API_INTERNAL_PATH}/koodi/${koodistoUri}`, koodi);
+        const { data } = await gaxios.request<ApiPageKoodisto>({
+            method: 'POST',
+            url: `${API_INTERNAL_PATH}/koodi/${koodistoUri}`,
+            data: { koodi },
+        });
         return mapApiPageKoodistoToPageKoodisto(data);
     });
 };
 
 export const fetchPageKoodisto = async (koodistoUri: string, versio: number): Promise<PageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data: apiPageKoodisto } = await axios.get<ApiPageKoodisto>(
-            `${API_INTERNAL_PATH}/koodisto/${koodistoUri}/${versio}`
-        );
+        const { data: apiPageKoodisto } = await gaxios.request<ApiPageKoodisto>({
+            method: 'GET',
+            url: `${API_INTERNAL_PATH}/koodisto/${koodistoUri}/${versio}`,
+        });
         if (apiPageKoodisto) {
             const organisaatioNimi = await fetchOrganisaatioNimi(apiPageKoodisto.organisaatioOid);
             return { ...mapApiPageKoodistoToPageKoodisto(apiPageKoodisto), organisaatioNimi };

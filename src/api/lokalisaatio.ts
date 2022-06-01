@@ -1,7 +1,7 @@
 import { atom, Getter } from 'jotai';
 import { API_LOKALISAATIO_PATH } from '../context/constants';
 import { casMeLocaleAtom } from './kayttooikeus';
-import axios from 'axios';
+import gaxios from 'gaxios';
 import { Locale } from '../types';
 
 const urlAtom = atom(API_LOKALISAATIO_PATH);
@@ -10,7 +10,10 @@ type Lokalisaatio = { locale: Locale; key: string; value: string };
 export const lokalisaatioAtom = atom(async (get: Getter): Promise<Lokalisaatio[]> => {
     const locale = get(casMeLocaleAtom);
     const url = get(urlAtom);
-    const { data } = await axios.get<Lokalisaatio[]>(`${url}?${new URLSearchParams({ category: 'koodisto', locale })}`);
+    const { data } = await gaxios.request<Lokalisaatio[]>({
+        method: 'GET',
+        url: `${url}?${new URLSearchParams({ category: 'koodisto', locale })}`,
+    });
     return data;
 });
 

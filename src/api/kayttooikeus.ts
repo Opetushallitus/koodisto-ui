@@ -1,6 +1,7 @@
-import axios from 'axios';
+import gaxios from 'gaxios';
 import { Atom, atom, Getter } from 'jotai';
 import { Kieli, Locale } from '../types';
+
 const urlAtom = atom<string>('/kayttooikeus-service/cas/me');
 
 type CASMeApi = {
@@ -14,9 +15,9 @@ type CASMeApi = {
 };
 
 export const casMeAtom = atom<Promise<CASMeApi>>(async (get: Getter) => {
-    const { data } = await axios.get<CASMeApi | string>(get(urlAtom));
+    const { data } = await gaxios.request<CASMeApi | string>({ method: 'GET', url: get(urlAtom) });
     if (typeof data === 'string') {
-        const retry = await axios.get<CASMeApi>(get(urlAtom));
+        const retry = await gaxios.request<CASMeApi>({ method: 'GET', url: get(urlAtom) });
         return retry.data;
     }
     return data;
