@@ -1,8 +1,13 @@
-import Axios, { AxiosError, AxiosResponse } from 'axios';
+import { GaxiosError, GaxiosResponse } from 'gaxios';
 import { danger, warning } from '../../components/Notification/Notification';
 
-const handleError = <T>(error: AxiosError<T> | unknown) => {
-    if (Axios.isAxiosError(error)) {
+function isAxiosError(error: GaxiosError | unknown): error is GaxiosError {
+    const gerror = error as GaxiosError;
+    return gerror.response !== undefined && gerror.code !== undefined;
+}
+
+const handleError = <T>(error: GaxiosError<T> | unknown) => {
+    if (isAxiosError(error)) {
         const axiosError = error;
         if (axiosError.response) {
             console.error('axiosError', axiosError.response);
@@ -19,7 +24,7 @@ const handleError = <T>(error: AxiosError<T> | unknown) => {
         console.error(error);
     }
 };
-export const errorHandlingWrapper = async <A = never, B = AxiosResponse<A>>(
+export const errorHandlingWrapper = async <A = never, B = GaxiosResponse<A>>(
     workhorse: () => Promise<B>
 ): Promise<B | undefined> => {
     return workhorse().catch((e) => {

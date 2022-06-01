@@ -1,6 +1,6 @@
 import React, { ErrorInfo } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import gaxios from 'gaxios';
 import Cookies from 'universal-cookie';
 import { Provider, useAtom } from 'jotai';
 import { ROOT_OID } from './context/constants';
@@ -17,13 +17,12 @@ import App from './App';
 
 const theme = createTheme();
 const cookies = new Cookies();
-axios.interceptors.request.use((config) => {
-    if (config?.headers) {
-        config.headers['Caller-Id'] = `${ROOT_OID}.koodisto-app`;
-        config.headers['CSRF'] = cookies.get('CSRF');
-    }
-    return config;
-});
+gaxios.instance.defaults = {
+    headers: {
+        'Caller-Id': `${ROOT_OID}.koodisto-app`,
+        CSRF: cookies.get('CSRF'),
+    },
+};
 
 export class ErrorBoundary extends React.Component<unknown, { hasError: boolean }> {
     constructor(props: unknown) {
