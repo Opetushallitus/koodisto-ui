@@ -82,7 +82,7 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                         Cell: ({ row }: { row: Row<Koodi> }) => (
                             <Button
                                 variant={'text'}
-                                onClick={() => navigate(`/koodi/edit/${row.original.koodiUri}/${row.original.versio}`)}
+                                onClick={() => navigate(`/koodi/edit/${row.original.koodiArvo}/${row.original.versio}`)}
                             >
                                 <div>{translateMetadata({ metadata: row.original.metadata, lang })?.nimi}</div>
                             </Button>
