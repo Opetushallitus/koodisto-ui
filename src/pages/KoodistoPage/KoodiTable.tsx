@@ -109,7 +109,7 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                 ],
             },
         ],
-        [formatMessage, lang]
+        [formatMessage, lang, navigate]
     );
 
     return (
