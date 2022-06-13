@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { IconWrapper } from '../../components/IconWapper';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from '@opetushallitus/virkailija-ui-components/Select';
 import { fetchPageKoodisto } from '../../api/koodisto';
 import { translateMetadata } from '../../utils';
@@ -14,6 +13,7 @@ import KoodistoPageAccordion from './KoodistoPageAccordion';
 import { CSVFunctionModal } from '../../modals/CSVFunctionModal';
 import { useAtom } from 'jotai';
 import { casMeLangAtom } from '../../api/kayttooikeus';
+import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
 
 const MainContainer = styled.div`
     flex-grow: 1;
@@ -41,15 +41,6 @@ const MainHeaderButtonsContainer = styled.div`
             margin: 0 0 1rem 0;
         }
     }
-`;
-
-const KoodistoPathContainer = styled.div`
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    padding-left: 15rem;
-    justify-content: flex-start;
-    min-width: 3rem;
 `;
 
 const HeadingDivider = styled.div`
@@ -113,18 +104,7 @@ export const KoodistoPage: React.FC = () => {
     });
     return (
         <>
-            <KoodistoPathContainer>
-                <div>
-                    <Link to={'/'}>
-                        <IconWrapper icon="codicon:home" />
-                        <FormattedMessage id={'KOODISTOPALVELU_OTSIKKO'} defaultMessage={'Koodistopalvelu'} />
-                    </Link>
-                    <span>&gt;</span>
-                </div>
-                <div>
-                    <p>{koodistonMetadata?.nimi}</p>
-                </div>
-            </KoodistoPathContainer>
+            <KoodistoPathContainer path={[koodistonMetadata?.nimi || '']} />
             <MainHeaderContainer>
                 <HeadingDivider>
                     <h1>{koodistonMetadata?.nimi}</h1>
@@ -145,7 +125,11 @@ export const KoodistoPage: React.FC = () => {
                     </SelectContainer>
                 </HeadingDivider>
                 <MainHeaderButtonsContainer>
-                    <Button variant={'outlined'} onClick={() => navigate(`/koodisto/edit/${koodistoUri}/${versio}`)}>
+                    <Button
+                        name={'KOODISTOSIVU_MUOKKAA_KOODISTOA_BUTTON'}
+                        variant={'outlined'}
+                        onClick={() => navigate(`/koodisto/edit/${koodistoUri}/${versio}`)}
+                    >
                         <FormattedMessage
                             id={'KOODISTOSIVU_MUOKKAA_KOODISTOA_BUTTON'}
                             defaultMessage={'Muokkaa koodistoa'}
