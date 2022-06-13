@@ -20,8 +20,29 @@
   "EN_NIMI_PAKOLLINEN": {
     "defaultMessage": "Syötä englanninkielinen nimi"
   },
+  "FIELD_TITLE_koodistoRyhmaUri": {
+    "defaultMessage": "Koodistoryhmä*"
+  },
+  "FIELD_TITLE_omistaja": {
+    "defaultMessage": "Omistaja"
+  },
+  "FIELD_TITLE_organisaatioNimi": {
+    "defaultMessage": "Organisaatio*"
+  },
+  "FIELD_TITLE_voimassaAlkuPvm": {
+    "defaultMessage": "Voimassa"
+  },
+  "FIELD_TITLE_voimassaLoppuPvm": {
+    "defaultMessage": "Voimassa loppu"
+  },
   "FI_NIMI_PAKOLLINEN": {
     "defaultMessage": "Syötä suomenkielinen nimi."
+  },
+  "FI_ORGANISAATIO_PAKOLLINEN": {
+    "defaultMessage": "Valitse organisaatio."
+  },
+  "FI_RYHMA_PAKOLLINEN": {
+    "defaultMessage": "Valitse koodisto-ryhmä."
   },
   "KOODISTOPALVELU_OTSIKKO": {
     "defaultMessage": "Koodistopalvelu"
@@ -55,6 +76,9 @@
   },
   "KOODISTOVERSIO_DROPDOWN": {
     "defaultMessage": "Koodistoversio"
+  },
+  "KOODISTO_MUOKKAA_SIVU_TITLE": {
+    "defaultMessage": "Muokkaa koodistoa"
   },
   "KOODISTO_RYHMA_EN": {
     "defaultMessage": "EN"
@@ -100,6 +124,15 @@
   },
   "KOODISTO_RYHMA_TYHJAT_TITLE": {
     "defaultMessage": "Tyhjät koodistoryhmät ({emptyRyhmaCount})"
+  },
+  "KOODISTO_TALLENNA": {
+    "defaultMessage": "Tallenna"
+  },
+  "KOODISTO_TALLENNUS_MESSAGE": {
+    "defaultMessage": "Tallennettiin koodisto uri:lla {koodistoUri}"
+  },
+  "KOODISTO_TALLENNUS_MESSAGE_TITLE": {
+    "defaultMessage": "Koodisto tallennettiin onnistuneesti."
   },
   "KOODI_TAULUKKO_FILTTERI_PLACEHOLDER": {
     "defaultMessage": "Hae nimellä tai koodiarvolla"
