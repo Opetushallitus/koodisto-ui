@@ -14,7 +14,7 @@ export const DatePickerController = <T,>({ name, form, validationErrors, dayPick
         <Controller
             control={form}
             name={name}
-            render={({ field: { ref, value, ...controllerRest } }) => {
+            render={({ field: { value, ...controllerRest } }) => {
                 return (
                     <DatePickerInput
                         value={value as Date}
