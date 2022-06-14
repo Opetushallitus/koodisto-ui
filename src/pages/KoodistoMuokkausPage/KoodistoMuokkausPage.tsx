@@ -17,9 +17,12 @@ import { InputArray } from './InputArray';
 import { success } from '../../components/Notification';
 import {
     MainHeaderContainer,
+    MainContainerRow,
     MainContainer,
     FooterContainer,
     FooterLeftContainer,
+    MainContainerRowTitle,
+    MainContainerRowContent,
     FooterRightContainer,
 } from '../../components/Containers';
 import { IconWrapper } from '../../components/IconWapper';
@@ -89,54 +92,87 @@ export const KoodistoMuokkausPage: React.FC = () => {
                 </MainHeaderContainer>
                 <MainContainer>
                     <form>
-                        <FormattedMessage id={'FIELD_TITLE_koodistoRyhmaUri'} defaultMessage={'Koodistoryhmä*'} />
-                        <Input
-                            {...register('koodistoRyhmaUri', {
-                                required: formatMessage({
-                                    id: 'FI_RYHMA_PAKOLLINEN',
-                                    defaultMessage: 'Valitse koodisto-ryhmä.',
-                                }),
-                            })}
-                        />
-                        <InputArray
-                            control={control}
-                            register={register}
-                            getValues={getValues}
-                            setValue={setValue}
-                            title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
-                            fieldPath={'nimi'}
-                        />
-                        <FormattedMessage id={'FIELD_TITLE_voimassaAlkuPvm'} defaultMessage={'Voimassa'} />
-                        <DatePickerController<PageKoodisto>
-                            name={'voimassaAlkuPvm'}
-                            form={control}
-                            validationErrors={errors}
-                        />
-                        <FormattedMessage id={'FIELD_TITLE_voimassaLoppuPvm'} defaultMessage={'Voimassa loppu'} />
-                        <DatePickerController<PageKoodisto>
-                            name={'voimassaLoppuPvm'}
-                            form={control}
-                            validationErrors={errors}
-                        />
-                        <FormattedMessage id={'FIELD_TITLE_organisaatioNimi'} defaultMessage={'Organisaatio*'} />
-                        <Input
-                            {...register('organisaatioNimi.fi', {
-                                required: formatMessage({
-                                    id: 'FI_ORGANISAATIO_PAKOLLINEN',
-                                    defaultMessage: 'Valitse organisaatio.',
-                                }),
-                            })}
-                        />
-                        <FormattedMessage id={'FIELD_TITLE_omistaja'} defaultMessage={'Omistaja'} />
-                        <Input {...register('omistaja')} />
-                        <InputArray
-                            control={control}
-                            register={register}
-                            getValues={getValues}
-                            setValue={setValue}
-                            title={{ id: 'FIELD_ROW_TITLE_KUVAUS', defaultMessage: 'Kuvaus' }}
-                            fieldPath={'kuvaus'}
-                        />
+                        <MainContainerRow>
+                            <MainContainerRowTitle
+                                id={'FIELD_TITLE_koodistoRyhmaUri'}
+                                defaultMessage={'Koodistoryhmä*'}
+                            />
+                            <MainContainerRowContent>
+                                <Input
+                                    {...register('koodistoRyhmaUri', {
+                                        required: formatMessage({
+                                            id: 'FI_RYHMA_PAKOLLINEN',
+                                            defaultMessage: 'Valitse koodisto-ryhmä.',
+                                        }),
+                                    })}
+                                />
+                            </MainContainerRowContent>
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <InputArray
+                                control={control}
+                                register={register}
+                                getValues={getValues}
+                                setValue={setValue}
+                                title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
+                                fieldPath={'nimi'}
+                            />
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <MainContainerRowTitle id={'FIELD_TITLE_voimassaAlkuPvm'} defaultMessage={'Voimassa'} />
+                            <MainContainerRowContent>
+                                <DatePickerController<PageKoodisto>
+                                    name={'voimassaAlkuPvm'}
+                                    form={control}
+                                    validationErrors={errors}
+                                />
+                            </MainContainerRowContent>
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <MainContainerRowTitle
+                                id={'FIELD_TITLE_voimassaLoppuPvm'}
+                                defaultMessage={'Voimassa loppu'}
+                            />
+                            <MainContainerRowContent>
+                                <DatePickerController<PageKoodisto>
+                                    name={'voimassaLoppuPvm'}
+                                    form={control}
+                                    validationErrors={errors}
+                                />
+                            </MainContainerRowContent>
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <MainContainerRowTitle
+                                id={'FIELD_TITLE_organisaatioNimi'}
+                                defaultMessage={'Organisaatio*'}
+                            />
+                            <MainContainerRowContent>
+                                <Input
+                                    {...register('organisaatioNimi.fi', {
+                                        required: formatMessage({
+                                            id: 'FI_ORGANISAATIO_PAKOLLINEN',
+                                            defaultMessage: 'Valitse organisaatio.',
+                                        }),
+                                    })}
+                                />
+                            </MainContainerRowContent>
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <MainContainerRowTitle id={'FIELD_TITLE_omistaja'} defaultMessage={'Omistaja'} />
+                            <MainContainerRowContent>
+                                <Input {...register('omistaja')} />
+                            </MainContainerRowContent>
+                        </MainContainerRow>
+                        <MainContainerRow>
+                            <InputArray
+                                control={control}
+                                register={register}
+                                getValues={getValues}
+                                setValue={setValue}
+                                title={{ id: 'FIELD_ROW_TITLE_KUVAUS', defaultMessage: 'Kuvaus' }}
+                                fieldPath={'kuvaus'}
+                            />
+                        </MainContainerRow>
                     </form>
                 </MainContainer>
                 <FooterContainer>

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { FormattedMessage, MessageDescriptor } from 'react-intl';
+import * as React from 'react';
 
 export const MainHeaderContainer = styled.div`
     display: inline-flex;
@@ -41,10 +43,18 @@ export const MainContainer = styled.div`
 export const MainContainerRow = styled.div`
     display: flex;
     flex-direction: row;
+    margin-bottom: 0.8rem;
 `;
-export const MainContainerRowTitle = styled.div`
-    min-width: 15rem;
+const MainContainerRowTitleContainer = styled.div`
+    min-width: 10rem;
 `;
+export const MainContainerRowTitle = (props: MessageDescriptor) => {
+    return (
+        <MainContainerRowTitleContainer>
+            <FormattedMessage {...props} />
+        </MainContainerRowTitleContainer>
+    );
+};
 export const MainContainerRowContent = styled.div`
     min-width: 15rem;
 `;
@@ -52,8 +62,11 @@ export const MainContainerRowContent = styled.div`
 export const FooterContainer = styled.div`
     display: flex;
     flex-direction: row;
-    min-height: 4rem;
-
+    height: 7rem;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    box-sizing: border-box;
     border-style: solid;
     border-width: 0.2rem 0 0 0;
     border-color: #499cc6;

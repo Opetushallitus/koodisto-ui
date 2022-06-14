@@ -1,10 +1,20 @@
 import { MessageDescriptor, useIntl, FormattedMessage } from 'react-intl';
 import { FieldPath, Control, UseFormRegister, UseFormGetValues, UseFormSetValue, useFieldArray } from 'react-hook-form';
 import { Metadata, PageKoodisto } from '../../types';
+import styled from 'styled-components';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { IconWrapper } from '../../components/IconWapper';
 import * as React from 'react';
+import { MainContainerRowTitle, MainContainerRowContent } from '../../components/Containers';
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+`;
+const Column = styled.div`
+    margin-right: 1rem;
+`;
 export const InputArray = ({
     title,
     fieldPath,
@@ -31,34 +41,36 @@ export const InputArray = ({
         setValue(`metadata.2.${fieldPath}`, firstValue);
     };
     return (
-        <>
-            <FormattedMessage {...title} />
+        <Container>
+            <MainContainerRowTitle {...title} />
             {fields.map((field, index) => (
-                <div key={field.id}>
+                <Column key={field.id}>
                     <FormattedMessage id={`FIELD_TITLE_${field.kieli}`} defaultMessage={field.kieli} />
-                    <Input
-                        {...register(`metadata.${index}.${fieldPath}`)}
-                        suffix={
-                            index === 0 && (
-                                <div
-                                    title={formatMessage({
-                                        id: 'KOPIOI_MUIHIN_NIMIIN',
-                                        defaultMessage: 'Kopioi muihin kieliin',
-                                    })}
-                                    onClick={() => copyToNames()}
-                                >
-                                    <IconWrapper
-                                        icon="ci:copy"
-                                        color={'gray'}
-                                        height={'1.5rem'}
-                                        name={'KOPIOI_MUIHIN_NIMIIN'}
-                                    />
-                                </div>
-                            )
-                        }
-                    />
-                </div>
+                    <MainContainerRowContent>
+                        <Input
+                            {...register(`metadata.${index}.${fieldPath}`)}
+                            suffix={
+                                index === 0 && (
+                                    <div
+                                        title={formatMessage({
+                                            id: 'KOPIOI_MUIHIN_NIMIIN',
+                                            defaultMessage: 'Kopioi muihin kieliin',
+                                        })}
+                                        onClick={() => copyToNames()}
+                                    >
+                                        <IconWrapper
+                                            icon="ci:copy"
+                                            color={'gray'}
+                                            height={'1.5rem'}
+                                            name={'KOPIOI_MUIHIN_NIMIIN'}
+                                        />
+                                    </div>
+                                )
+                            }
+                        />
+                    </MainContainerRowContent>
+                </Column>
             ))}
-        </>
+        </Container>
     );
 };
