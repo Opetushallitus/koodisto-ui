@@ -47,7 +47,7 @@ export const KoodistoPage: React.FC = () => {
                 setKoodisto(koodistoData);
             }
         })();
-    }, [koodistoUri, versioNumber]);
+    }, [koodistoUri, lang, versioNumber]);
 
     if (!koodisto) {
         return <Loading />;

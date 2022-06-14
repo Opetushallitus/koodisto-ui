@@ -26,9 +26,6 @@
   "FI_ORGANISAATIO_PAKOLLINEN": {
     "defaultMessage": "Valitse organisaatio."
   },
-  "FI_RYHMA_PAKOLLINEN": {
-    "defaultMessage": "Valitse koodisto-ryhmä."
-  },
   "KOODISTOPALVELU_OTSIKKO": {
     "defaultMessage": "Koodistopalvelu"
   },

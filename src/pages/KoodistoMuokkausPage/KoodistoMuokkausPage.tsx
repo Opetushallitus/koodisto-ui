@@ -60,7 +60,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                 setLoading(false);
             }
         })();
-    }, [koodistoUri, reset, versioNumber]);
+    }, [koodistoUri, lang, reset, versioNumber]);
     const update = async (koodisto: PageKoodisto) => {
         setLoading(true);
         const updated = await updateKoodisto({ koodisto, lang });
