@@ -3,18 +3,18 @@ import DatePickerInput from '@opetushallitus/virkailija-ui-components/DatePicker
 import * as React from 'react';
 import { DayPickerProps } from 'react-day-picker/types/Props';
 type Props<T> = {
-    form: Control<T>;
+    control: Control<T>;
     validationErrors: { [x: string]: unknown };
     name: Path<T>;
     disabled?: boolean;
     dayPickerProps?: DayPickerProps;
 };
-export const DatePickerController = <T,>({ name, form, validationErrors, dayPickerProps, disabled }: Props<T>) => {
+export const DatePickerController = <T,>({ name, control, validationErrors, dayPickerProps, disabled }: Props<T>) => {
     return (
         <Controller
-            control={form}
+            control={control}
             name={name}
-            render={({ field: { value, ...controllerRest } }) => {
+            render={({ field: { ref: _ref, value, ...controllerRest } }) => {
                 return (
                     <DatePickerInput
                         value={value as Date}

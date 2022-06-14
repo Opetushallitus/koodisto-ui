@@ -43,7 +43,7 @@ export const KoodistoPage: React.FC = () => {
     useEffect(() => {
         (async () => {
             if (koodistoUri && versioNumber) {
-                const koodistoData = await fetchPageKoodisto(koodistoUri, versioNumber);
+                const koodistoData = await fetchPageKoodisto({ koodistoUri, versio: versioNumber, lang });
                 setKoodisto(koodistoData);
             }
         })();
