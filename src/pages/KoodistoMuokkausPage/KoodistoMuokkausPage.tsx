@@ -107,15 +107,13 @@ export const KoodistoMuokkausPage: React.FC = () => {
                                     validationErrors={errors}
                                     name={'koodistoRyhmaUri'}
                                     options={koodistoRyhmaOptions}
+                                    rules={{
+                                        required: formatMessage({
+                                            id: 'RYHMA_PAKOLLINEN',
+                                            defaultMessage: 'Valitse koodisto-ryhmä.',
+                                        }),
+                                    }}
                                 />
-                                {/*<Input*/}
-                                {/*    {...register('koodistoRyhmaUri', {*/}
-                                {/*        required: formatMessage({*/}
-                                {/*            id: 'FI_RYHMA_PAKOLLINEN',*/}
-                                {/*            defaultMessage: 'Valitse koodisto-ryhmä.',*/}
-                                {/*        }),*/}
-                                {/*    })}*/}
-                                {/*/>*/}
                             </MainContainerRowContent>
                         </MainContainerRow>
                         <MainContainerRow>
@@ -135,6 +133,12 @@ export const KoodistoMuokkausPage: React.FC = () => {
                                     name={'voimassaAlkuPvm'}
                                     control={control}
                                     validationErrors={errors}
+                                    rules={{
+                                        required: formatMessage({
+                                            id: 'ALKUPVM_PAKOLLINEN',
+                                            defaultMessage: 'Valitse aloitus päivämäärä.',
+                                        }),
+                                    }}
                                 />
                             </MainContainerRowContent>
                         </MainContainerRow>

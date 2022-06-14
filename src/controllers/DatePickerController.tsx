@@ -8,11 +8,20 @@ type Props<T> = {
     name: Path<T>;
     disabled?: boolean;
     dayPickerProps?: DayPickerProps;
+    rules?: { required: boolean | string };
 };
-export const DatePickerController = <T,>({ name, control, validationErrors, dayPickerProps, disabled }: Props<T>) => {
+export const DatePickerController = <T,>({
+    name,
+    control,
+    validationErrors,
+    dayPickerProps,
+    disabled,
+    rules,
+}: Props<T>) => {
     return (
         <Controller
             control={control}
+            rules={rules}
             name={name}
             render={({ field: { ref: _ref, value, ...controllerRest } }) => {
                 return (

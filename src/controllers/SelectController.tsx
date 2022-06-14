@@ -10,11 +10,13 @@ type Props<T> = {
     name: Path<T>;
     options: SelectOption[];
     disabled?: boolean;
+    rules?: { required: boolean | string };
 };
-export const SelectController = <T,>({ name, control, validationErrors, options, disabled }: Props<T>) => {
+export const SelectController = <T,>({ name, control, validationErrors, options, disabled, rules }: Props<T>) => {
     return (
         <Controller
             control={control}
+            rules={rules}
             name={name}
             render={({ field: { ref: _ref, value, ...rest } }) => {
                 return (
