@@ -38,6 +38,17 @@ export const MainContainer = styled.div`
     background-color: #ffffff;
     padding: 0 15rem 0 15rem;
 `;
+export const MainContainerRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+export const MainContainerRowTitle = styled.div`
+    min-width: 15rem;
+`;
+export const MainContainerRowContent = styled.div`
+    min-width: 15rem;
+`;
+
 export const FooterContainer = styled.div`
     display: flex;
     flex-direction: row;
