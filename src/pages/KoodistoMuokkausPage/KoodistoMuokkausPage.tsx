@@ -22,6 +22,7 @@ import {
     FooterLeftContainer,
     FooterRightContainer,
 } from '../../components/Containers';
+import { IconWrapper } from '../../components/IconWapper';
 
 export const KoodistoMuokkausPage: React.FC = () => {
     const navigate = useNavigate();
@@ -144,6 +145,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                             <FormattedMessage id={'KOODISTO_VERSIOI'} defaultMessage={'Versioi koodisto'} />
                         </Button>
                         <Button variant={'outlined'} name={'KOODISTO_POISTA'}>
+                            <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
                             <FormattedMessage id={'KOODISTO_POISTA'} defaultMessage={'Poista koodisto'} />
                         </Button>
                     </FooterLeftContainer>

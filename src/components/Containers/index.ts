@@ -42,9 +42,11 @@ export const FooterContainer = styled.div`
     display: flex;
     flex-direction: row;
     min-height: 4rem;
+
+    border-style: solid;
+    border-width: 0.2rem 0 0 0;
+    border-color: #499cc6;
     background-color: #e2f1fe;
-    border-color: red;
-    border-top-width: 1rem;
     padding: 0.8rem;
     align-items: center;
 `;
@@ -58,6 +60,8 @@ export const FooterLeftContainer = styled.div`
     & > button {
         margin: 0.2rem;
         background-color: white;
+        width: 10rem;
+        justify-content: center;
     }
 `;
 export const FooterRightContainer = styled.div`
@@ -65,6 +69,11 @@ export const FooterRightContainer = styled.div`
     justify-content: center;
     & :first-child {
         margin-right: 2em;
+        background-color: white;
+    }
+    & > button {
+        width: 10rem;
+        justify-content: center;
     }
 `;
 export const SelectContainer = styled.div`

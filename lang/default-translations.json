@@ -80,6 +80,12 @@
   "KOODISTO_MUOKKAA_SIVU_TITLE": {
     "defaultMessage": "Muokkaa koodistoa"
   },
+  "KOODISTO_PERUUTA": {
+    "defaultMessage": "Peruuta"
+  },
+  "KOODISTO_POISTA": {
+    "defaultMessage": "Poista koodisto"
+  },
   "KOODISTO_RYHMA_EN": {
     "defaultMessage": "EN"
   },
@@ -133,6 +139,9 @@
   },
   "KOODISTO_TALLENNUS_MESSAGE_TITLE": {
     "defaultMessage": "Koodisto tallennettiin onnistuneesti."
+  },
+  "KOODISTO_VERSIOI": {
+    "defaultMessage": "Versioi koodisto"
   },
   "KOODI_TAULUKKO_FILTTERI_PLACEHOLDER": {
     "defaultMessage": "Hae nimellä tai koodiarvolla"
