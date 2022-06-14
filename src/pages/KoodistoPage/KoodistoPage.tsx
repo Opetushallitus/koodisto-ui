@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,50 +12,14 @@ import KoodistoPageAccordion from './KoodistoPageAccordion';
 import { CSVFunctionModal } from '../../modals/CSVFunctionModal';
 import { useAtom } from 'jotai';
 import { casMeLangAtom } from '../../api/kayttooikeus';
+import {
+    MainHeaderContainer,
+    HeadingDivider,
+    SelectContainer,
+    MainHeaderButtonsContainer,
+    MainContainer,
+} from '../../components/Containers';
 import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
-
-const MainContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    padding: 0 15rem 0 15rem;
-`;
-const MainHeaderContainer = styled.div`
-    display: inline-flex;
-    flex-direction: row;
-    align-items: baseline;
-    padding: 0 15rem 0 15rem;
-    justify-content: space-between;
-`;
-
-const MainHeaderButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    > * {
-        :not(:last-child) {
-            margin: 0 0 1rem 0;
-        }
-    }
-`;
-
-const HeadingDivider = styled.div`
-    display: flex;
-    align-items: center;
-
-    > * {
-        &:first-child {
-            margin-right: 3rem;
-        }
-    }
-`;
-
-const SelectContainer = styled.div`
-    width: 8rem;
-`;
 
 export const KoodistoPage: React.FC = () => {
     const { versio, koodistoUri } = useParams();

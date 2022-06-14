@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { fetchPageKoodisto, updateKoodisto } from '../../api/koodisto';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { PageKoodisto } from '../../types';
 import { Loading } from '../../components/Loading';
@@ -15,8 +15,16 @@ import { casMeLangAtom } from '../../api/kayttooikeus';
 import { DatePickerController } from '../../controllers/DatePickerController';
 import { InputArray } from './InputArray';
 import { success } from '../../components/Notification';
+import {
+    MainHeaderContainer,
+    MainContainer,
+    FooterContainer,
+    FooterLeftContainer,
+    FooterRightContainer,
+} from '../../components/Containers';
 
 export const KoodistoMuokkausPage: React.FC = () => {
+    const navigate = useNavigate();
     const { formatMessage } = useIntl();
     const { versio, koodistoUri } = useParams();
     const [lang] = useAtom(casMeLangAtom);
@@ -71,64 +79,87 @@ export const KoodistoMuokkausPage: React.FC = () => {
         (!loading && (
             <>
                 <KoodistoPathContainer path={[koodistonMetadata?.nimi || '']} />
-                <FormattedMessage
-                    id={'KOODISTO_MUOKKAA_SIVU_TITLE'}
-                    defaultMessage={'Muokkaa koodistoa'}
-                    tagName={'h1'}
-                />
-                <form>
-                    <FormattedMessage id={'FIELD_TITLE_koodistoRyhmaUri'} defaultMessage={'Koodistoryhmä*'} />
-                    <Input
-                        {...register('koodistoRyhmaUri', {
-                            required: formatMessage({
-                                id: 'FI_RYHMA_PAKOLLINEN',
-                                defaultMessage: 'Valitse koodisto-ryhmä.',
-                            }),
-                        })}
+                <MainHeaderContainer>
+                    <FormattedMessage
+                        id={'KOODISTO_MUOKKAA_SIVU_TITLE'}
+                        defaultMessage={'Muokkaa koodistoa'}
+                        tagName={'h1'}
                     />
-                    <InputArray
-                        control={control}
-                        register={register}
-                        getValues={getValues}
-                        setValue={setValue}
-                        title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
-                        fieldPath={'nimi'}
-                    />
-                    <FormattedMessage id={'FIELD_TITLE_voimassaAlkuPvm'} defaultMessage={'Voimassa'} />
-                    <DatePickerController<PageKoodisto>
-                        name={'voimassaAlkuPvm'}
-                        form={control}
-                        validationErrors={errors}
-                    />
-                    <FormattedMessage id={'FIELD_TITLE_voimassaLoppuPvm'} defaultMessage={'Voimassa loppu'} />
-                    <DatePickerController<PageKoodisto>
-                        name={'voimassaLoppuPvm'}
-                        form={control}
-                        validationErrors={errors}
-                    />
-                    <FormattedMessage id={'FIELD_TITLE_organisaatioNimi'} defaultMessage={'Organisaatio*'} />
-                    <Input
-                        {...register('organisaatioNimi.fi', {
-                            required: formatMessage({
-                                id: 'FI_ORGANISAATIO_PAKOLLINEN',
-                                defaultMessage: 'Valitse organisaatio.',
-                            }),
-                        })}
-                    />
-                    <FormattedMessage id={'FIELD_TITLE_omistaja'} defaultMessage={'Omistaja'} />
-                    <Input {...register('omistaja')} />
-                    <InputArray
-                        control={control}
-                        register={register}
-                        getValues={getValues}
-                        setValue={setValue}
-                        title={{ id: 'FIELD_ROW_TITLE_KUVAUS', defaultMessage: 'Kuvaus' }}
-                        fieldPath={'kuvaus'}
-                    />
-                </form>
-                <Button onClick={handleSubmit((a) => update(a))} name={'KOODISTO_TALLENNA'}>
-                    <FormattedMessage id={'KOODISTO_TALLENNA'} defaultMessage={'Tallenna'} />
-                </Button>
+                </MainHeaderContainer>
+                <MainContainer>
+                    <form>
+                        <FormattedMessage id={'FIELD_TITLE_koodistoRyhmaUri'} defaultMessage={'Koodistoryhmä*'} />
+                        <Input
+                            {...register('koodistoRyhmaUri', {
+                                required: formatMessage({
+                                    id: 'FI_RYHMA_PAKOLLINEN',
+                                    defaultMessage: 'Valitse koodisto-ryhmä.',
+                                }),
+                            })}
+                        />
+                        <InputArray
+                            control={control}
+                            register={register}
+                            getValues={getValues}
+                            setValue={setValue}
+                            title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
+                            fieldPath={'nimi'}
+                        />
+                        <FormattedMessage id={'FIELD_TITLE_voimassaAlkuPvm'} defaultMessage={'Voimassa'} />
+                        <DatePickerController<PageKoodisto>
+                            name={'voimassaAlkuPvm'}
+                            form={control}
+                            validationErrors={errors}
+                        />
+                        <FormattedMessage id={'FIELD_TITLE_voimassaLoppuPvm'} defaultMessage={'Voimassa loppu'} />
+                        <DatePickerController<PageKoodisto>
+                            name={'voimassaLoppuPvm'}
+                            form={control}
+                            validationErrors={errors}
+                        />
+                        <FormattedMessage id={'FIELD_TITLE_organisaatioNimi'} defaultMessage={'Organisaatio*'} />
+                        <Input
+                            {...register('organisaatioNimi.fi', {
+                                required: formatMessage({
+                                    id: 'FI_ORGANISAATIO_PAKOLLINEN',
+                                    defaultMessage: 'Valitse organisaatio.',
+                                }),
+                            })}
+                        />
+                        <FormattedMessage id={'FIELD_TITLE_omistaja'} defaultMessage={'Omistaja'} />
+                        <Input {...register('omistaja')} />
+                        <InputArray
+                            control={control}
+                            register={register}
+                            getValues={getValues}
+                            setValue={setValue}
+                            title={{ id: 'FIELD_ROW_TITLE_KUVAUS', defaultMessage: 'Kuvaus' }}
+                            fieldPath={'kuvaus'}
+                        />
+                    </form>
+                </MainContainer>
+                <FooterContainer>
+                    <FooterLeftContainer>
+                        <Button variant={'outlined'} name={'KOODISTO_VERSIOI'}>
+                            <FormattedMessage id={'KOODISTO_VERSIOI'} defaultMessage={'Versioi koodisto'} />
+                        </Button>
+                        <Button variant={'outlined'} name={'KOODISTO_POISTA'}>
+                            <FormattedMessage id={'KOODISTO_POISTA'} defaultMessage={'Poista koodisto'} />
+                        </Button>
+                    </FooterLeftContainer>
+                    <FooterRightContainer>
+                        <Button
+                            variant={'outlined'}
+                            name={'KOODISTO_PERUUTA'}
+                            onClick={() => navigate(`/koodisto/view/${koodistoUri}/${versio}`)}
+                        >
+                            <FormattedMessage id={'KOODISTO_PERUUTA'} defaultMessage={'Peruuta'} />
+                        </Button>
+                        <Button name={'KOODISTO_TALLENNA'} onClick={handleSubmit((a) => update(a))}>
+                            <FormattedMessage id={'KOODISTO_TALLENNA'} defaultMessage={'Tallenna'} />
+                        </Button>
+                    </FooterRightContainer>
+                </FooterContainer>
             </>
         )) || <Loading />
     );
