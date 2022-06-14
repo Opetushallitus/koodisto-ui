@@ -1,4 +1,7 @@
 {
+  "ALKUPVM_PAKOLLINEN": {
+    "defaultMessage": "Valitse aloitus päivämäärä."
+  },
   "CSV_UPLOAD_INVALID_KOODISTORI_MESSAGE": {
     "defaultMessage": "Tiedostosta löytyi koodistoUri {wrongKoodistoUri}"
   },
@@ -151,6 +154,9 @@
   },
   "LATAA_CVS_VALITSE_TIEDOSTO_ALUE": {
     "defaultMessage": "Tai raahaa tiedosto tähän"
+  },
+  "RYHMA_PAKOLLINEN": {
+    "defaultMessage": "Valitse koodisto-ryhmä."
   },
   "SV_NIMI_PAKOLLINEN": {
     "defaultMessage": "Syötä ruotsinkielinen nimi"
