@@ -160,7 +160,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                                 id={'FIELD_TITLE_organisaatioNimi'}
                                 defaultMessage={'Organisaatio*'}
                             />
-                            <MainContainerRowContent>
+                            <MainContainerRowContent width={25}>
                                 <SelectController
                                     control={control}
                                     validationErrors={errors}

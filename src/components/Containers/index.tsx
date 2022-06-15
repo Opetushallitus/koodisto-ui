@@ -55,8 +55,8 @@ export const MainContainerRowTitle = (props: MessageDescriptor) => {
         </MainContainerRowTitleContainer>
     );
 };
-export const MainContainerRowContent = styled.div`
-    min-width: 15rem;
+export const MainContainerRowContent = styled.div<{ width?: number }>`
+    min-width: ${(props) => props.width || 15}rem;
 `;
 
 export const FooterContainer = styled.div`
