@@ -31,4 +31,26 @@ describe('The Koodisto View page', () => {
         cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
         cy.contains('Tallennettiin koodisto uri:lla kunta').should('be.visible');
     });
+    it('shows edit button and can click', () => {
+        cy.intercept('PUT', `${API_INTERNAL_PATH}/koodisto`, (req) => {
+            expect(req.body.organisaatioOid).to.eq('1.2.246.562.10.56753942459');
+            expect(req.body.koodistoRyhmaUri).to.eq('varda');
+            req.reply({ fixture: 'kuntaKoodisto.json' });
+        });
+        cy.get('div[id="organisaatioOid"]')
+            .should('be.visible')
+            .find('input[type=text]')
+            .should('be.visible')
+            .type('Aalto', { force: true });
+        cy.contains('Aalto-yliopisto').should('be.visible').click();
+
+        cy.get('div[id="koodistoRyhmaUri"]')
+            .should('be.visible')
+            .find('input[type=text]')
+            .should('be.visible')
+            .type('Va', { force: true });
+        cy.contains('Varda').should('be.visible').click();
+        cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
+        cy.contains('Tallennettiin koodisto uri:lla kunta').should('be.visible');
+    });
 });
