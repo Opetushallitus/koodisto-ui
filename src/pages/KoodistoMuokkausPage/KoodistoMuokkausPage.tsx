@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchPageKoodisto, updateKoodisto } from '../../api/koodisto';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { PageKoodisto } from '../../types';
+import { PageKoodisto, SelectOption } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
@@ -11,7 +11,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
-import { casMeLangAtom } from '../../api/kayttooikeus';
+import { casMeLangAtom, organisaatioSelectAtom } from '../../api/kayttooikeus';
 import { DatePickerController } from '../../controllers/DatePickerController';
 import { InputArray } from './InputArray';
 import { success } from '../../components/Notification';
@@ -34,7 +34,8 @@ export const KoodistoMuokkausPage: React.FC = () => {
     const { formatMessage } = useIntl();
     const { versio, koodistoUri } = useParams();
     const [lang] = useAtom(casMeLangAtom);
-    const [koodistoRyhmaOptions] = useAtom(koodistoRyhmaOptionsAtom);
+    const [koodistoRyhmaOptions] = useAtom<SelectOption[]>(koodistoRyhmaOptionsAtom);
+    const [organisaatioSelect] = useAtom<SelectOption[]>(organisaatioSelectAtom);
     const [loading, setLoading] = useState<boolean>(false);
     const versioNumber = versio ? +versio : undefined;
     const {
@@ -160,13 +161,17 @@ export const KoodistoMuokkausPage: React.FC = () => {
                                 defaultMessage={'Organisaatio*'}
                             />
                             <MainContainerRowContent>
-                                <Input
-                                    {...register('organisaatioNimi.fi', {
+                                <SelectController
+                                    control={control}
+                                    validationErrors={errors}
+                                    name={'organisaatioOid'}
+                                    options={organisaatioSelect}
+                                    rules={{
                                         required: formatMessage({
-                                            id: 'FI_ORGANISAATIO_PAKOLLINEN',
-                                            defaultMessage: 'Valitse organisaatio.',
+                                            id: 'ORGANISAATIO_PAKOLLINEN',
+                                            defaultMessage: 'organisaatio.',
                                         }),
-                                    })}
+                                    }}
                                 />
                             </MainContainerRowContent>
                         </MainContainerRow>
