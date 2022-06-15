@@ -11,7 +11,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
-import { casMeLangAtom, organisaatioSelectAtom } from '../../api/kayttooikeus';
+import { casMeLangAtom } from '../../api/kayttooikeus';
 import { DatePickerController } from '../../controllers/DatePickerController';
 import { InputArray } from './InputArray';
 import { success } from '../../components/Notification';
@@ -28,6 +28,7 @@ import {
 import { IconWrapper } from '../../components/IconWapper';
 import { koodistoRyhmaOptionsAtom } from '../../api/koodistoRyhma';
 import { SelectController } from '../../controllers/SelectController';
+import { organisaatioSelectAtom } from '../../api/organisaatio';
 
 export const KoodistoMuokkausPage: React.FC = () => {
     const navigate = useNavigate();
