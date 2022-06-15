@@ -18,7 +18,6 @@ export const FastSelect: React.FC<{
             return options;
         }
         const regByInclusion = new RegExp(escapeRegExp(inputValue), 'i');
-        options.filter((option) => regByInclusion.test(option.label));
         return sortBy([...options.filter((option) => regByInclusion.test(option.label))], [(o) => o.label]);
     }, [inputValue, options]);
 
