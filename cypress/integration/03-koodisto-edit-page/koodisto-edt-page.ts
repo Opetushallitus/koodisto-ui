@@ -28,6 +28,7 @@ describe('The Koodisto View page', () => {
             .should('have.value', 'kunta')
             .clear()
             .type('kunta muokattu');
+        cy.intercept(`${API_INTERNAL_PATH}/koodisto/kunta/2`, { fixture: 'kuntaKoodisto.json' });
         cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
         cy.contains('Tallennettiin koodisto uri:lla kunta').should('be.visible');
     });
