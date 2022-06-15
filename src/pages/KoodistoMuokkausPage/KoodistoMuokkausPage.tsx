@@ -35,7 +35,6 @@ export const KoodistoMuokkausPage: React.FC = () => {
     const { versio, koodistoUri } = useParams();
     const [lang] = useAtom(casMeLangAtom);
     const [koodistoRyhmaOptions] = useAtom(koodistoRyhmaOptionsAtom);
-    console.log(koodistoRyhmaOptions);
     const [loading, setLoading] = useState<boolean>(false);
     const versioNumber = versio ? +versio : undefined;
     const {
