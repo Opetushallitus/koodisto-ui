@@ -82,6 +82,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                     />
                 ),
             });
+        navigate(`/koodisto/view/${koodistoUri}/${versio}`);
     };
     return (
         (!loading && (
@@ -183,6 +184,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         </MainContainerRow>
                         <MainContainerRow>
                             <InputArray
+                                large={true}
                                 control={control}
                                 register={register}
                                 getValues={getValues}

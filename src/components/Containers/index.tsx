@@ -6,7 +6,7 @@ export const MainHeaderContainer = styled.div`
     display: inline-flex;
     flex-direction: row;
     align-items: baseline;
-    padding: 0 15rem 0 15rem;
+    padding: 0 10vw 0 10vh;
     justify-content: space-between;
 `;
 
@@ -38,7 +38,7 @@ export const MainContainer = styled.div`
     justify-content: flex-start;
     box-sizing: border-box;
     background-color: #ffffff;
-    padding: 0 15rem 0 15rem;
+    padding: 0 10vw 0 10vh;
 `;
 export const MainContainerRow = styled.div`
     display: flex;
