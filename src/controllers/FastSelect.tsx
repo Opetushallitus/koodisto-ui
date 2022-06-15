@@ -17,20 +17,9 @@ export const FastSelect: React.FC<{
         if (!inputValue) {
             return options;
         }
-
-        const matchByStart = [] as SelectOption[];
-        const matchByInclusion = [] as SelectOption[];
-
         const regByInclusion = new RegExp(escapeRegExp(inputValue), 'i');
-        const regByStart = new RegExp(`^${escapeRegExp(inputValue)}`, 'i');
-
-        options
-            .filter((option) => regByInclusion.test(option.label))
-            .forEach((option) =>
-                regByStart.test(option.label) ? matchByStart.push(option) : matchByInclusion.push(option)
-            );
-
-        return sortBy([...matchByStart, ...matchByInclusion], [(o) => o.label]);
+        options.filter((option) => regByInclusion.test(option.label));
+        return sortBy([...options.filter((option) => regByInclusion.test(option.label))], [(o) => o.label]);
     }, [inputValue, options]);
 
     const slicedOptions = useMemo(
