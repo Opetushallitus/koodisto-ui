@@ -24,11 +24,14 @@ const organisaatioNamesAtom = atom<Promise<Organisaatio[]>>(async (get: Getter) 
     const { data } = await axios.get<{
         numHits: number;
         organisaatiot: Organisaatio[];
-    }>(
-        `${get(
-            urlAtom
-        )}/api/hae?aktiiviset=true&lakkautetut=true&suunnitellut=true&organisaatiotyyppi=organisaatiotyyppi_05`
-    );
+    }>(`${get(urlAtom)}/api/hae`, {
+        params: {
+            aktiiviset: true,
+            lakkautetut: true,
+            suunnitellut: true,
+            organisaatiotyyppi: 'organisaatiotyyppi_05',
+        },
+    });
     return data.organisaatiot;
 });
 export const organisaatioSelectAtom: Atom<SelectOption[]> = atom((get) => {
