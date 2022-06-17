@@ -69,6 +69,7 @@ type UpdateKoodistoDataType = CreateKoodistoDataType & {
 };
 
 const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoodisto => {
+    console.log(a.metadata, a.koodistoRyhmaMetadata);
     const nimi = translateMetadata({ metadata: a.metadata, lang })?.nimi;
     const ryhmaNimi = translateMetadata({ metadata: a.koodistoRyhmaMetadata, lang })?.nimi;
     return {
@@ -115,18 +116,11 @@ export const updateKoodisto = async ({
     koodisto: PageKoodisto;
     lang: Kieli;
 }): Promise<PageKoodisto | undefined> => {
-    return errorHandlingWrapper(async () => {
-        const toUpdateKoodisto = mapPageKoodistoToUpdatePageKoodisto(koodisto);
-        const { data: apiPageKoodisto } = await axios.put<ApiPageKoodisto>(
-            `${API_INTERNAL_PATH}/koodisto`,
-            toUpdateKoodisto
-        );
-        if (apiPageKoodisto) {
-            const organisaatioNimi = await fetchOrganisaatioNimi(apiPageKoodisto.organisaatioOid);
-            return { ...mapApiPageKoodistoToPageKoodisto({ api: apiPageKoodisto, lang, organisaatioNimi }) };
-        } else {
-            return undefined;
-        }
+    return upsertKoodisto({
+        koodisto,
+        lang,
+        mapper: mapPageKoodistoToUpdatePageKoodisto,
+        path: `${API_INTERNAL_PATH}/koodisto`,
     });
 };
 export const createKoodisto = async ({
@@ -136,19 +130,35 @@ export const createKoodisto = async ({
     koodisto: PageKoodisto;
     lang: Kieli;
 }): Promise<PageKoodisto | undefined> => {
+    return upsertKoodisto({
+        koodisto,
+        lang,
+        mapper: mapPageKoodistoToCreatePageKoodisto,
+        path: `${API_INTERNAL_PATH}/koodisto/${koodisto.koodistoRyhmaUri.value}`,
+    });
+};
+export const upsertKoodisto = async <T>({
+    koodisto,
+    lang,
+    mapper,
+    path,
+}: {
+    koodisto: PageKoodisto;
+    lang: Kieli;
+    mapper: (a: PageKoodisto) => T;
+    path: string;
+}): Promise<PageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
-        const toCreateKoodisto = mapPageKoodistoToCreatePageKoodisto(koodisto);
-        const koodistoUri = koodisto.koodistoRyhmaUri.value;
-        const { data: apiPageKoodisto } = await axios.post<ApiPageKoodisto>(
-            `${API_INTERNAL_PATH}/koodisto/${koodistoUri}`,
-            toCreateKoodisto
+        const { data: apiKoodisto } = await axios.post<ApiPageKoodisto>(path, mapper(koodisto));
+        return (
+            apiKoodisto && {
+                ...mapApiPageKoodistoToPageKoodisto({
+                    api: apiKoodisto,
+                    lang,
+                    organisaatioNimi: await fetchOrganisaatioNimi(apiKoodisto.organisaatioOid),
+                }),
+            }
         );
-        if (apiPageKoodisto) {
-            const organisaatioNimi = await fetchOrganisaatioNimi(apiPageKoodisto.organisaatioOid);
-            return { ...mapApiPageKoodistoToPageKoodisto({ api: apiPageKoodisto, lang, organisaatioNimi }) };
-        } else {
-            return undefined;
-        }
     });
 };
 
@@ -199,15 +209,11 @@ function mapPageKoodistoToCreatePageKoodisto(koodisto: PageKoodisto): CreateKood
 function mapPageKoodistoToUpdatePageKoodisto(koodisto: PageKoodisto): UpdateKoodistoDataType {
     return {
         lockingVersion: koodisto.lockingVersion,
-        omistaja: koodisto.omistaja,
         tila: koodisto.tila,
         versio: koodisto.versio,
         codesGroupUri: koodisto.koodistoRyhmaUri.value,
         koodistoUri: koodisto.koodistoUri,
-        organisaatioOid: koodisto.organisaatioOid.value,
-        voimassaAlkuPvm: koodisto.voimassaAlkuPvm && parseUIDate(koodisto.voimassaAlkuPvm),
-        voimassaLoppuPvm: koodisto.voimassaLoppuPvm && parseUIDate(koodisto.voimassaLoppuPvm),
-        metadataList: koodisto.metadata,
+        ...mapPageKoodistoToCreatePageKoodisto(koodisto),
     };
 }
 
