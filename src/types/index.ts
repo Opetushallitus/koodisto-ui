@@ -5,7 +5,7 @@ import { Options as IntlMessageFormatOptions } from 'intl-messageformat/src/core
 export type Kieli = 'EN' | 'FI' | 'SV';
 export type Locale = Lowercase<Kieli>;
 export type ApiDate = `${number}${number}${number}${number}-${number}${number}-${number}${number}`;
-type Tila = 'PASSIIVINEN' | 'LUONNOS' | 'HYVAKSYTTY';
+export type Tila = 'PASSIIVINEN' | 'LUONNOS' | 'HYVAKSYTTY';
 
 type MapDateToApiDate<PropType> = PropType extends Date ? ApiDate : PropType;
 
@@ -107,7 +107,7 @@ export type KoodistoRelation = {
         en: string;
     };
 };
-export type Tila = 'PASSIIVINEN' | 'LUONNOS' | 'HYVAKSYTTY';
+
 export type PageKoodisto = BaseKoodisto & {
     lockingVersion: number;
     koodistoRyhmaUri: SelectOption;

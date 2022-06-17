@@ -193,7 +193,6 @@ function mapPageKoodistoToCreatePageKoodisto(koodisto: PageKoodisto): CreateKood
         organisaatioOid: koodisto.organisaatioOid.value,
         voimassaAlkuPvm: koodisto.voimassaAlkuPvm && parseUIDate(koodisto.voimassaAlkuPvm),
         voimassaLoppuPvm: koodisto.voimassaLoppuPvm && parseUIDate(koodisto.voimassaLoppuPvm),
-        paivitysPvm: parseUIDate(koodisto.paivitysPvm),
     };
 }
 
