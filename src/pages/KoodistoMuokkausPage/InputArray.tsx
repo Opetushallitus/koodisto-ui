@@ -6,6 +6,7 @@ import { IconWrapper } from '../../components/IconWapper';
 import * as React from 'react';
 import { MainContainerRowTitle } from '../../components/Containers';
 import Textarea from '@opetushallitus/virkailija-ui-components/Textarea';
+import { RegisterOptions } from 'react-hook-form/dist/types/validator';
 
 const Container = styled.div`
     display: flex;
@@ -33,6 +34,7 @@ export const InputArray = ({
     getValues,
     setValue,
     large,
+    options,
 }: {
     title: MessageDescriptor;
     fieldPath: FieldPath<Metadata>;
@@ -41,6 +43,7 @@ export const InputArray = ({
     getValues: UseFormGetValues<PageKoodisto>;
     setValue: UseFormSetValue<PageKoodisto>;
     large?: boolean;
+    options?: RegisterOptions;
 }) => {
     const { formatMessage } = useIntl();
     const { fields } = useFieldArray({
@@ -61,7 +64,7 @@ export const InputArray = ({
                         <FormattedMessage id={`FIELD_TITLE_${field.kieli}`} defaultMessage={field.kieli} />{' '}
                         <Textarea
                             rows={(large && 5) || 1}
-                            {...register(`metadata.${index}.${fieldPath}`)}
+                            {...register(`metadata.${index}.${fieldPath}`, options)}
                             suffix={
                                 index === 0 && (
                                     <div
@@ -80,7 +83,7 @@ export const InputArray = ({
                                     </div>
                                 )
                             }
-                        />
+                        ></Textarea>
                     </Column>
                 ))}
             </Direction>

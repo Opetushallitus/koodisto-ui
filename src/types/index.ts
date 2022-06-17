@@ -107,19 +107,20 @@ export type KoodistoRelation = {
         en: string;
     };
 };
+export type Tila = 'PASSIIVINEN' | 'LUONNOS' | 'HYVAKSYTTY';
 export type PageKoodisto = BaseKoodisto & {
+    lockingVersion: number;
     koodistoRyhmaUri: SelectOption;
     resourceUri: string;
-    omistaja: string | null;
+    omistaja: string;
     organisaatioOid: SelectOption;
     organisaatioNimi?: OrganisaatioNimi;
-    lukittu: boolean | null;
     koodistoRyhmaMetadata: Metadata[];
     paivitysPvm: Date;
     paivittajaOid: string;
-    tila: string;
+    tila: Tila;
     metadata: Metadata[];
-    koodiVersio: number[];
+    koodistoVersio: number[];
     sisaltyyKoodistoihin: KoodistoRelation[];
     sisaltaaKoodistot: KoodistoRelation[];
     rinnastuuKoodistoihin: KoodistoRelation[];
