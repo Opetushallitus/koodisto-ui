@@ -139,7 +139,7 @@ export const createKoodisto = async ({
         axiosFunc: axios.post,
     });
 };
-export const upsertKoodisto = async <X>({
+const upsertKoodisto = async <X>({
     koodisto,
     lang,
     mapper,
