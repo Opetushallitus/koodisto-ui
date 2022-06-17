@@ -1,5 +1,6 @@
 import { API_BASE_PATH, API_INTERNAL_PATH } from '../context/constants';
 import { atom, Getter } from 'jotai';
+import type { MapToApiObject, BaseKoodisto } from '../types';
 import {
     ApiDate,
     Kieli,
@@ -15,9 +16,8 @@ import {
 import { casMeLangAtom } from './kayttooikeus';
 import { parseApiDate, translateMetadata, parseUIDate, translateMultiLocaleText } from '../utils';
 import { errorHandlingWrapper } from './errorHandling';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { fetchOrganisaatioNimi } from './organisaatio';
-import type { MapToApiObject, BaseKoodisto } from '../types';
 
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
@@ -116,11 +116,12 @@ export const updateKoodisto = async ({
     koodisto: PageKoodisto;
     lang: Kieli;
 }): Promise<PageKoodisto | undefined> => {
-    return upsertKoodisto({
+    return upsertKoodisto<UpdateKoodistoDataType>({
         koodisto,
         lang,
         mapper: mapPageKoodistoToUpdatePageKoodisto,
         path: `${API_INTERNAL_PATH}/koodisto`,
+        axiosFunc: axios.put,
     });
 };
 export const createKoodisto = async ({
@@ -130,26 +131,29 @@ export const createKoodisto = async ({
     koodisto: PageKoodisto;
     lang: Kieli;
 }): Promise<PageKoodisto | undefined> => {
-    return upsertKoodisto({
+    return upsertKoodisto<CreateKoodistoDataType>({
         koodisto,
         lang,
         mapper: mapPageKoodistoToCreatePageKoodisto,
         path: `${API_INTERNAL_PATH}/koodisto/${koodisto.koodistoRyhmaUri.value}`,
+        axiosFunc: axios.post,
     });
 };
-export const upsertKoodisto = async <T>({
+export const upsertKoodisto = async <X>({
     koodisto,
     lang,
     mapper,
     path,
+    axiosFunc,
 }: {
     koodisto: PageKoodisto;
     lang: Kieli;
-    mapper: (a: PageKoodisto) => T;
+    mapper: (a: PageKoodisto) => X;
     path: string;
+    axiosFunc: <T, R = AxiosResponse<T>>(url: string, data?: X) => Promise<R>;
 }): Promise<PageKoodisto | undefined> => {
     return errorHandlingWrapper(async () => {
-        const { data: apiKoodisto } = await axios.post<ApiPageKoodisto>(path, mapper(koodisto));
+        const { data: apiKoodisto } = await axiosFunc(path, mapper(koodisto));
         return (
             apiKoodisto && {
                 ...mapApiPageKoodistoToPageKoodisto({

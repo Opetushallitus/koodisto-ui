@@ -9,7 +9,7 @@ describe('The Koodisto Edit page', () => {
         cy.visit(`${BASE_PATH}/koodisto/view/kunta/2`);
         cy.contains('kunta').should('be.visible');
     });
-    it('shows edit button and can click', () => {
+    it('shows edit button and can click 1', () => {
         cy.intercept(`${API_INTERNAL_PATH}/koodisto/kunta/2`, { fixture: 'kuntaKoodisto.json' });
         cy.get('button[name="KOODISTOSIVU_MUOKKAA_KOODISTOA_BUTTON"]').should('be.visible').click();
         cy.contains('Muokkaa koodistoa').should('be.visible');
@@ -32,7 +32,7 @@ describe('The Koodisto Edit page', () => {
         cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
         cy.contains('Tallennettiin koodisto uri:lla kunta').should('be.visible');
     });
-    it('shows edit button and can click', () => {
+    it('shows edit button and can click 2', () => {
         cy.intercept(`${API_INTERNAL_PATH}/koodisto/kunta/2`, { fixture: 'kuntaKoodisto.json' });
         cy.get('button[name="KOODISTOSIVU_MUOKKAA_KOODISTOA_BUTTON"]').should('be.visible').click();
         cy.contains('Muokkaa koodistoa').should('be.visible');
