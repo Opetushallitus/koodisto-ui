@@ -111,7 +111,6 @@ export const KoodistoMuokkausPage: React.FC = () => {
                 ),
             });
             reset(created);
-            console.log(`/koodisto/view/${created.koodistoUri}/${created.versio}`);
             navigate(`/koodisto/view/${created.koodistoUri}/${created.versio}`);
         }
     };
