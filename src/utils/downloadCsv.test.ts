@@ -4,7 +4,7 @@ import { Tila } from '../types';
 const cleanKoodi = {
     versions: 1,
     paivittajaOid: '1.2.3.4.5',
-    koodistoUri: 'foo',
+    koodistoUri: 'koodistoUri',
     sisaltyyKoodeihin: [],
     sisaltaaKoodit: [],
     rinnastuuKoodeihin: [],
@@ -18,11 +18,6 @@ const cleanKoodi = {
     version: 0,
     voimassaAlkuPvm: new Date('2022-01-01'),
     voimassaLoppuPvm: undefined,
-    koodisto: {
-        koodistoUri: 'koodistoUri',
-        versio: 1,
-        metadata: [],
-    },
 };
 describe('downloadCsv', () => {
     describe('mapKoodiToCSV', () => {
