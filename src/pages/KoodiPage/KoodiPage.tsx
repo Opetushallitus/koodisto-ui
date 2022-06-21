@@ -32,6 +32,7 @@ const KoodiPresentation: React.FC<{ koodi: Koodi }> = ({ koodi }) => {
                 </HeadingDivider>
                 <MainHeaderButtonsContainer>
                     <Button
+                        name={'KOODISIVU_MUOKKAA_KOODIA_BUTTON'}
                         variant={'outlined'}
                         onClick={() => navigate(`/koodi/edit/${koodi.koodiUri}/${koodi.versio}`)}
                     >
