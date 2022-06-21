@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import { Kieli, Koodi, Metadata } from '../types';
+import { Kieli, Metadata, Koodi } from '../types';
 import { fetchKoodiListByKoodisto } from '../api/koodisto';
 import { info } from '../components/Notification/Notification';
 

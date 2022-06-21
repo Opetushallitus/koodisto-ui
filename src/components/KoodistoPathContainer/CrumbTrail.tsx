@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IconWrapper } from '../IconWapper';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
+import Spin from '@opetushallitus/virkailija-ui-components/Spin';
 
 const Container = styled.div`
     height: 3rem;
@@ -14,7 +15,7 @@ const Container = styled.div`
 `;
 
 type Crumb = {
-    label: string;
+    label?: string;
     path?: string;
 };
 
@@ -30,14 +31,17 @@ const Home = () => (
     </div>
 );
 
-export const KoodistoPathContainer: React.FC<Props> = ({ trail }) => (
+export const CrumbTrail: React.FC<Props> = ({ trail }) => (
     <Container>
         <Home />
-        {trail.map(({ label, path }) => (
-            <div key={label}>
-                &nbsp;&gt;&nbsp;
-                {path ? <Link to={path}>{label}</Link> : label}
-            </div>
-        ))}
+        {trail.map((crumb) => {
+            const { label, path } = crumb;
+            return (
+                <div key={label}>
+                    &nbsp;&gt;&nbsp;
+                    {path ? <Link to={path}>{label}</Link> : label ? label : <Spin size={'small'} />}
+                </div>
+            );
+        })}
     </Container>
 );

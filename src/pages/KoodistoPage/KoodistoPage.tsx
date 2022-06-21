@@ -17,7 +17,7 @@ import {
     MainHeaderButtonsContainer,
     MainContainer,
 } from '../../components/Containers';
-import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
+import { CrumbTrail } from '../../components/KoodistoPathContainer';
 import VersionPicker from '../../components/VersionPicker';
 
 export const KoodistoPage: React.FC = () => {
@@ -44,7 +44,7 @@ export const KoodistoPage: React.FC = () => {
 
     return (
         <>
-            <KoodistoPathContainer trail={[{ label: koodistonMetadata?.nimi || '' }]} />
+            <CrumbTrail trail={[{ label: koodistonMetadata?.nimi || '' }]} />
             <MainHeaderContainer>
                 <HeadingDivider>
                     <h1>{koodistonMetadata?.nimi}</h1>

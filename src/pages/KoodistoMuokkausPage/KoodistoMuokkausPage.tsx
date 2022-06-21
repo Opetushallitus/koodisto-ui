@@ -8,7 +8,7 @@ import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { KoodistoPathContainer } from '../../components/KoodistoPathContainer';
+import { CrumbTrail } from '../../components/KoodistoPathContainer';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
 import { casMeLangAtom } from '../../api/kayttooikeus';
@@ -117,7 +117,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
     return (
         (!loading && (
             <>
-                <KoodistoPathContainer trail={[{ label: koodistonMetadata?.nimi || '' }]} />
+                <CrumbTrail trail={[{ label: koodistonMetadata?.nimi || '' }]} />
                 <MainHeaderContainer>
                     <FormattedMessage
                         id={'KOODISTO_MUOKKAA_SIVU_TITLE'}
