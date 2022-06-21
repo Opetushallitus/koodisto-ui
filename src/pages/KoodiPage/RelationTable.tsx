@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Table } from '../../components/Table';
 import { translateMultiLocaleText } from '../../utils';
 import { useAtom } from 'jotai';
-import { casMeLangAtom, casMeLocaleAtom } from '../../api/kayttooikeus';
+import { casMeLocaleAtom } from '../../api/kayttooikeus';
 import type { KoodiRelation } from '../../types';
 
 export const RelationTable: React.FC<{ relations: KoodiRelation[] }> = ({
@@ -14,8 +14,6 @@ export const RelationTable: React.FC<{ relations: KoodiRelation[] }> = ({
     relations: KoodiRelation[];
 }) => {
     const { formatMessage } = useIntl();
-    const [lang] = useAtom(casMeLangAtom);
-
     const [locale] = useAtom(casMeLocaleAtom);
     const data = useMemo<KoodiRelation[]>(() => {
         return [...relations];
