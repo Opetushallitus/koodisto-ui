@@ -61,7 +61,7 @@ export const RelationTable: React.FC<{ relations: KoodiRelation[] }> = ({
                     }),
             },
         ],
-        [formatMessage, lang]
+        [formatMessage, locale]
     );
     return <Table<KoodiRelation> columns={columns} data={data} />;
 };

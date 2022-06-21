@@ -14,7 +14,7 @@ export const KoodiCrumbTrail: React.FC<{ koodi: Koodi }> = ({ koodi }) => {
             const data = await fetchPageKoodisto({ koodistoUri: koodi.koodistoUri, lang });
             setKoodisto(data);
         })();
-    }, []);
+    }, [koodi.koodistoUri, lang]);
     const trail = [
         ...((koodisto && [
             {

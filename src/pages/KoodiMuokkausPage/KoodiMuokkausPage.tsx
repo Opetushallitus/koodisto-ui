@@ -37,7 +37,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 setLoading(false);
             })();
         }
-    }, [koodiUri, koodiVersio, formReturn.reset]);
+    }, [koodiUri, koodiVersio, formReturn]);
     const save = (a: Koodi) => {
         console.log(a);
     };

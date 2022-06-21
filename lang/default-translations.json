@@ -107,8 +107,23 @@
   "KOODIVERSIO_DROPDOWN": {
     "defaultMessage": "Koodiversio"
   },
+  "KOODI_MUOKKAA_SIVU_TITLE": {
+    "defaultMessage": "Muokkaa koodia"
+  },
+  "KOODI_PERUUTA": {
+    "defaultMessage": "Peruuta"
+  },
+  "KOODI_POISTA": {
+    "defaultMessage": "Poista koodi"
+  },
+  "KOODI_TALLENNA": {
+    "defaultMessage": "Tallenna"
+  },
   "KOODI_TAULUKKO_FILTTERI_PLACEHOLDER": {
     "defaultMessage": "Hae nimellä tai koodiarvolla"
+  },
+  "KOODI_VERSIOI": {
+    "defaultMessage": "Versioi koodi"
   },
   "KOPIOI_MUIHIN_NIMIIN": {
     "defaultMessage": "Kopioi muihin kieliin"
