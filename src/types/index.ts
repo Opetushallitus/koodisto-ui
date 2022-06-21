@@ -165,9 +165,4 @@ export type Koodi = {
     sisaltyyKoodeihin: KoodiRelation[];
     sisaltaaKoodit: KoodiRelation[];
     rinnastuuKoodeihin: KoodiRelation[];
-    koodisto?: {
-        koodistoUri: string;
-        versio: number;
-        metadata: Metadata[];
-    };
 };

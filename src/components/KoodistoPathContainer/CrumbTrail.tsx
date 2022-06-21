@@ -30,7 +30,9 @@ const Home = () => (
         </Link>
     </div>
 );
-
+const Label: React.FC<{ label?: string }> = ({ label }) => {
+    return label ? <>{label}</> : <Spin size={'small'} />;
+};
 export const CrumbTrail: React.FC<Props> = ({ trail }) => (
     <Container>
         <Home />
@@ -39,7 +41,7 @@ export const CrumbTrail: React.FC<Props> = ({ trail }) => (
             return (
                 <div key={label}>
                     &nbsp;&gt;&nbsp;
-                    {path ? <Link to={path}>{label}</Link> : label ? label : <Spin size={'small'} />}
+                    {path ? <Link to={path}>{label}</Link> : <Label label={label} />}
                 </div>
             );
         })}

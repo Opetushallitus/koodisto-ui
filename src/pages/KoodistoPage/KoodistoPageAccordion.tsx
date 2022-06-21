@@ -25,8 +25,8 @@ const KoodistoPageAccordion = ({ koodisto }: KoodistoPageAccordionProps) => {
     const [koodiList, setKoodiList] = useState<Koodi[] | undefined>(undefined);
     useEffect(() => {
         (async () => {
-            const koodiList = await fetchKoodistoKoodis(koodisto.koodistoUri, koodisto.versio);
-            setKoodiList(koodiList);
+            const data = await fetchKoodistoKoodis(koodisto.koodistoUri, koodisto.versio);
+            setKoodiList(data);
         })();
     }, [koodisto]);
 
