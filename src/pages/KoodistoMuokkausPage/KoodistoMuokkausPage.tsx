@@ -209,7 +209,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                 </form>
             </MainContainer>
             <Footer
-                returnPath={`/koodisto/view/${koodistoUri}/${versio}`}
+                returnPath={(koodistoUri && `/koodisto/view/${koodistoUri}/${versio}`) || '/'}
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODISTO'}
             />

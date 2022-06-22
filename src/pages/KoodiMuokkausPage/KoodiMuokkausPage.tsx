@@ -60,7 +60,7 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
                 </MainContainerRow>
             </MainContainer>
             <Footer
-                returnPath={`/koodi/view/${koodiUri}/${koodiVersio}`}
+                returnPath={(koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) || '/'}
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODI'}
             />
