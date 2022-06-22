@@ -16,7 +16,6 @@ import { Koodi } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { Footer } from '../../components/Footer';
-import { ErrorPage } from '../ErrorPage';
 
 export const KoodiMuokkausPage: React.FC = () => {
     const { koodiUri, koodiVersio } = useParams();
@@ -47,30 +46,24 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
 }) => {
     const { koodiUri, koodiVersio } = useParams();
     return (
-        (koodiUri && koodiVersio && (
-            <>
-                <CrumbTrail trail={[{ key: koodiUri, label: koodiUri }]} />
-                <MainHeaderContainer>
-                    <FormattedMessage
-                        id={'KOODI_MUOKKAA_SIVU_TITLE'}
-                        defaultMessage={'Muokkaa koodia'}
-                        tagName={'h1'}
-                    />
-                </MainHeaderContainer>
-                <MainContainer>
-                    <MainContainerRow>
-                        <MainContainerRowTitle id={'FIELD_TITLE_koodiArvo'} defaultMessage={'Arvo'} />
-                        <MainContainerRowContent>
-                            <Input {...register('koodiArvo')} />
-                        </MainContainerRowContent>
-                    </MainContainerRow>
-                </MainContainer>
-                <Footer
-                    returnPath={`/koodi/view/${koodiUri}/${koodiVersio}`}
-                    save={handleSubmit((a) => save(a))}
-                    localisationPrefix={'KOODI'}
-                />
-            </>
-        )) || <ErrorPage />
+        <>
+            <CrumbTrail trail={[{ key: koodiUri || 'newKoodiUri', label: koodiUri || '' }]} />
+            <MainHeaderContainer>
+                <FormattedMessage id={'KOODI_MUOKKAA_SIVU_TITLE'} defaultMessage={'Muokkaa koodia'} tagName={'h1'} />
+            </MainHeaderContainer>
+            <MainContainer>
+                <MainContainerRow>
+                    <MainContainerRowTitle id={'FIELD_TITLE_koodiArvo'} defaultMessage={'Arvo'} />
+                    <MainContainerRowContent>
+                        <Input {...register('koodiArvo')} />
+                    </MainContainerRowContent>
+                </MainContainerRow>
+            </MainContainer>
+            <Footer
+                returnPath={`/koodi/view/${koodiUri}/${koodiVersio}`}
+                save={handleSubmit((a) => save(a))}
+                localisationPrefix={'KOODI'}
+            />
+        </>
     );
 };

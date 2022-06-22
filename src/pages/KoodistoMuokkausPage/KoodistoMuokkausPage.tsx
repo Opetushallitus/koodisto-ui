@@ -25,7 +25,6 @@ import { koodistoRyhmaOptionsAtom } from '../../api/koodistoRyhma';
 import { SelectController } from '../../controllers/SelectController';
 import { organisaatioSelectAtom } from '../../api/organisaatio';
 import { Footer } from '../../components/Footer';
-import { ErrorPage } from '../ErrorPage';
 
 export const KoodistoMuokkausPage: React.FC = () => {
     const { versio, koodistoUri } = useParams();
@@ -59,7 +58,6 @@ export const KoodistoMuokkausPage: React.FC = () => {
             }
         })();
     }, [koodistoUri, lang, reset, versioNumber]);
-    if (!(koodistoUri && versio)) return <ErrorPage />;
     const save = async (koodisto: PageKoodisto) => {
         if (koodistoUri) await update(koodisto);
         else await create(koodisto);
@@ -115,7 +113,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
     return (
         (!loading && (
             <>
-                <CrumbTrail trail={[{ key: koodistoUri, label: koodistonMetadata?.nimi || '' }]} />
+                <CrumbTrail trail={[{ key: koodistoUri || 'new', label: koodistonMetadata?.nimi || '' }]} />
                 <MainHeaderContainer>
                     <FormattedMessage
                         id={'KOODISTO_MUOKKAA_SIVU_TITLE'}
