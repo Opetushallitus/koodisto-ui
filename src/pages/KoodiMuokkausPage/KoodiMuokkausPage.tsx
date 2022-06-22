@@ -1,25 +1,22 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-    FooterContainer,
-    FooterLeftContainer,
-    FooterRightContainer,
     MainHeaderContainer,
     MainContainer,
     MainContainerRow,
     MainContainerRowTitle,
     MainContainerRowContent,
 } from '../../components/Containers';
-import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { FormattedMessage } from 'react-intl';
-import { IconWrapper } from '../../components/IconWapper';
 import { CrumbTrail } from '../../components/KoodistoPathContainer';
 import { fetchPageKoodi } from '../../api/koodi';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { Koodi } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
+import { Footer } from '../../components/Footer';
+import { ErrorPage } from '../ErrorPage';
 
 export const KoodiMuokkausPage: React.FC = () => {
     const { koodiUri, koodiVersio } = useParams();
@@ -48,45 +45,32 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
     handleSubmit,
     save,
 }) => {
-    const navigate = useNavigate();
     const { koodiUri, koodiVersio } = useParams();
     return (
-        <>
-            <CrumbTrail trail={[{ label: koodiUri || '' }]} />
-            <MainHeaderContainer>
-                <FormattedMessage id={'KOODI_MUOKKAA_SIVU_TITLE'} defaultMessage={'Muokkaa koodia'} tagName={'h1'} />
-            </MainHeaderContainer>
-            <MainContainer>
-                <MainContainerRow>
-                    <MainContainerRowTitle id={'FIELD_TITLE_koodiArvo'} defaultMessage={'Arvo'} />
-                    <MainContainerRowContent>
-                        <Input {...register('koodiArvo')} />
-                    </MainContainerRowContent>
-                </MainContainerRow>
-            </MainContainer>
-            <FooterContainer>
-                <FooterLeftContainer>
-                    <Button variant={'outlined'} name={'KOODI_VERSIOI'}>
-                        <FormattedMessage id={'KOODI_VERSIOI'} defaultMessage={'Versioi koodi'} />
-                    </Button>
-                    <Button variant={'outlined'} name={'KOODI_POISTA'}>
-                        <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
-                        <FormattedMessage id={'KOODI_POISTA'} defaultMessage={'Poista koodi'} />
-                    </Button>
-                </FooterLeftContainer>
-                <FooterRightContainer>
-                    <Button
-                        variant={'outlined'}
-                        name={'KOODI_PERUUTA'}
-                        onClick={() => navigate(`/koodi/view/${koodiUri}/${koodiVersio}`)}
-                    >
-                        <FormattedMessage id={'KOODI_PERUUTA'} defaultMessage={'Peruuta'} />
-                    </Button>
-                    <Button name={'KOODI_TALLENNA'} onClick={handleSubmit((a) => save(a))}>
-                        <FormattedMessage id={'KOODI_TALLENNA'} defaultMessage={'Tallenna'} />
-                    </Button>
-                </FooterRightContainer>
-            </FooterContainer>
-        </>
+        (koodiUri && koodiVersio && (
+            <>
+                <CrumbTrail trail={[{ key: koodiUri, label: koodiUri }]} />
+                <MainHeaderContainer>
+                    <FormattedMessage
+                        id={'KOODI_MUOKKAA_SIVU_TITLE'}
+                        defaultMessage={'Muokkaa koodia'}
+                        tagName={'h1'}
+                    />
+                </MainHeaderContainer>
+                <MainContainer>
+                    <MainContainerRow>
+                        <MainContainerRowTitle id={'FIELD_TITLE_koodiArvo'} defaultMessage={'Arvo'} />
+                        <MainContainerRowContent>
+                            <Input {...register('koodiArvo')} />
+                        </MainContainerRowContent>
+                    </MainContainerRow>
+                </MainContainer>
+                <Footer
+                    returnPath={`/koodi/view/${koodiUri}/${koodiVersio}`}
+                    save={handleSubmit((a) => save(a))}
+                    localisationPrefix={'KOODI'}
+                />
+            </>
+        )) || <ErrorPage />
     );
 };

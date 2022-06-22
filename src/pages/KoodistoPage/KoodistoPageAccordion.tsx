@@ -24,10 +24,7 @@ const KoodistoPageAccordion = ({ koodisto }: KoodistoPageAccordionProps) => {
     const { rinnastuuKoodistoihin, sisaltyyKoodistoihin, sisaltaaKoodistot } = koodisto;
     const [koodiList, setKoodiList] = useState<Koodi[] | undefined>(undefined);
     useEffect(() => {
-        (async () => {
-            const data = await fetchKoodistoKoodis(koodisto.koodistoUri, koodisto.versio);
-            setKoodiList(data);
-        })();
+        (async () => setKoodiList(await fetchKoodistoKoodis(koodisto.koodistoUri, koodisto.versio)))();
     }, [koodisto]);
 
     const navigate = useNavigate();

@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { PageKoodisto, SelectOption } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
-import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CrumbTrail } from '../../components/KoodistoPathContainer';
 import { translateMetadata } from '../../utils';
@@ -19,21 +18,19 @@ import {
     MainHeaderContainer,
     MainContainerRow,
     MainContainer,
-    FooterContainer,
-    FooterLeftContainer,
     MainContainerRowTitle,
     MainContainerRowContent,
-    FooterRightContainer,
 } from '../../components/Containers';
-import { IconWrapper } from '../../components/IconWapper';
 import { koodistoRyhmaOptionsAtom } from '../../api/koodistoRyhma';
 import { SelectController } from '../../controllers/SelectController';
 import { organisaatioSelectAtom } from '../../api/organisaatio';
+import { Footer } from '../../components/Footer';
+import { ErrorPage } from '../ErrorPage';
 
 export const KoodistoMuokkausPage: React.FC = () => {
+    const { versio, koodistoUri } = useParams();
     const navigate = useNavigate();
     const { formatMessage } = useIntl();
-    const { versio, koodistoUri } = useParams();
     const [lang] = useAtom(casMeLangAtom);
     const [koodistoRyhmaOptions] = useAtom<SelectOption[]>(koodistoRyhmaOptionsAtom);
     const [organisaatioSelect] = useAtom<SelectOption[]>(organisaatioSelectAtom);
@@ -62,6 +59,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
             }
         })();
     }, [koodistoUri, lang, reset, versioNumber]);
+    if (!(koodistoUri && versio)) return <ErrorPage />;
     const save = async (koodisto: PageKoodisto) => {
         if (koodistoUri) await update(koodisto);
         else await create(koodisto);
@@ -117,7 +115,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
     return (
         (!loading && (
             <>
-                <CrumbTrail trail={[{ label: koodistonMetadata?.nimi || '' }]} />
+                <CrumbTrail trail={[{ key: koodistoUri, label: koodistonMetadata?.nimi || '' }]} />
                 <MainHeaderContainer>
                     <FormattedMessage
                         id={'KOODISTO_MUOKKAA_SIVU_TITLE'}
@@ -231,29 +229,11 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         </MainContainerRow>
                     </form>
                 </MainContainer>
-                <FooterContainer>
-                    <FooterLeftContainer>
-                        <Button variant={'outlined'} name={'KOODISTO_VERSIOI'}>
-                            <FormattedMessage id={'KOODISTO_VERSIOI'} defaultMessage={'Versioi koodisto'} />
-                        </Button>
-                        <Button variant={'outlined'} name={'KOODISTO_POISTA'}>
-                            <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
-                            <FormattedMessage id={'KOODISTO_POISTA'} defaultMessage={'Poista koodisto'} />
-                        </Button>
-                    </FooterLeftContainer>
-                    <FooterRightContainer>
-                        <Button
-                            variant={'outlined'}
-                            name={'KOODISTO_PERUUTA'}
-                            onClick={() => navigate(`/koodisto/view/${koodistoUri}/${versio}`)}
-                        >
-                            <FormattedMessage id={'KOODISTO_PERUUTA'} defaultMessage={'Peruuta'} />
-                        </Button>
-                        <Button name={'KOODISTO_TALLENNA'} onClick={handleSubmit((a) => save(a))}>
-                            <FormattedMessage id={'KOODISTO_TALLENNA'} defaultMessage={'Tallenna'} />
-                        </Button>
-                    </FooterRightContainer>
-                </FooterContainer>
+                <Footer
+                    returnPath={`/koodisto/view/${koodistoUri}/${versio}`}
+                    save={handleSubmit((a) => save(a))}
+                    localisationPrefix={'KOODISTO'}
+                />
             </>
         )) || <Loading />
     );
