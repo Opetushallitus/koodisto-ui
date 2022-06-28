@@ -1,12 +1,21 @@
 import { MessageDescriptor, useIntl, FormattedMessage } from 'react-intl';
-import { FieldPath, Control, UseFormRegister, UseFormGetValues, UseFormSetValue, useFieldArray } from 'react-hook-form';
-import { Metadata, PageKoodisto } from '../../types';
+import {
+    FieldPath,
+    UseFormGetValues,
+    useFieldArray,
+    Controller,
+    ArrayPath,
+    Path,
+    UnpackNestedValue,
+    FieldArray,
+} from 'react-hook-form';
+import { ControllerProps, KoodiMetadata } from '../../types';
 import styled from 'styled-components';
 import { IconWrapper } from '../../components/IconWapper';
 import * as React from 'react';
-import { MainContainerRowTitle } from '../../components/Containers';
+import { MainContainerRowTitle, MainContainerRowContent } from '../../components/Containers';
 import Textarea from '@opetushallitus/virkailija-ui-components/Textarea';
-import { RegisterOptions } from 'react-hook-form/dist/types/validator';
+import Input from '@opetushallitus/virkailija-ui-components/Input';
 
 const Container = styled.div`
     display: flex;
@@ -34,34 +43,34 @@ export const Direction = styled.div<{ large?: boolean }>`
         width: ${(props) => (props.large ? 60 : 19)}vw;
     }
 `;
-export const InputArray = ({
+type Props<T> = Omit<ControllerProps<T>, 'name'> & {
+    title: MessageDescriptor;
+    fieldPath: keyof KoodiMetadata;
+    getValues: UseFormGetValues<T>;
+    large?: boolean;
+};
+export const InputArray = <T extends { metadata: KoodiMetadata[] }>({
     title,
     fieldPath,
     control,
-    register,
+    rules,
+    disabled,
     getValues,
-    setValue,
     large,
-    options,
-}: {
-    title: MessageDescriptor;
-    fieldPath: FieldPath<Metadata>;
-    control: Control<PageKoodisto>;
-    register: UseFormRegister<PageKoodisto>;
-    getValues: UseFormGetValues<PageKoodisto>;
-    setValue: UseFormSetValue<PageKoodisto>;
-    large?: boolean;
-    options?: RegisterOptions;
-}) => {
+}: Props<T>) => {
     const { formatMessage } = useIntl();
-    const { fields } = useFieldArray({
+    const { fields, update } = useFieldArray<T>({
         control,
-        name: 'metadata',
+        name: 'metadata' as ArrayPath<T>,
     });
-    const copyToNames = (): void => {
-        const firstValue = getValues(`metadata.0.${fieldPath}`);
-        setValue(`metadata.1.${fieldPath}`, firstValue);
-        setValue(`metadata.2.${fieldPath}`, firstValue);
+    const copyToFields = (): void => {
+        const firstValue = getValues(`metadata` as Path<T>) as KoodiMetadata[];
+        update(1, { ...firstValue[1], [fieldPath]: firstValue[0][fieldPath] } as UnpackNestedValue<
+            FieldArray<T, ArrayPath<T>>
+        >);
+        update(2, { ...firstValue[2], [fieldPath]: firstValue[0][fieldPath] } as UnpackNestedValue<
+            FieldArray<T, ArrayPath<T>>
+        >);
     };
     return (
         <Container>
@@ -71,28 +80,54 @@ export const InputArray = ({
                     <Column key={field.id}>
                         <TitleContainer>
                             <FormattedMessage
-                                id={`FIELD_TITLE_${field.kieli}`}
-                                defaultMessage={field.kieli}
+                                id={`FIELD_TITLE_${(field as unknown as KoodiMetadata).kieli}`}
+                                defaultMessage={(field as unknown as KoodiMetadata).kieli}
                                 tagName={'div'}
                             />
                             {index === 0 && (
                                 <div
                                     title={formatMessage({
-                                        id: 'KOPIOI_MUIHIN_NIMIIN',
+                                        id: 'KOPIOI_MUIHIN_KIELIIN',
                                         defaultMessage: 'Kopioi muihin kieliin',
                                     })}
-                                    onClick={() => copyToNames()}
+                                    onClick={() => copyToFields()}
                                 >
                                     <IconWrapper
                                         icon="ci:copy"
                                         color={'gray'}
                                         height={'1rem'}
-                                        name={'KOPIOI_MUIHIN_NIMIIN'}
+                                        name={'KOPIOI_MUIHIN_KIELIIN'}
                                     />
                                 </div>
                             )}
                         </TitleContainer>
-                        <Textarea rows={(large && 5) || 1} {...register(`metadata.${index}.${fieldPath}`, options)} />
+                        <Controller
+                            control={control}
+                            rules={rules}
+                            name={`metadata[${index}][${fieldPath}]` as FieldPath<T>}
+                            render={({ field: { ref: _ref, value, ...controllerRest }, fieldState: { invalid } }) => {
+                                return (
+                                    (large && (
+                                        <Textarea
+                                            rows={5}
+                                            value={value}
+                                            error={invalid}
+                                            inputProps={{ disabled }}
+                                            {...controllerRest}
+                                        />
+                                    )) || (
+                                        <MainContainerRowContent>
+                                            <Input
+                                                value={value}
+                                                error={invalid}
+                                                inputProps={{ disabled }}
+                                                {...controllerRest}
+                                            />
+                                        </MainContainerRowContent>
+                                    )
+                                );
+                            }}
+                        />
                     </Column>
                 ))}
             </Direction>
