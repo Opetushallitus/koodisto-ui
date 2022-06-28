@@ -11,9 +11,9 @@ import {
 } from 'react-hook-form';
 import { ControllerProps, KoodiMetadata } from '../../types';
 import styled from 'styled-components';
-import { IconWrapper } from '../../components/IconWapper';
+import { IconWrapper } from '../IconWapper';
 import * as React from 'react';
-import { MainContainerRowTitle, MainContainerRowContent } from '../../components/Containers';
+import { MainContainerRowTitle, MainContainerRowContent } from '../Containers';
 import Textarea from '@opetushallitus/virkailija-ui-components/Textarea';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 
@@ -49,7 +49,7 @@ type Props<T> = Omit<ControllerProps<T>, 'name'> & {
     getValues: UseFormGetValues<T>;
     large?: boolean;
 };
-export const InputArray = <T extends { metadata: KoodiMetadata[] }>({
+export const InputArrayController = <T extends { metadata: KoodiMetadata[] }>({
     title,
     fieldPath,
     control,

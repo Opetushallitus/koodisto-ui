@@ -11,8 +11,7 @@ import { CrumbTrail } from '../../components/CrumbTrail';
 import { translateMetadata } from '../../utils';
 import { useAtom } from 'jotai';
 import { casMeLangAtom } from '../../api/kayttooikeus';
-import { DatePickerController } from '../../controllers/DatePickerController';
-import { InputArray } from './InputArray';
+import { DatePickerController, SelectController, InputArrayController } from '../../components/controllers';
 import { success } from '../../components/Notification';
 import {
     MainHeaderContainer,
@@ -22,7 +21,6 @@ import {
     MainContainerRowContent,
 } from '../../components/Containers';
 import { koodistoRyhmaOptionsAtom } from '../../api/koodistoRyhma';
-import { SelectController } from '../../controllers/SelectController';
 import { organisaatioSelectAtom } from '../../api/organisaatio';
 import { Footer } from '../../components/Footer';
 
@@ -122,7 +120,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         </MainContainerRowContent>
                     </MainContainerRow>
                     <MainContainerRow>
-                        <InputArray<PageKoodisto>
+                        <InputArrayController<PageKoodisto>
                             control={control}
                             getValues={getValues}
                             title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
@@ -179,7 +177,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         </MainContainerRowContent>
                     </MainContainerRow>
                     <MainContainerRow>
-                        <InputArray<PageKoodisto>
+                        <InputArrayController<PageKoodisto>
                             large={true}
                             control={control}
                             getValues={getValues}

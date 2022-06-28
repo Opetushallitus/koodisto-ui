@@ -16,8 +16,7 @@ import { Koodi } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { Footer } from '../../components/Footer';
-import { InputArray } from '../KoodistoMuokkausPage/InputArray';
-import { DatePickerController } from '../../controllers/DatePickerController';
+import { DatePickerController, InputArrayController } from '../../components/controllers';
 
 export const KoodiMuokkausPage: React.FC = () => {
     const { koodiUri, koodiVersio } = useParams();
@@ -64,7 +63,7 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
                     </MainContainerRowContent>
                 </MainContainerRow>
                 <MainContainerRow>
-                    <InputArray<Koodi>
+                    <InputArrayController<Koodi>
                         control={control}
                         getValues={getValues}
                         title={{ id: 'FIELD_ROW_TITLE_NIMI', defaultMessage: 'Nimi*' }}
@@ -78,7 +77,7 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
                     />
                 </MainContainerRow>
                 <MainContainerRow>
-                    <InputArray<Koodi>
+                    <InputArrayController<Koodi>
                         control={control}
                         getValues={getValues}
                         title={{ id: 'FIELD_ROW_TITLE_LYHYTNIMI', defaultMessage: 'Lyhenne' }}
@@ -107,7 +106,7 @@ const KoodiMuokkausPageComponent: React.FC<{ save: (a: Koodi) => void } & UseFor
                     </MainContainerRowContent>
                 </MainContainerRow>
                 <MainContainerRow>
-                    <InputArray<Koodi>
+                    <InputArrayController<Koodi>
                         large={true}
                         control={control}
                         getValues={getValues}

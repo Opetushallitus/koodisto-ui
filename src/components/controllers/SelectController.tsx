@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form';
 import * as React from 'react';
-import { ControllerProps, SelectOption } from '../types';
+import { ControllerProps, SelectOption } from '../../types';
 import { FastSelect } from './FastSelect';
 
 type Props<T> = ControllerProps<T> & {
