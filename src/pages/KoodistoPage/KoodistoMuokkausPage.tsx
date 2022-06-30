@@ -181,7 +181,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         />
                     </MainContainerRow>
                     <KoodistoPageAccordion
-                        editMode={true}
+                        editMode
                         sisaltyyKoodistoihin={getValues('sisaltyyKoodistoihin') || []}
                         rinnastuuKoodistoihin={getValues('rinnastuuKoodistoihin') || []}
                         sisaltaaKoodistot={getValues('sisaltaaKoodistot') || []}

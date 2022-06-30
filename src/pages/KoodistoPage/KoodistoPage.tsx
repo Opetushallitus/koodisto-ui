@@ -82,7 +82,6 @@ export const KoodistoPage: React.FC = () => {
             <MainContainer>
                 <KoodistoInfo {...koodisto} />
                 <KoodistoPageAccordion
-                    editMode={false}
                     koodiList={koodiList}
                     rinnastuuKoodistoihin={koodisto.rinnastuuKoodistoihin}
                     sisaltaaKoodistot={koodisto.sisaltaaKoodistot}
