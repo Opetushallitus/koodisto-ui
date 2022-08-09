@@ -32,19 +32,16 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                     {
                         id: 'koodiarvo',
                         header: '',
+                        enableColumnFilter: true,
+                        filterFn: (row, columnId, value) => {
+                            return (
+                                row.original.koodiArvo.toLowerCase().includes(value.toLowerCase()) ||
+                                row.original.metadata.find((a) => a.nimi.toLowerCase().includes(value.toLowerCase())) ||
+                                value.length === 0
+                            );
+                        },
                         accessorFn: (values: Koodi) => values.koodiArvo,
-
                         cell: (info) => <div>{info.getValue()}</div>,
-                        // Filter: (props) =>
-                        //     TextFilterComponent({
-                        //         ...props,
-                        //         placeholder: {
-                        //             id: 'KOODI_TAULUKKO_FILTTERI_PLACEHOLDER',
-                        //             defaultMessage: 'Hae nimellä tai koodiarvolla',
-                        //         },
-                        //         suffix: ResetFilter({ resetFilters }),
-                        //     }),
-                        // filter: 'text',
                     },
                 ],
             },
