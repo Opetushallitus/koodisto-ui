@@ -1,5 +1,5 @@
 import { CsvKoodiObject, Kieli, MessageFormatter, CSVUpsertKoodi } from '../../types';
-import { Column } from 'react-table';
+import { ColumnDef } from '@tanstack/react-table';
 
 export const getHeaders = (data?: CsvKoodiObject[]): (keyof CsvKoodiObject)[] =>
     (data?.[0] ? Object.keys(data[0]) : []) as (keyof CsvKoodiObject)[];
@@ -10,12 +10,13 @@ export const mapHeadersToColumns = ({
 }: {
     headers?: (keyof CsvKoodiObject)[];
     formatMessage: MessageFormatter;
-}): Column<CsvKoodiObject>[] =>
-    headers?.map((key): Column<CsvKoodiObject> => {
+}): ColumnDef<CsvKoodiObject>[] =>
+    headers?.map((key): ColumnDef<CsvKoodiObject> => {
         if (key === 'newRow')
             return {
-                Header: 'new',
-                accessor: (originalRow) => {
+                header: 'new',
+                id: 'foo',
+                accessorFn: (originalRow) => {
                     return originalRow.newRow
                         ? formatMessage({
                               id: 'CSV_UPLOAD_NEW_ROW',
@@ -29,10 +30,10 @@ export const mapHeadersToColumns = ({
             };
         else
             return {
-                Header: key,
+                header: key,
                 id: key,
-                accessor: key,
-            } as Column<CsvKoodiObject>;
+                accessorKey: key,
+            };
     }) || [];
 
 export const validData = (data: CsvKoodiObject[] | undefined): boolean => {

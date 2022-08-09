@@ -199,7 +199,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
                         />
                     </MainContainerRow>
                     <KoodistoPageAccordion
-                        editMode
+                        editable
                         sisaltyyKoodistoihin={getValues('sisaltyyKoodistoihin') || []}
                         rinnastuuKoodistoihin={getValues('rinnastuuKoodistoihin') || []}
                         sisaltaaKoodistot={getValues('sisaltaaKoodistot') || []}
