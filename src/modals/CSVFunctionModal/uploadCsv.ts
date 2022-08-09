@@ -15,7 +15,8 @@ export const mapHeadersToColumns = ({
         if (key === 'newRow')
             return {
                 header: 'new',
-                id: 'foo',
+                id: 'new',
+                enableColumnFilter: false,
                 accessorFn: (originalRow) => {
                     return originalRow.newRow
                         ? formatMessage({
@@ -32,6 +33,7 @@ export const mapHeadersToColumns = ({
             return {
                 header: key,
                 id: key,
+                enableColumnFilter: false,
                 accessorKey: key,
             };
     }) || [];

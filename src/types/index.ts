@@ -150,6 +150,7 @@ export type KoodiRelation = {
     };
 };
 export type Koodi = {
+    koodisto?: { koodistoUri: string };
     koodistoUri: string;
     koodiUri: string;
     resourceUri: string;

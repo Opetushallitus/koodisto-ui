@@ -4,6 +4,7 @@ import { fetchKoodiListByKoodisto } from '../api/koodisto';
 import { info } from '../components/Notification/Notification';
 
 export const mapKoodiToCSV = (koodi: Koodi) => {
+    console.log(koodi);
     const allLang: Kieli[] = ['FI', 'SV', 'EN'];
     const metadataKeys = ['nimi', 'lyhytNimi', 'kuvaus'] as (keyof Metadata)[];
     const reducedMetadata = allLang.reduce((p, language) => {
@@ -18,7 +19,7 @@ export const mapKoodiToCSV = (koodi: Koodi) => {
         return { ...p, ...languageKeyedMetadata };
     }, {});
     return {
-        koodistoUri: koodi.koodistoUri,
+        koodistoUri: koodi.koodisto?.koodistoUri,
         koodiArvo: koodi.koodiArvo,
         versio: koodi.versio,
         voimassaAlkuPvm: koodi.voimassaAlkuPvm,
@@ -57,6 +58,7 @@ export const downloadCsv = async ({
     if (!data) return;
     data.sort((a, b) => a.koodiUri.localeCompare(b.koodiUri));
     const csvData = data.map(mapKoodiToCSV);
+    console.log(csvData);
     const csv = Papa.unparse(csvData, { quotes: true, quoteChar: '"', delimiter: '\t', newline: '\r\n' });
     const blob = convertCsvToExcelAcceptedBlob(csv);
     pushBlobToUser({ fileName: `${koodistoUri}.csv`, blob });
