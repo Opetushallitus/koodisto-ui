@@ -57,7 +57,6 @@ export const downloadCsv = async ({
     if (!data) return;
     data.sort((a, b) => a.koodiUri.localeCompare(b.koodiUri));
     const csvData = data.map(mapKoodiToCSV);
-    console.log(csvData);
     const csv = Papa.unparse(csvData, { quotes: true, quoteChar: '"', delimiter: '\t', newline: '\r\n' });
     const blob = convertCsvToExcelAcceptedBlob(csv);
     pushBlobToUser({ fileName: `${koodistoUri}.csv`, blob });
