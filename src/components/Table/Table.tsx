@@ -123,7 +123,7 @@ export const Table = <T extends object>({
                 []),
             ...columns,
         ],
-        [columns]
+        [columns, setSelected]
     );
     const table = useReactTable<T>({
         columns: appliedColumns,
@@ -237,7 +237,7 @@ function Filter<T>({ column, table }: { column: Column<T, unknown>; table: React
                 : Array.from(column.getFacetedUniqueValues().keys())
                       .reduce((p, c) => (p.find((a: SelectOptionType) => a.value === c.value) ? [...p] : [c, ...p]), [])
                       .sort((a: SelectOptionType, b: SelectOptionType) => a.label.localeCompare(b.label)),
-        [column.getFacetedUniqueValues()]
+        [column, firstValue]
     );
     return typeof firstValue === 'string' ? (
         <InputContainer>
@@ -290,7 +290,7 @@ function DebouncedInput({
         }, debounce);
 
         return () => clearTimeout(timeout);
-    }, [value]);
+    }, [debounce, onChange, value]);
 
     return (
         <Input
@@ -313,7 +313,7 @@ function IndeterminateCheckbox({
         if (typeof indeterminate === 'boolean') {
             ref.current.indeterminate = !rest.checked && indeterminate;
         }
-    }, [ref, indeterminate]);
+    }, [ref, indeterminate, rest.checked]);
 
     return <input type="checkbox" ref={ref} className={className + ' cursor-pointer'} {...rest} />;
 }
