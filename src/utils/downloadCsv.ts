@@ -4,7 +4,6 @@ import { fetchKoodiListByKoodisto } from '../api/koodisto';
 import { info } from '../components/Notification/Notification';
 
 export const mapKoodiToCSV = (koodi: Koodi) => {
-    console.log(koodi);
     const allLang: Kieli[] = ['FI', 'SV', 'EN'];
     const metadataKeys = ['nimi', 'lyhytNimi', 'kuvaus'] as (keyof Metadata)[];
     const reducedMetadata = allLang.reduce((p, language) => {
