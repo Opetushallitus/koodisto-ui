@@ -115,17 +115,22 @@ export const Table = <T extends object>({
                             }}
                         />
                     ),
-                    cell: (prop: CellContext<T, unknown>) => (
-                        <div className="px-1">
-                            <IndeterminateCheckbox
-                                {...{
-                                    checked: prop.row.getIsSelected(),
-                                    indeterminate: prop.row.getIsSomeSelected(),
-                                    onChange: prop.row.getToggleSelectedHandler(),
-                                }}
-                            />
-                        </div>
-                    ),
+                    columns: [
+                        {
+                            id: 'select',
+                            cell: (prop: CellContext<T, unknown>) => (
+                                <div className="px-1">
+                                    <IndeterminateCheckbox
+                                        {...{
+                                            checked: prop.row.getIsSelected(),
+                                            indeterminate: prop.row.getIsSomeSelected(),
+                                            onChange: prop.row.getToggleSelectedHandler(),
+                                        }}
+                                    />
+                                </div>
+                            ),
+                        },
+                    ],
                 },
             ]) ||
                 []),
