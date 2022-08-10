@@ -94,6 +94,7 @@ export type ListKoodisto = BaseKoodisto & {
     ryhmaUri?: string;
     koodiCount: number;
 };
+export type RelationUIStatus = 'ORIGINAL' | 'NEW' | 'DELETED';
 export type KoodistoRelation = {
     koodistoUri: string;
     koodistoVersio: number;
@@ -108,6 +109,7 @@ export type KoodistoRelation = {
         sv: string;
         en: string;
     };
+    status?: RelationUIStatus;
 };
 
 export type PageKoodisto = BaseKoodisto & {

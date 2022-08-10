@@ -87,14 +87,15 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodist
     const addNewKoodistoToRelations = (koodistoRelations: KoodistoRelation[], koodisto: ListKoodisto[]) => {
         replace &&
             replace([
+                ...koodistoRelations,
                 ...koodisto.map((a) => ({
                     koodistoUri: a.koodistoUri,
                     koodistoVersio: a.versio,
                     nimi: { fi: a.nimi || '', sv: a.nimi || '', en: a.nimi || '' },
                     kuvaus: { fi: a.kuvaus || '', sv: a.kuvaus || '', en: a.kuvaus || '' },
                     passive: false,
+                    status: 'NEW' as const,
                 })),
-                ...koodistoRelations,
             ]);
     };
     return (

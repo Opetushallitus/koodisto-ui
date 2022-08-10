@@ -150,7 +150,6 @@ export const Table = <T extends object>({
         getFacetedUniqueValues: getFacetedUniqueValues(),
         getFacetedRowModel: getFacetedRowModel(),
         onColumnFiltersChange: setColumnFilters,
-
         onRowSelectionChange: setRowSelection,
     });
 
@@ -210,7 +209,6 @@ export const Table = <T extends object>({
                                 {row.getVisibleCells().map((cell) => {
                                     return (
                                         <Td key={cell.id}>
-                                            {' '}
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </Td>
                                     );
