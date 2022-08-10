@@ -22,6 +22,7 @@ type KoodistoPageAccordionProps = {
     sisaltaaKoodistot: KoodistoRelation[];
     koodiList?: Koodi[];
     editable?: boolean;
+    disabled: boolean;
     rinnastuuKoodistoihinReplace?: UseFieldArrayReturn<PageKoodisto>;
     sisaltyyKoodistoihinReplace?: UseFieldArrayReturn<PageKoodisto>;
     sisaltaaKoodistotReplace?: UseFieldArrayReturn<PageKoodisto>;
@@ -36,6 +37,7 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
     sisaltaaKoodistotReplace,
     koodiList,
     editable,
+    disabled,
 }) => {
     const { koodistoUri, versio } = useParams();
     const navigate = useNavigate();
@@ -118,6 +120,7 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
                                               search: `?${createSearchParams({ koodistoUri, koodistoVersio: versio })}`,
                                           })
                                       }
+                                      disabled={disabled}
                                   >
                                       <ButtonLabelPrefix>
                                           <IconWrapper icon="el:plus" inline={true} fontSize={'0.6rem'} />

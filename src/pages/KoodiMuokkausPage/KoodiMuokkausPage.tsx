@@ -54,6 +54,7 @@ export const KoodiMuokkausPage: React.FC = () => {
     const formReturn = useForm<Koodi>({
         shouldUseNativeValidation: true,
         defaultValues: {
+            tila: 'LUONNOS',
             metadata: [{ kieli: 'FI' }, { kieli: 'SV' }, { kieli: 'EN' }],
             koodistoUri: newKoodiKoodistoUri || '',
         },
@@ -165,6 +166,7 @@ const KoodiMuokkausPageComponent: React.FC<
                 </MainContainerRow>
             </MainContainer>
             <Footer
+                state={getValues().tila}
                 returnPath={(koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) || '/'}
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODI'}
