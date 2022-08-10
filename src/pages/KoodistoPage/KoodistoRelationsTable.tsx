@@ -84,10 +84,10 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodist
         ],
         [formatMessage, locale]
     );
-    const addNewKoodistoToRelations = (koodistoRelations: KoodistoRelation[], koodisto: ListKoodisto[]) => {
+    const addNewKoodistoToRelations = (relations: KoodistoRelation[], koodisto: ListKoodisto[]) => {
         replace &&
             replace([
-                ...koodistoRelations,
+                ...relations,
                 ...koodisto.map((a) => ({
                     koodistoUri: a.koodistoUri,
                     koodistoVersio: a.versio,
