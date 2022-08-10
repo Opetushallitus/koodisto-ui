@@ -155,7 +155,7 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ modal, setSelected }) => 
                 ],
             },
         ],
-        [formatMessage, modal]
+        [data.length, formatMessage, modal]
     );
     return (
         <>

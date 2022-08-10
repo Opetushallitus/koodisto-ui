@@ -200,6 +200,9 @@
   "TAULUKKO_DROPDOWN_FILTTERI": {
     "defaultMessage": "Valitse arvo listalta"
   },
+  "TAULUKKO_HAKU_APUTEKSTI": {
+    "defaultMessage": "Haetaan {koodistoCount} koodistosta"
+  },
   "TAULUKKO_KOODIMAARA": {
     "defaultMessage": "Koodien lkm"
   },
