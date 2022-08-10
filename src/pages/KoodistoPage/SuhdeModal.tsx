@@ -3,19 +3,19 @@ import { Modal, Footer } from '../../components/Modal';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { FormattedMessage } from 'react-intl';
 import KoodistoTable from '../KoodistoTablePage/KoodistoTable';
-import { ListKoodisto } from '../../types';
-
-export const SuhdeModal: React.FC<{ close: () => void }> = ({ close }) => {
+import { ListKoodisto, KoodistoRelation } from '../../types';
+type SuhdeModalProps = { close: () => void; save: (toAdd: ListKoodisto[]) => void; oldRelations: KoodistoRelation[] };
+export const SuhdeModal: React.FC<SuhdeModalProps> = ({ close, save, oldRelations }) => {
     const [selected, setSelected] = useState<ListKoodisto[]>([]);
     return (
         <Modal
             header={<FormattedMessage id={'SUHDEMODAL_HEADER'} defaultMessage={'Valitse koodistot'} />}
-            body={<KoodistoTable modal setSelected={setSelected} />}
+            body={<KoodistoTable modal setSelected={setSelected} oldRelations={oldRelations} />}
             footer={
                 <Footer>
                     <Button
                         onClick={() => {
-                            console.log('you selected', selected);
+                            save(selected);
                             close();
                         }}
                         name={'SUHDEMODAL_LISAA'}

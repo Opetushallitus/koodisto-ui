@@ -6,10 +6,11 @@ import { IconWrapper } from '../../components/IconWapper';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from '../../components/Table';
-import { ListKoodisto, SelectOptionType } from '../../types';
+import { ListKoodisto, SelectOptionType, KoodistoRelation } from '../../types';
 import { koodistoListAtom } from '../../api/koodisto';
 import { useAtom } from 'jotai';
 import { ColumnDef, CellContext } from '@tanstack/react-table';
+import { sortBy } from 'lodash';
 
 const HeaderContentDivider = styled.div`
     display: inline-flex;
@@ -33,16 +34,24 @@ const TableCellText = styled.span`
 type KoodistoTableProps = {
     modal?: boolean;
     setSelected?: (selected: ListKoodisto[]) => void;
+    oldRelations?: KoodistoRelation[];
 };
 
-const KoodistoTable: React.FC<KoodistoTableProps> = ({ modal, setSelected }) => {
+const KoodistoTable: React.FC<KoodistoTableProps> = ({ modal, setSelected, oldRelations = [] }) => {
     const navigate = useNavigate();
     const [atomData] = useAtom(koodistoListAtom);
     const { formatMessage } = useIntl();
-    const data = useMemo<ListKoodisto[]>(() => {
-        atomData.sort((a, b) => a.koodistoUri.localeCompare(b.koodistoUri));
-        return [...atomData];
-    }, [atomData]);
+    const data = useMemo<ListKoodisto[]>(
+        () =>
+            sortBy(
+                atomData.reduce(
+                    (p, c) => [...(oldRelations?.find((a) => a.koodistoUri === c.koodistoUri) ? [] : [c]), ...p],
+                    [] as ListKoodisto[]
+                ),
+                (o) => o.koodistoUri
+            ),
+        [atomData, oldRelations]
+    );
     const [filteredCount, setFilteredCount] = useState<number>(data.length);
     // const [resetFilters, setResetFilters] = useState<() => void | undefined>();
     const columns = React.useMemo<ColumnDef<ListKoodisto>[]>(

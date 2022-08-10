@@ -65,10 +65,14 @@ type UpdateKoodistoDataType = CreateKoodistoDataType & {
     koodistoUri: string;
     versio: number;
     lockingVersion: number;
+    sisaltyyKoodistoihin: KoodistoRelation[];
+    sisaltaaKoodistot: KoodistoRelation[];
+    rinnastuuKoodistoihin: KoodistoRelation[];
 };
 
 const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoodisto => {
     const nimi = translateMetadata({ metadata: a.metadata, lang })?.nimi;
+    const kuvaus = translateMetadata({ metadata: a.metadata, lang })?.kuvaus;
     const ryhmaNimi = translateMetadata({ metadata: a.koodistoRyhmaMetadata, lang })?.nimi;
     return {
         ryhmaUri: a.koodistoRyhmaMetadata?.[0]?.uri || undefined,
@@ -77,6 +81,7 @@ const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoo
         voimassaAlkuPvm: a.voimassaAlkuPvm && parseApiDate(a.voimassaAlkuPvm),
         voimassaLoppuPvm: a.voimassaLoppuPvm && parseApiDate(a.voimassaLoppuPvm),
         nimi,
+        kuvaus,
         ryhmaNimi,
         koodiCount: a.koodiCount,
     };
@@ -114,6 +119,7 @@ export const updateKoodisto = async ({
     koodisto: PageKoodisto;
     lang: Kieli;
 }): Promise<PageKoodisto | undefined> => {
+    console.log(koodisto);
     return upsertKoodisto<UpdateKoodistoDataType>({
         koodisto,
         lang,
@@ -215,6 +221,9 @@ function mapPageKoodistoToUpdatePageKoodisto(koodisto: PageKoodisto): UpdateKood
         versio: koodisto.versio,
         codesGroupUri: koodisto.koodistoRyhmaUri.value,
         koodistoUri: koodisto.koodistoUri,
+        sisaltyyKoodistoihin: koodisto.sisaltyyKoodistoihin,
+        sisaltaaKoodistot: koodisto.sisaltaaKoodistot,
+        rinnastuuKoodistoihin: koodisto.rinnastuuKoodistoihin,
         ...mapPageKoodistoToCreatePageKoodisto(koodisto),
     };
 }

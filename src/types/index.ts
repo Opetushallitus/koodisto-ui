@@ -89,6 +89,7 @@ export type BaseKoodisto = {
 };
 export type ListKoodisto = BaseKoodisto & {
     nimi?: string;
+    kuvaus?: string;
     ryhmaNimi?: string;
     ryhmaUri?: string;
     koodiCount: number;
@@ -96,13 +97,13 @@ export type ListKoodisto = BaseKoodisto & {
 export type KoodistoRelation = {
     koodistoUri: string;
     koodistoVersio: number;
-    passive: boolean;
-    nimi: {
+    passive?: boolean;
+    nimi?: {
         fi: string;
         sv: string;
         en: string;
     };
-    kuvaus: {
+    kuvaus?: {
         fi: string;
         sv: string;
         en: string;

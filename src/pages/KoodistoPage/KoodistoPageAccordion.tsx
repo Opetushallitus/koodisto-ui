@@ -3,12 +3,13 @@ import { Accordion } from '../../components/Accordion';
 import { FormattedMessage } from 'react-intl';
 import KoodistoRelationsTable from './KoodistoRelationsTable';
 import { KoodiTable } from './KoodiTable';
-import { Koodi, KoodistoRelation } from '../../types';
+import { Koodi, KoodistoRelation, PageKoodisto } from '../../types';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { ButtonLabelPrefix } from '../KoodistoTablePage/KoodistoTablePage';
 import { IconWrapper } from '../../components/IconWapper';
 import { useNavigate, createSearchParams, useParams } from 'react-router-dom';
 import Spin from '@opetushallitus/virkailija-ui-components/Spin';
+import { UseFieldArrayReplace } from 'react-hook-form';
 
 const SISALTYY_KOODISTOIHIN_ID = 0;
 const SISALTAA_KOODISTOT_ID = 1;
@@ -21,12 +22,18 @@ type KoodistoPageAccordionProps = {
     sisaltaaKoodistot: KoodistoRelation[];
     koodiList?: Koodi[];
     editable?: boolean;
+    rinnastuuKoodistoihinReplace?: UseFieldArrayReplace<PageKoodisto>;
+    sisaltyyKoodistoihinReplace?: UseFieldArrayReplace<PageKoodisto>;
+    sisaltaaKoodistotReplace?: UseFieldArrayReplace<PageKoodisto>;
 };
 
 const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
     rinnastuuKoodistoihin,
     sisaltyyKoodistoihin,
     sisaltaaKoodistot,
+    rinnastuuKoodistoihinReplace,
+    sisaltyyKoodistoihinReplace,
+    sisaltaaKoodistotReplace,
     koodiList,
     editable,
 }) => {
@@ -45,7 +52,13 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
                     />
                 </>
             ),
-            panelComponent: <KoodistoRelationsTable koodistoRelations={sisaltyyKoodistoihin} editable={!!editable} />,
+            panelComponent: (
+                <KoodistoRelationsTable
+                    replace={sisaltyyKoodistoihinReplace}
+                    koodistoRelations={sisaltyyKoodistoihin}
+                    editable={!!editable}
+                />
+            ),
         },
         {
             id: RINNASTUU_KOODISTOIHIN_ID,
@@ -58,7 +71,13 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
                     />
                 </>
             ),
-            panelComponent: <KoodistoRelationsTable koodistoRelations={rinnastuuKoodistoihin} editable={!!editable} />,
+            panelComponent: (
+                <KoodistoRelationsTable
+                    replace={rinnastuuKoodistoihinReplace}
+                    koodistoRelations={rinnastuuKoodistoihin}
+                    editable={!!editable}
+                />
+            ),
         },
         {
             id: SISALTAA_KOODISTOT_ID,
@@ -71,7 +90,13 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
                     />
                 </>
             ),
-            panelComponent: <KoodistoRelationsTable koodistoRelations={sisaltaaKoodistot} editable={!!editable} />,
+            panelComponent: (
+                <KoodistoRelationsTable
+                    replace={sisaltaaKoodistotReplace}
+                    koodistoRelations={sisaltaaKoodistot}
+                    editable={!!editable}
+                />
+            ),
         },
         ...(!editable
             ? [

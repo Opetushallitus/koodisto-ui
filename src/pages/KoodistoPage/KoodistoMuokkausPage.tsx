@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { fetchPageKoodisto, updateKoodisto, createKoodisto, deleteKoodisto } from '../../api/koodisto';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { PageKoodisto, SelectOption, Kieli } from '../../types';
+import { useForm, useFieldArray, ArrayPath } from 'react-hook-form';
+import { PageKoodisto, SelectOption, Kieli, KoodistoRelation } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -65,6 +65,30 @@ export const KoodistoMuokkausPage: React.FC = () => {
     const { control, register, handleSubmit, reset, getValues } = useForm<PageKoodisto>({
         shouldUseNativeValidation: true,
         defaultValues: { metadata: [{ kieli: 'FI' }, { kieli: 'SV' }, { kieli: 'EN' }] },
+    });
+    const { replace: sisaltyyKoodistoihinReplace } = useFieldArray<
+        PageKoodisto,
+        ArrayPath<PageKoodisto>,
+        keyof KoodistoRelation | 'id'
+    >({
+        control,
+        name: 'sisaltyyKoodistoihin' as ArrayPath<PageKoodisto>,
+    });
+    const { replace: rinnastuuKoodistoihinReplace } = useFieldArray<
+        PageKoodisto,
+        ArrayPath<PageKoodisto>,
+        keyof KoodistoRelation | 'id'
+    >({
+        control,
+        name: 'rinnastuuKoodistoihin' as ArrayPath<PageKoodisto>,
+    });
+    const { replace: sisaltaaKoodistotReplace } = useFieldArray<
+        PageKoodisto,
+        ArrayPath<PageKoodisto>,
+        keyof KoodistoRelation | 'id'
+    >({
+        control,
+        name: 'sisaltaaKoodistot' as ArrayPath<PageKoodisto>,
     });
     const koodistonMetadata = translateMetadata({ metadata: getValues('metadata'), lang });
     useEffect(() => {
@@ -201,7 +225,10 @@ export const KoodistoMuokkausPage: React.FC = () => {
                     <KoodistoPageAccordion
                         editable
                         sisaltyyKoodistoihin={getValues('sisaltyyKoodistoihin') || []}
+                        sisaltyyKoodistoihinReplace={sisaltyyKoodistoihinReplace}
                         rinnastuuKoodistoihin={getValues('rinnastuuKoodistoihin') || []}
+                        rinnastuuKoodistoihinReplace={rinnastuuKoodistoihinReplace}
+                        sisaltaaKoodistotReplace={sisaltaaKoodistotReplace}
                         sisaltaaKoodistot={getValues('sisaltaaKoodistot') || []}
                         koodiList={[]}
                     />
