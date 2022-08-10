@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useMemo, HTMLProps } from 'react';
 import styled from 'styled-components';
-// import { Cell, Column, FilterProps, HeaderGroup, Row, useFilters, useTable, useRowSelect } from 'react-table';
 import { useIntl } from 'react-intl';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import Select from '@opetushallitus/virkailija-ui-components/Select';
@@ -21,9 +20,17 @@ import {
     getFacetedRowModel,
     CellContext,
     HeaderContext,
+    RowData,
 } from '@tanstack/react-table';
 import { IconWrapper } from '../IconWapper';
 import { uniq, uniqBy } from 'lodash';
+
+declare module '@tanstack/table-core' {
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+    interface ColumnMeta<TData extends RowData, TValue> {
+        filterPlaceHolder?: string;
+    }
+}
 
 const TableContainer = styled.div<{ modal: boolean }>`
     overflow-x: scroll;
@@ -245,6 +252,7 @@ function Filter<T>({ column, table }: { column: Column<T, unknown>; table: React
                 <DebouncedInput
                     value={(columnFilterValue ?? '') as string}
                     onChange={(value) => column.setFilterValue(value)}
+                    placeholder={column.columnDef.meta?.filterPlaceHolder}
                     suffix={
                         <ResetFilter
                             resetFilters={column.getIsFiltered() ? () => column.setFilterValue(undefined) : undefined}

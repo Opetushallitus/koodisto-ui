@@ -78,7 +78,15 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ modal, setSelected }) => 
                                 },
                                 { koodistoUri: values.koodistoUri }
                             ),
-                        // Filter: TextFilterComponent,
+                        meta: {
+                            filterPlaceHolder: formatMessage(
+                                {
+                                    id: 'TAULUKKO_HAKU_APUTEKSTI',
+                                    defaultMessage: 'Haetaan {koodistoCount} koodistosta',
+                                },
+                                { koodistoCount: data.length }
+                            ),
+                        },
                         cell: (info) => (
                             <Link to={`koodisto/view/${info.row.original.koodistoUri}/${info.row.original.versio}`}>
                                 {info.getValue()}

@@ -18,12 +18,6 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
     );
     const [, setFilteredCount] = useState<number>(data.length);
 
-    // this is for message extraction to work properly
-    formatMessage({
-        id: 'KOODI_TAULUKKO_FILTTERI_PLACEHOLDER',
-        defaultMessage: 'Hae nimellä tai koodiarvolla',
-    });
-
     const columns = React.useMemo<ColumnDef<Koodi>[]>(
         () => [
             {
@@ -39,6 +33,12 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                                 row.original.metadata.find((a) => a.nimi.toLowerCase().includes(value.toLowerCase())) ||
                                 value.length === 0
                             );
+                        },
+                        meta: {
+                            filterPlaceHolder: formatMessage({
+                                id: 'KOODI_TAULUKKO_FILTTERI_PLACEHOLDER',
+                                defaultMessage: 'Hae nimellä tai koodiarvolla',
+                            }),
                         },
                         accessorFn: (values: Koodi) => values.koodiArvo,
                         cell: (info) => <div>{info.getValue()}</div>,
