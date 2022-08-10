@@ -27,7 +27,7 @@ export const KoodiTable: React.FC<Props> = ({ koodiList }) => {
                         id: 'koodiarvo',
                         header: '',
                         enableColumnFilter: true,
-                        filterFn: (row, columnId, value) => {
+                        filterFn: (row, _columnId, value) => {
                             return (
                                 row.original.koodiArvo.toLowerCase().includes(value.toLowerCase()) ||
                                 row.original.metadata.find((a) => a.nimi.toLowerCase().includes(value.toLowerCase())) ||
