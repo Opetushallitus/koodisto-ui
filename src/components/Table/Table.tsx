@@ -23,6 +23,7 @@ import {
     HeaderContext,
 } from '@tanstack/react-table';
 import { IconWrapper } from '../IconWapper';
+import { uniq, uniqBy } from 'lodash';
 
 const TableContainer = styled.div<{ modal: boolean }>`
     overflow-x: scroll;
@@ -229,41 +230,42 @@ function Filter<T>({ column, table }: { column: Column<T, unknown>; table: React
     const { formatMessage } = useIntl();
     const columnFilterValue = column.getFilterValue();
     const firstValue = table.getPreFilteredRowModel().flatRows[0]?.getValue(column.id);
-    // const count = column.getFacetedUniqueValues().size;
     const sortedUniqueValues = React.useMemo(
         () =>
-            typeof firstValue === 'number'
-                ? []
-                : Array.from(column.getFacetedUniqueValues().keys())
-                      .reduce((p, c) => (p.find((a: SelectOptionType) => a.value === c.value) ? [...p] : [c, ...p]), [])
-                      .sort((a: SelectOptionType, b: SelectOptionType) => a.label.localeCompare(b.label)),
+            (typeof firstValue === 'number' && []) ||
+            (typeof firstValue === 'string' && uniq(Array.from(column.getFacetedUniqueValues().keys())).sort()) ||
+            uniqBy(Array.from(column.getFacetedUniqueValues().keys()), (a: SelectOptionType) => a.value).sort(
+                (a: SelectOptionType, b: SelectOptionType) => a.label.localeCompare(b.label)
+            ),
         [column, firstValue]
     );
-    return typeof firstValue === 'string' ? (
-        <InputContainer>
-            <DebouncedInput
-                value={(columnFilterValue ?? '') as string}
-                onChange={(value) => column.setFilterValue(value)}
-                suffix={
-                    <ResetFilter
-                        resetFilters={column.getIsFiltered() ? () => column.setFilterValue(undefined) : undefined}
-                    ></ResetFilter>
-                }
-            />
-        </InputContainer>
-    ) : (
-        <SelectContainer>
-            <Select
-                onChange={(values: ValueType<SelectOptionType>) => column.setFilterValue(values)}
-                placeholder={formatMessage({
-                    id: 'TAULUKKO_DROPDOWN_FILTTERI',
-                    defaultMessage: 'Valitse arvo listalta',
-                })}
-                isMulti={true}
-                value={(column.getFilterValue() as ValueType<{ label: string; value: string }>) || []}
-                options={sortedUniqueValues.map((a: SelectOptionType) => ({ label: a.label, value: a.value }))}
-            />
-        </SelectContainer>
+    return (
+        (typeof firstValue === 'string' && (
+            <InputContainer>
+                <DebouncedInput
+                    value={(columnFilterValue ?? '') as string}
+                    onChange={(value) => column.setFilterValue(value)}
+                    suffix={
+                        <ResetFilter
+                            resetFilters={column.getIsFiltered() ? () => column.setFilterValue(undefined) : undefined}
+                        ></ResetFilter>
+                    }
+                />
+            </InputContainer>
+        )) || (
+            <SelectContainer>
+                <Select
+                    onChange={(values: ValueType<SelectOptionType>) => column.setFilterValue(values)}
+                    placeholder={formatMessage({
+                        id: 'TAULUKKO_DROPDOWN_FILTTERI',
+                        defaultMessage: 'Valitse arvo listalta',
+                    })}
+                    isMulti={true}
+                    value={(column.getFilterValue() as ValueType<{ label: string; value: string }>) || []}
+                    options={sortedUniqueValues.map((a: SelectOptionType) => ({ label: a.label, value: a.value }))}
+                />
+            </SelectContainer>
+        )
     );
 }
 
