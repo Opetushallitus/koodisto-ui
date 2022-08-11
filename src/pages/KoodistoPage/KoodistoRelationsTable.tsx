@@ -118,7 +118,7 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({
                             id: 'poista',
                             header: '',
                             enableColumnFilter: false,
-                            cell: (info: CellContext<KoodistoRelation, any>) => (
+                            cell: (info: CellContext<KoodistoRelation, never>) => (
                                 <RemoveSuhdeButton onClick={() => removeKoodistoFromRelations(info.row.index)} />
                             ),
                         },
