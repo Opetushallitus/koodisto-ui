@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Table } from '../../components/Table';
 import { Link } from 'react-router-dom';
@@ -53,23 +53,29 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({
         return [...koodistoRelations];
     }, [koodistoRelations]);
 
-    const removeKoodistoFromRelations = (index: number) => {
-        fieldArrayReturn && fieldArrayReturn.remove(index);
-    };
-    const addNewKoodistoToRelations = (koodisto: ListKoodisto[]) => {
-        fieldArrayReturn &&
-            fieldArrayReturn.replace([
-                ...koodistoRelations,
-                ...koodisto.map((a) => ({
-                    koodistoUri: a.koodistoUri,
-                    koodistoVersio: a.versio,
-                    nimi: { fi: a.nimi || '', sv: a.nimi || '', en: a.nimi || '' },
-                    kuvaus: { fi: a.kuvaus || '', sv: a.kuvaus || '', en: a.kuvaus || '' },
-                    passive: false,
-                    status: 'NEW' as const,
-                })),
-            ]);
-    };
+    const removeKoodistoFromRelations = useCallback(
+        (index: number) => {
+            fieldArrayReturn && fieldArrayReturn.remove(index);
+        },
+        [fieldArrayReturn]
+    );
+    const addNewKoodistoToRelations = useCallback(
+        (koodisto: ListKoodisto[]) => {
+            fieldArrayReturn &&
+                fieldArrayReturn.replace([
+                    ...koodistoRelations,
+                    ...koodisto.map((a) => ({
+                        koodistoUri: a.koodistoUri,
+                        koodistoVersio: a.versio,
+                        nimi: { fi: a.nimi || '', sv: a.nimi || '', en: a.nimi || '' },
+                        kuvaus: { fi: a.kuvaus || '', sv: a.kuvaus || '', en: a.kuvaus || '' },
+                        passive: false,
+                        status: 'NEW' as const,
+                    })),
+                ]);
+        },
+        [fieldArrayReturn, koodistoRelations]
+    );
     const columns = React.useMemo<ColumnDef<KoodistoRelation>[]>(
         () => [
             {
