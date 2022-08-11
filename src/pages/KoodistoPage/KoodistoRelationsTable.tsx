@@ -127,7 +127,7 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({
             ]) ||
                 []),
         ],
-        [formatMessage, locale]
+        [editable, formatMessage, locale, removeKoodistoFromRelations]
     );
 
     return (
