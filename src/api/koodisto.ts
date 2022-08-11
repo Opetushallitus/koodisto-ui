@@ -1,6 +1,6 @@
 import { API_BASE_PATH, API_INTERNAL_PATH } from '../context/constants';
 import { atom, Getter } from 'jotai';
-import type { MapToApiObject, BaseKoodisto, Koodi, RelationUIStatus } from '../types';
+import type { MapToApiObject, BaseKoodisto, Koodi } from '../types';
 import {
     ApiDate,
     Kieli,
@@ -29,7 +29,6 @@ type ApiRyhmaMetadata = {
 };
 
 type ApiBaseKoodisto = MapToApiObject<BaseKoodisto>;
-type ApiRelationType = 'RINNASTUU' | 'SISALTAA' | 'SISALTYY';
 export type ApiPageKoodisto = ApiBaseKoodisto & {
     lockingVersion: number;
     koodistoRyhmaUri: string;
@@ -59,12 +58,21 @@ type CreateKoodistoDataType = {
     organisaatioOid: string;
     metadataList: Metadata[];
 };
-type UpdateKoodistoDataType = CreateKoodistoDataType & {
+type ApiKoodistoRelation = {
+    codesUri: string;
+    codesVersion: number;
+    passive: boolean;
+};
+type UpdateKoodistoDataType = Omit<CreateKoodistoDataType, 'metadataList'> & {
     tila: Tila;
     codesGroupUri: string;
     koodistoUri: string;
     versio: number;
-    lockingVersion: number;
+    version: number;
+    metadata: Metadata[];
+    includesCodes: ApiKoodistoRelation[];
+    levelsWithCodes: ApiKoodistoRelation[];
+    withinCodes: ApiKoodistoRelation[];
 };
 
 const apiKoodistoListToKoodistoList = (a: ApiListKoodisto, lang: Kieli): ListKoodisto => {
@@ -108,37 +116,21 @@ export const fetchKoodiListByKoodisto = async ({
         return data.map((api) => mapApiKoodi({ api }));
     });
 };
-const mapToApiRelation = (relation: KoodistoRelation, type: ApiRelationType) => ({
-    koodistoUri: relation.koodistoUri,
-    versio: relation.koodistoVersio,
-    type,
-});
-const mapPageKoodistoToRelations = (koodisto: PageKoodisto, type: RelationUIStatus) => {
-    return [
-        ...koodisto.rinnastuuKoodistoihin.filter((a) => a.status === type).map((a) => mapToApiRelation(a, 'RINNASTUU')),
-        ...koodisto.sisaltaaKoodistot.filter((a) => a.status === type).map((a) => mapToApiRelation(a, 'SISALTAA')),
-        ...koodisto.sisaltyyKoodistoihin.filter((a) => a.status === type).map((a) => mapToApiRelation(a, 'SISALTYY')),
-    ];
-};
+
 export const updateKoodisto = async ({
     koodisto,
     lang,
 }: {
     koodisto: PageKoodisto;
     lang: Kieli;
-}): Promise<PageKoodisto | undefined> => {
-    const savedKoodisto = await upsertKoodisto<UpdateKoodistoDataType>({
+}): Promise<PageKoodisto | undefined> =>
+    upsertKoodisto<UpdateKoodistoDataType>({
         koodisto,
         lang,
         mapper: mapPageKoodistoToUpdatePageKoodisto,
         path: `${API_INTERNAL_PATH}/koodisto`,
         axiosFunc: axios.put,
     });
-    const newRelations = mapPageKoodistoToRelations(koodisto, 'NEW');
-    const deletedRelations = mapPageKoodistoToRelations(koodisto, 'DELETED');
-    console.log('to be persisted', newRelations, deletedRelations);
-    return savedKoodisto;
-};
 export const createKoodisto = async ({
     koodisto,
     lang,
@@ -224,14 +216,22 @@ function mapPageKoodistoToCreatePageKoodisto(koodisto: PageKoodisto): CreateKood
         voimassaLoppuPvm: koodisto.voimassaLoppuPvm && parseUIDate(koodisto.voimassaLoppuPvm),
     };
 }
-
+const toApiRelation = (relation: KoodistoRelation): ApiKoodistoRelation => ({
+    codesUri: relation.koodistoUri,
+    codesVersion: relation.koodistoVersio,
+    passive: !!relation.passive,
+});
 function mapPageKoodistoToUpdatePageKoodisto(koodisto: PageKoodisto): UpdateKoodistoDataType {
     return {
-        lockingVersion: koodisto.lockingVersion,
+        includesCodes: koodisto.sisaltaaKoodistot.map(toApiRelation),
+        levelsWithCodes: koodisto.rinnastuuKoodistoihin.map(toApiRelation),
+        withinCodes: koodisto.sisaltyyKoodistoihin.map(toApiRelation),
+        version: koodisto.lockingVersion,
         tila: koodisto.tila,
         versio: koodisto.versio,
         codesGroupUri: koodisto.koodistoRyhmaUri.value,
         koodistoUri: koodisto.koodistoUri,
+        metadata: koodisto.metadata,
         ...mapPageKoodistoToCreatePageKoodisto(koodisto),
     };
 }

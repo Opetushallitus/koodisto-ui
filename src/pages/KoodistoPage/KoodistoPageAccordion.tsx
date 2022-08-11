@@ -9,7 +9,7 @@ import { ButtonLabelPrefix } from '../KoodistoTablePage/KoodistoTablePage';
 import { IconWrapper } from '../../components/IconWapper';
 import { useNavigate, createSearchParams, useParams } from 'react-router-dom';
 import Spin from '@opetushallitus/virkailija-ui-components/Spin';
-import { UseFieldArrayReplace } from 'react-hook-form';
+import { UseFieldArrayReturn } from 'react-hook-form';
 
 const SISALTYY_KOODISTOIHIN_ID = 0;
 const SISALTAA_KOODISTOT_ID = 1;
@@ -22,9 +22,9 @@ type KoodistoPageAccordionProps = {
     sisaltaaKoodistot: KoodistoRelation[];
     koodiList?: Koodi[];
     editable?: boolean;
-    rinnastuuKoodistoihinReplace?: UseFieldArrayReplace<PageKoodisto>;
-    sisaltyyKoodistoihinReplace?: UseFieldArrayReplace<PageKoodisto>;
-    sisaltaaKoodistotReplace?: UseFieldArrayReplace<PageKoodisto>;
+    rinnastuuKoodistoihinReplace?: UseFieldArrayReturn<PageKoodisto>;
+    sisaltyyKoodistoihinReplace?: UseFieldArrayReturn<PageKoodisto>;
+    sisaltaaKoodistotReplace?: UseFieldArrayReturn<PageKoodisto>;
 };
 
 const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
@@ -54,7 +54,7 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
             ),
             panelComponent: (
                 <KoodistoRelationsTable
-                    replace={sisaltyyKoodistoihinReplace}
+                    fieldArrayReturn={sisaltyyKoodistoihinReplace}
                     koodistoRelations={sisaltyyKoodistoihin}
                     editable={!!editable}
                 />
@@ -73,7 +73,7 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
             ),
             panelComponent: (
                 <KoodistoRelationsTable
-                    replace={rinnastuuKoodistoihinReplace}
+                    fieldArrayReturn={rinnastuuKoodistoihinReplace}
                     koodistoRelations={rinnastuuKoodistoihin}
                     editable={!!editable}
                 />
@@ -92,7 +92,7 @@ const KoodistoPageAccordion: React.FC<KoodistoPageAccordionProps> = ({
             ),
             panelComponent: (
                 <KoodistoRelationsTable
-                    replace={sisaltaaKoodistotReplace}
+                    fieldArrayReturn={sisaltaaKoodistotReplace}
                     koodistoRelations={sisaltaaKoodistot}
                     editable={!!editable}
                 />

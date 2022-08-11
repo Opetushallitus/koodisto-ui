@@ -8,21 +8,18 @@ import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { ButtonLabelPrefix } from '../KoodistoTablePage/KoodistoTablePage';
 import { IconWrapper } from '../../components/IconWapper';
 import { SuhdeModal } from './SuhdeModal';
-import { ColumnDef } from '@tanstack/react-table';
-import { UseFieldArrayReplace } from 'react-hook-form';
+import { ColumnDef, CellContext } from '@tanstack/react-table';
+import { UseFieldArrayReturn } from 'react-hook-form';
 
 type KoodistoRelationsTableProps = {
     koodistoRelations: KoodistoRelation[];
     editable: boolean;
-    replace?: UseFieldArrayReplace<PageKoodisto>;
+    fieldArrayReturn?: UseFieldArrayReturn<PageKoodisto>;
 };
 
-const AddSuhdeButton: React.FC<{ name: string; onClick: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({
-    name,
-    onClick,
-}) => {
+const AddSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ onClick }) => {
     return (
-        <Button name={name} onClick={onClick} variant={'text'}>
+        <Button name={'TAULUKKO_LISAA_KOODISTOSUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
             <ButtonLabelPrefix>
                 <IconWrapper icon="el:plus" inline={true} fontSize={'0.6rem'} />
             </ButtonLabelPrefix>
@@ -30,8 +27,21 @@ const AddSuhdeButton: React.FC<{ name: string; onClick: (e: React.ChangeEvent<HT
         </Button>
     );
 };
+const RemoveSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ onClick }) => {
+    return (
+        <Button name={'TAULUKKO_LISAA_KOODISTOSUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
+            <ButtonLabelPrefix>
+                <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
+            </ButtonLabelPrefix>
+        </Button>
+    );
+};
 
-const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodistoRelations, editable, replace }) => {
+const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({
+    koodistoRelations,
+    editable,
+    fieldArrayReturn,
+}) => {
     const { formatMessage, locale } = useIntl();
 
     const [showSuhdeModal, setShowSuhdeModal] = useState<boolean>(false);
@@ -42,6 +52,24 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodist
     const data = useMemo<KoodistoRelation[]>(() => {
         return [...koodistoRelations];
     }, [koodistoRelations]);
+
+    const removeKoodistoFromRelations = (index: number) => {
+        fieldArrayReturn && fieldArrayReturn.remove(index);
+    };
+    const addNewKoodistoToRelations = (koodisto: ListKoodisto[]) => {
+        fieldArrayReturn &&
+            fieldArrayReturn.replace([
+                ...koodistoRelations,
+                ...koodisto.map((a) => ({
+                    koodistoUri: a.koodistoUri,
+                    koodistoVersio: a.versio,
+                    nimi: { fi: a.nimi || '', sv: a.nimi || '', en: a.nimi || '' },
+                    kuvaus: { fi: a.kuvaus || '', sv: a.kuvaus || '', en: a.kuvaus || '' },
+                    passive: false,
+                    status: 'NEW' as const,
+                })),
+            ]);
+    };
     const columns = React.useMemo<ColumnDef<KoodistoRelation>[]>(
         () => [
             {
@@ -70,7 +98,7 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodist
                 ],
             },
             {
-                header: formatMessage({ id: 'TAULUKKO_VERSIO_KUVAUS', defaultMessage: 'Kuvaus' }),
+                header: formatMessage({ id: 'TAULUKKO_KUVAUS_OTSIKKO', defaultMessage: 'Kuvaus' }),
                 columns: [
                     {
                         id: 'kuvaus',
@@ -81,32 +109,36 @@ const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({ koodist
                     },
                 ],
             },
+            ...((editable && [
+                {
+                    header: '',
+                    id: 'poista',
+                    columns: [
+                        {
+                            id: 'poista',
+                            header: '',
+                            enableColumnFilter: false,
+                            cell: (info: CellContext<KoodistoRelation, any>) => (
+                                <RemoveSuhdeButton onClick={() => removeKoodistoFromRelations(info.row.index)} />
+                            ),
+                        },
+                    ],
+                },
+            ]) ||
+                []),
         ],
         [formatMessage, locale]
     );
-    const addNewKoodistoToRelations = (relations: KoodistoRelation[], koodisto: ListKoodisto[]) => {
-        replace &&
-            replace([
-                ...relations,
-                ...koodisto.map((a) => ({
-                    koodistoUri: a.koodistoUri,
-                    koodistoVersio: a.versio,
-                    nimi: { fi: a.nimi || '', sv: a.nimi || '', en: a.nimi || '' },
-                    kuvaus: { fi: a.kuvaus || '', sv: a.kuvaus || '', en: a.kuvaus || '' },
-                    passive: false,
-                    status: 'NEW' as const,
-                })),
-            ]);
-    };
+
     return (
         <>
             <Table<KoodistoRelation> columns={columns} data={data}>
-                {editable && <AddSuhdeButton name={'TAULUKKO_LISAA_SISALTYY_KOODISTOJA_BUTTON'} onClick={showModal} />}
+                {editable && <AddSuhdeButton onClick={showModal} />}
             </Table>
             {showSuhdeModal && (
                 <SuhdeModal
                     oldRelations={koodistoRelations}
-                    save={(a) => addNewKoodistoToRelations(koodistoRelations, a)}
+                    save={(a) => addNewKoodistoToRelations(a)}
                     close={() => setShowSuhdeModal(false)}
                 />
             )}

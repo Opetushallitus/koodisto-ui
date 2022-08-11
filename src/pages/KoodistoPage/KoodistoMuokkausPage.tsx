@@ -66,7 +66,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
         shouldUseNativeValidation: true,
         defaultValues: { metadata: [{ kieli: 'FI' }, { kieli: 'SV' }, { kieli: 'EN' }] },
     });
-    const { replace: sisaltyyKoodistoihinReplace } = useFieldArray<
+    const sisaltyyKoodistoihinFieldArray = useFieldArray<
         PageKoodisto,
         ArrayPath<PageKoodisto>,
         keyof KoodistoRelation | 'id'
@@ -74,7 +74,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
         control,
         name: 'sisaltyyKoodistoihin' as ArrayPath<PageKoodisto>,
     });
-    const { replace: rinnastuuKoodistoihinReplace } = useFieldArray<
+    const rinnastuuKoodistoihinFieldArray = useFieldArray<
         PageKoodisto,
         ArrayPath<PageKoodisto>,
         keyof KoodistoRelation | 'id'
@@ -82,7 +82,7 @@ export const KoodistoMuokkausPage: React.FC = () => {
         control,
         name: 'rinnastuuKoodistoihin' as ArrayPath<PageKoodisto>,
     });
-    const { replace: sisaltaaKoodistotReplace } = useFieldArray<
+    const sisaltaaKoodistotFieldArray = useFieldArray<
         PageKoodisto,
         ArrayPath<PageKoodisto>,
         keyof KoodistoRelation | 'id'
@@ -225,10 +225,10 @@ export const KoodistoMuokkausPage: React.FC = () => {
                     <KoodistoPageAccordion
                         editable
                         sisaltyyKoodistoihin={getValues('sisaltyyKoodistoihin') || []}
-                        sisaltyyKoodistoihinReplace={sisaltyyKoodistoihinReplace}
+                        sisaltyyKoodistoihinReplace={sisaltyyKoodistoihinFieldArray}
                         rinnastuuKoodistoihin={getValues('rinnastuuKoodistoihin') || []}
-                        rinnastuuKoodistoihinReplace={rinnastuuKoodistoihinReplace}
-                        sisaltaaKoodistotReplace={sisaltaaKoodistotReplace}
+                        rinnastuuKoodistoihinReplace={rinnastuuKoodistoihinFieldArray}
+                        sisaltaaKoodistotReplace={sisaltaaKoodistotFieldArray}
                         sisaltaaKoodistot={getValues('sisaltaaKoodistot') || []}
                         koodiList={[]}
                     />
