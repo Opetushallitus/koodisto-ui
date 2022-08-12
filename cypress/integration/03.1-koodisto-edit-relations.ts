@@ -19,6 +19,7 @@ describe('The Koodisto Edit page can edit relations', () => {
         cy.get('div').contains('Sisältyy koodistoihin').should('be.visible').click();
     });
     it('shows relations add button and can click', () => {
+        cy.intercept(`${API_INTERNAL_PATH}/koodisto`, { fixture: 'codes.json' });
         cy.get('button[name=TAULUKKO_LISAA_KOODISTOSUHTEITA_BUTTON]').filter(':visible').click();
     });
     it('shows koodistos and can select', () => {
@@ -29,6 +30,7 @@ describe('The Koodisto Edit page can edit relations', () => {
         cy.get('div').contains('Sisältyy koodistoihin (3)').should('be.visible');
     });
     it('can save added relations', () => {
+        cy.intercept(`${API_INTERNAL_PATH}/koodisto/kunta/2`, { fixture: 'kuntaKoodisto.json' });
         cy.intercept('PUT', `${API_INTERNAL_PATH}/koodisto`, (req) => {
             expect(req.body.withinCodes.length).to.eq(3);
             req.reply({ fixture: 'kuntaKoodisto.json' });
@@ -54,6 +56,7 @@ describe('The Koodisto Edit page can edit relations', () => {
             expect(req.body.includesCodes.length).to.eq(5);
             req.reply({ fixture: 'kuntaKoodisto.json' });
         });
+        cy.intercept(`${API_INTERNAL_PATH}/koodisto/kunta/2`, { fixture: 'kuntaKoodisto.json' });
         cy.intercept(`${API_INTERNAL_PATH}/koodi/koodisto/kunta/2`, { fixture: 'kuntaKoodistoKoodit.json' });
         cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
     });
