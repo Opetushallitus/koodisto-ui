@@ -29,7 +29,7 @@ const AddSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElement
 };
 const RemoveSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ onClick }) => {
     return (
-        <Button name={'TAULUKKO_LISAA_KOODISTOSUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
+        <Button name={'TAULUKKO_POISTA_KOODISTOSUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
             <ButtonLabelPrefix>
                 <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
             </ButtonLabelPrefix>
