@@ -53,7 +53,6 @@ const KoodistoTable: React.FC<KoodistoTableProps> = ({ modal, setSelected, oldRe
         [atomData, oldRelations]
     );
     const [filteredCount, setFilteredCount] = useState<number>(data.length);
-    // const [resetFilters, setResetFilters] = useState<() => void | undefined>();
     const columns = React.useMemo<ColumnDef<ListKoodisto>[]>(
         () => [
             {
