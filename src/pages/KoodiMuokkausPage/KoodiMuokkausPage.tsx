@@ -92,11 +92,15 @@ export const KoodiMuokkausPage: React.FC = () => {
             setLoading(false);
         }
     };
-    return (loading && <Loading />) || <KoodiMuokkausPageComponent {...formReturn} save={save} remove={remove} />;
+    return (
+        (loading && <Loading />) || (
+            <KoodiMuokkausPageComponent {...formReturn} save={save} remove={remove} versio={+(koodiVersio || 0)} />
+        )
+    );
 };
 const KoodiMuokkausPageComponent: React.FC<
-    { save: (a: Koodi) => void; remove: (koodi: Koodi) => void } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, remove, control, getValues }) => {
+    { save: (a: Koodi) => void; remove: (koodi: Koodi) => void; versio: number } & UseFormReturn<Koodi>
+> = ({ register, handleSubmit, save, remove, control, getValues, versio }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
@@ -167,7 +171,7 @@ const KoodiMuokkausPageComponent: React.FC<
             </MainContainer>
             <Footer
                 state={getValues().tila}
-                latest={getValues().tila === 'LUONNOS' /* TODO: NOT correct, need to resolve from version history */}
+                latest={versio === Math.max(...(getValues().koodiVersio || []))}
                 returnPath={(koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) || '/'}
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODI'}
