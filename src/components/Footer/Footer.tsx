@@ -50,11 +50,7 @@ export const Footer: React.FC<Props> = ({
                 <Popup
                     position="top left"
                     trigger={
-                        <Button
-                            variant={'outlined'}
-                            name={`${localisationPrefix}_POISTA`}
-                            disabled={state !== 'PASSIIVINEN'}
-                        >
+                        <Button variant={'outlined'} name={`${localisationPrefix}_POISTA`}>
                             <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
                             <FormattedMessage
                                 id={`${localisationPrefix}_POISTA`}

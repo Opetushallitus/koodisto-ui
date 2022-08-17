@@ -10,7 +10,7 @@ import {
 } from '../../components/Containers';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CrumbTrail } from '../../components/CrumbTrail';
-import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi } from '../../api/koodi';
+import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi, createKoodiVersion } from '../../api/koodi';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { Koodi } from '../../types';
 import { Loading } from '../../components/Loading';
@@ -41,6 +41,13 @@ const deleteSuccess = () => {
     success({
         title: <FormattedMessage id={'KOODI_POISTA_OK_TITLE'} defaultMessage={'Koodi poistettiin onnistuneesti.'} />,
         message: <FormattedMessage id={'KOODI_POISTA_OK_MESSAGE'} defaultMessage={'Koodi on poistettu'} />,
+    });
+};
+
+const versioningSuccess = () => {
+    success({
+        title: <FormattedMessage id={'KOODI_VERSIOI_OK_TITLE'} defaultMessage={'Koodi versioitiin onnistuneesti.'} />,
+        message: <FormattedMessage id={'KOODI_VERSIOI_OK_MESSAGE'} defaultMessage={'Koodista on luotu uusi versio'} />,
     });
 };
 
@@ -83,24 +90,51 @@ export const KoodiMuokkausPage: React.FC = () => {
             navigate(`/koodi/view/${data.koodiUri}/${data.versio}`);
         }
     };
-    const remove = async (koodi: Koodi) => {
+
+    const modifyAction = async (
+        koodi: Koodi,
+        action: (koodi: Koodi) => Promise<Koodi | undefined>,
+        showNotification: () => void
+    ) => {
         setLoading(true);
-        if (await deleteKoodi(koodi)) {
-            deleteSuccess();
+        if (await action(koodi)) {
+            showNotification();
             navigate(`/koodisto/view/${koodi.koodistoUri}`);
         } else {
             setLoading(false);
         }
     };
+
+    const deleteAction = async (koodi: Koodi) =>
+        modifyAction(koodi, async (koodi) => ((await deleteKoodi(koodi)) ? koodi : undefined), deleteSuccess);
+
+    const versioningAction = async (koodi: Koodi) =>
+        modifyAction(
+            koodi,
+            async (koodi) => createKoodiVersion(koodi.koodiUri, +(koodiVersio || 1)),
+            versioningSuccess
+        );
+
     return (
         (loading && <Loading />) || (
-            <KoodiMuokkausPageComponent {...formReturn} save={save} remove={remove} versio={+(koodiVersio || 0)} />
+            <KoodiMuokkausPageComponent
+                {...formReturn}
+                save={save}
+                deleteAction={deleteAction}
+                versioningAction={versioningAction}
+                versio={+(koodiVersio || 0)}
+            />
         )
     );
 };
 const KoodiMuokkausPageComponent: React.FC<
-    { save: (a: Koodi) => void; remove: (koodi: Koodi) => void; versio: number } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, remove, control, getValues, versio }) => {
+    {
+        save: (a: Koodi) => void;
+        deleteAction: (koodi: Koodi) => void;
+        versioningAction: (koodi: Koodi) => void;
+        versio: number;
+    } & UseFormReturn<Koodi>
+> = ({ register, handleSubmit, save, deleteAction, versioningAction, control, getValues, versio }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
@@ -178,7 +212,7 @@ const KoodiMuokkausPageComponent: React.FC<
                 versionDialog={(close: () => void) => (
                     <ConfirmationDialog
                         action={() => {
-                            console.log('Not implemented...');
+                            versioningAction(getValues());
                             close();
                         }}
                         close={close}
@@ -205,7 +239,7 @@ const KoodiMuokkausPageComponent: React.FC<
                 removeDialog={(close: () => void) => (
                     <ConfirmationDialog
                         action={() => {
-                            remove(getValues());
+                            deleteAction(getValues());
                             close();
                         }}
                         close={close}
