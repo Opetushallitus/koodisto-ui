@@ -206,6 +206,9 @@
   "TAULUKKO_KOODIMAARA": {
     "defaultMessage": "Koodien lkm"
   },
+  "TAULUKKO_KOODISTORUI_NIMI": {
+    "defaultMessage": "Koodisto"
+  },
   "TAULUKKO_KOODISTORYHMA_OTSIKKO": {
     "defaultMessage": "Koodistoryhma"
   },
@@ -231,7 +234,10 @@
     "defaultMessage": "Voimassa"
   },
   "TAULUKKO_KUVAUS_OTSIKKO": {
-    "defaultMessage": "Voit rajata koodistoryhmällä tai nimellä"
+    "defaultMessage": "Kuvaus"
+  },
+  "TAULUKKO_LISAA_KOODEJA_BUTTON": {
+    "defaultMessage": "Lisää koodeja"
   },
   "TAULUKKO_LISAA_KOODISTOJA_BUTTON": {
     "defaultMessage": "Lisää koodistoja"
