@@ -126,6 +126,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 versioningAction={versioningAction}
                 versio={+(koodiVersio || 0)}
                 disabled={disabled}
+                koodistoUri={newKoodiKoodistoUri || undefined}
             />
         )
     );
@@ -137,8 +138,20 @@ const KoodiMuokkausPageComponent: React.FC<
         versioningAction: (koodi: Koodi) => void;
         versio: number;
         disabled: boolean;
+        koodistoUri?: string;
     } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, deleteAction, versioningAction, control, getValues, versio, disabled }) => {
+> = ({
+    register,
+    handleSubmit,
+    save,
+    deleteAction,
+    versioningAction,
+    control,
+    getValues,
+    versio,
+    disabled,
+    koodistoUri,
+}) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
@@ -214,7 +227,11 @@ const KoodiMuokkausPageComponent: React.FC<
             <Footer
                 state={getValues().tila}
                 latest={versio === Math.max(...(getValues().koodiVersio || []))}
-                returnPath={(koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) || '/'}
+                returnPath={
+                    (koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) ||
+                    (koodistoUri && `/koodisto/view/${koodistoUri}`) ||
+                    '/'
+                }
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODI'}
                 versionDialog={(close: () => void) => (
