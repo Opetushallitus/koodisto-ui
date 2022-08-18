@@ -58,6 +58,7 @@ export const KoodiMuokkausPage: React.FC = () => {
     const newKoodiKoodistoUri = searchParams.get('koodistoUri');
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
+    const [disabled, setDisabled] = useState<boolean>(false);
     const formReturn = useForm<Koodi>({
         shouldUseNativeValidation: true,
         defaultValues: {
@@ -72,6 +73,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 setLoading(true);
                 const data = await fetchPageKoodi(koodiUri, +koodiVersio);
                 data && formReturn.reset(data);
+                setDisabled(data?.tila !== 'LUONNOS');
                 setLoading(false);
             })();
         }
@@ -123,6 +125,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 deleteAction={deleteAction}
                 versioningAction={versioningAction}
                 versio={+(koodiVersio || 0)}
+                disabled={disabled}
             />
         )
     );
@@ -133,8 +136,9 @@ const KoodiMuokkausPageComponent: React.FC<
         deleteAction: (koodi: Koodi) => void;
         versioningAction: (koodi: Koodi) => void;
         versio: number;
+        disabled: boolean;
     } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, deleteAction, versioningAction, control, getValues, versio }) => {
+> = ({ register, handleSubmit, save, deleteAction, versioningAction, control, getValues, versio, disabled }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
@@ -147,7 +151,7 @@ const KoodiMuokkausPageComponent: React.FC<
                 <MainContainerRow>
                     <MainContainerRowTitle id={'FIELD_TITLE_koodiArvo'} defaultMessage={'Arvo'} />
                     <MainContainerRowContent>
-                        <Input {...register('koodiArvo')} />
+                        <Input {...register('koodiArvo')} disabled={disabled} />
                     </MainContainerRowContent>
                 </MainContainerRow>
                 <MainContainerRow>
@@ -162,6 +166,7 @@ const KoodiMuokkausPageComponent: React.FC<
                                 defaultMessage: 'Syötä nimi',
                             }),
                         }}
+                        disabled={disabled}
                     />
                 </MainContainerRow>
                 <MainContainerRow>
@@ -170,6 +175,7 @@ const KoodiMuokkausPageComponent: React.FC<
                         getValues={getValues}
                         title={{ id: 'FIELD_ROW_TITLE_LYHYTNIMI', defaultMessage: 'Lyhenne' }}
                         fieldPath={'lyhytNimi'}
+                        disabled={disabled}
                     />
                 </MainContainerRow>
                 <MainContainerRow>
@@ -184,13 +190,14 @@ const KoodiMuokkausPageComponent: React.FC<
                                     defaultMessage: 'Valitse aloituspäivämäärä.',
                                 }),
                             }}
+                            disabled={disabled}
                         />
                     </MainContainerRowContent>
                 </MainContainerRow>
                 <MainContainerRow>
                     <MainContainerRowTitle id={'FIELD_TITLE_voimassaLoppuPvm'} defaultMessage={'Voimassa loppu'} />
                     <MainContainerRowContent>
-                        <DatePickerController<Koodi> name={'voimassaLoppuPvm'} control={control} />
+                        <DatePickerController<Koodi> name={'voimassaLoppuPvm'} control={control} disabled={disabled} />
                     </MainContainerRowContent>
                 </MainContainerRow>
                 <MainContainerRow>
@@ -200,6 +207,7 @@ const KoodiMuokkausPageComponent: React.FC<
                         getValues={getValues}
                         title={{ id: 'FIELD_ROW_TITLE_KUVAUS', defaultMessage: 'Kuvaus' }}
                         fieldPath={'kuvaus'}
+                        disabled={disabled}
                     />
                 </MainContainerRow>
             </MainContainer>
