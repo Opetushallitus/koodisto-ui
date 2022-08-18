@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Footer } from '../../components/Modal';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { FormattedMessage } from 'react-intl';
-import KoodistoTable from '../KoodistoTablePage/KoodistoTable';
 import { ListKoodisto, KoodistoRelation } from '../../types';
+import { KoodistoTable } from '../../components/Table';
 type SuhdeModalProps = { close: () => void; save: (toAdd: ListKoodisto[]) => void; oldRelations: KoodistoRelation[] };
 export const SuhdeModal: React.FC<SuhdeModalProps> = ({ close, save, oldRelations }) => {
     const [selected, setSelected] = useState<ListKoodisto[]>([]);
@@ -14,6 +14,7 @@ export const SuhdeModal: React.FC<SuhdeModalProps> = ({ close, save, oldRelation
             footer={
                 <Footer>
                     <Button
+                        disabled={selected.length === 0}
                         onClick={() => {
                             save(selected);
                             close();

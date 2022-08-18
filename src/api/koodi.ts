@@ -15,11 +15,18 @@ type CreateKoodiDataType = {
     voimassaLoppuPvm?: ApiDate;
     metadata: KoodiMetadata[];
 };
+type ApiKoodiRelation = {
+    codeElementUri: string;
+    codeElementVersion: number;
+};
 type UpdateKoodiDataType = CreateKoodiDataType & {
     koodiUri: string;
     tila: Tila;
     versio: number;
-    lockingVersion: number;
+    version: number;
+    withinCodeElements: ApiKoodiRelation[];
+    includesCodeElements: ApiKoodiRelation[];
+    levelsWithCodeElements: ApiKoodiRelation[];
 };
 export const batchUpsertKoodi = async (koodistoUri: string, koodi: CSVUpsertKoodi[]): Promise<string | undefined> => {
     return errorHandlingWrapper(async () => {
@@ -37,11 +44,13 @@ export const mapApiKoodi = ({ api }: { api: ApiKoodi }): Koodi => {
 };
 export const fetchKoodistoKoodis = async (
     koodistoUri: string,
-    koodistoVersio: number
+    koodistoVersio: number,
+    controller?: AbortController
 ): Promise<Koodi[] | undefined> => {
     return errorHandlingWrapper(async () => {
         const { data: pageData } = await axios.get<ApiKoodi[]>(
-            `${API_INTERNAL_PATH}/koodi/koodisto/${koodistoUri}/${koodistoVersio}`
+            `${API_INTERNAL_PATH}/koodi/koodisto/${koodistoUri}/${koodistoVersio}`,
+            { signal: controller?.signal }
         );
         return pageData.map((api) => mapApiKoodi({ api }));
     });
@@ -62,12 +71,15 @@ export const updateKoodi = async (koodi: Koodi): Promise<Koodi | undefined> => {
     });
 };
 export const createKoodi = async (koodi: Koodi): Promise<Koodi | undefined> => {
-    return upsertKoodi<CreateKoodiDataType>({
-        koodi,
-        mapper: mapKoodiToCreateKoodi,
-        path: `${API_INTERNAL_PATH}/koodi/${koodi.koodistoUri}`,
-        axiosFunc: axios.post,
-    });
+    return (
+        koodi.koodisto &&
+        upsertKoodi<CreateKoodiDataType>({
+            koodi,
+            mapper: mapKoodiToCreateKoodi,
+            path: `${API_INTERNAL_PATH}/koodi/${koodi.koodisto.koodistoUri}`,
+            axiosFunc: axios.post,
+        })
+    );
 };
 export const deleteKoodi = async (koodi: Koodi): Promise<boolean | undefined> => {
     return errorHandlingWrapper(async () => {
@@ -101,9 +113,21 @@ const upsertKoodi = async <X>({
 const mapKoodiToUpdateKoodi = (koodi: Koodi): UpdateKoodiDataType => ({
     ...mapKoodiToCreateKoodi(koodi),
     koodiUri: koodi.koodiUri,
-    lockingVersion: koodi.lockingVersion,
+    version: koodi.lockingVersion,
     tila: koodi.tila,
     versio: koodi.versio,
+    includesCodeElements: koodi.sisaltaaKoodit.map((a) => ({
+        codeElementUri: a.koodiUri,
+        codeElementVersion: a.koodiVersio,
+    })),
+    withinCodeElements: koodi.sisaltyyKoodeihin.map((a) => ({
+        codeElementUri: a.koodiUri,
+        codeElementVersion: a.koodiVersio,
+    })),
+    levelsWithCodeElements: koodi.rinnastuuKoodeihin.map((a) => ({
+        codeElementUri: a.koodiUri,
+        codeElementVersion: a.koodiVersio,
+    })),
 });
 
 const mapKoodiToCreateKoodi = (koodi: Koodi): CreateKoodiDataType => ({
