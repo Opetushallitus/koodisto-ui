@@ -60,9 +60,6 @@ const pageKoodiAccessor = async <X>(
 export const fetchPageKoodi = async (koodiUri: string, versio: number): Promise<Koodi | undefined> =>
     pageKoodiAccessor(koodiUri, versio, axios.get);
 
-export const createKoodiVersion = async (koodiUri: string, versio: number): Promise<Koodi | undefined> =>
-    pageKoodiAccessor(koodiUri, versio, axios.post);
-
 export const updateKoodi = async (koodi: Koodi): Promise<Koodi | undefined> => {
     return upsertKoodi<UpdateKoodiDataType>({
         koodi,

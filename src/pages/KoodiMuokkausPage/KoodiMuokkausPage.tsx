@@ -10,7 +10,7 @@ import {
 } from '../../components/Containers';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CrumbTrail } from '../../components/CrumbTrail';
-import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi, createKoodiVersion } from '../../api/koodi';
+import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi } from '../../api/koodi';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { Koodi } from '../../types';
 import { Loading } from '../../components/Loading';
@@ -41,13 +41,6 @@ const deleteSuccess = () => {
     success({
         title: <FormattedMessage id={'KOODI_POISTA_OK_TITLE'} defaultMessage={'Koodi poistettiin onnistuneesti.'} />,
         message: <FormattedMessage id={'KOODI_POISTA_OK_MESSAGE'} defaultMessage={'Koodi on poistettu'} />,
-    });
-};
-
-const versioningSuccess = () => {
-    success({
-        title: <FormattedMessage id={'KOODI_VERSIOI_OK_TITLE'} defaultMessage={'Koodi versioitiin onnistuneesti.'} />,
-        message: <FormattedMessage id={'KOODI_VERSIOI_OK_MESSAGE'} defaultMessage={'Koodista on luotu uusi versio'} />,
     });
 };
 
@@ -110,20 +103,12 @@ export const KoodiMuokkausPage: React.FC = () => {
     const deleteAction = async (koodi: Koodi) =>
         modifyAction(koodi, async (koodi) => ((await deleteKoodi(koodi)) ? koodi : undefined), deleteSuccess);
 
-    const versioningAction = async (koodi: Koodi) =>
-        modifyAction(
-            koodi,
-            async (koodi) => createKoodiVersion(koodi.koodiUri, +(koodiVersio || 1)),
-            versioningSuccess
-        );
-
     return (
         (loading && <Loading />) || (
             <KoodiMuokkausPageComponent
                 {...formReturn}
                 save={save}
                 deleteAction={deleteAction}
-                versioningAction={versioningAction}
                 versio={+(koodiVersio || 0)}
                 disabled={disabled}
                 koodistoUri={newKoodiKoodistoUri || undefined}
@@ -135,23 +120,11 @@ const KoodiMuokkausPageComponent: React.FC<
     {
         save: (a: Koodi) => void;
         deleteAction: (koodi: Koodi) => void;
-        versioningAction: (koodi: Koodi) => void;
         versio: number;
         disabled: boolean;
         koodistoUri?: string;
     } & UseFormReturn<Koodi>
-> = ({
-    register,
-    handleSubmit,
-    save,
-    deleteAction,
-    versioningAction,
-    control,
-    getValues,
-    versio,
-    disabled,
-    koodistoUri,
-}) => {
+> = ({ register, handleSubmit, save, deleteAction, control, getValues, versio, disabled, koodistoUri }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
@@ -227,6 +200,7 @@ const KoodiMuokkausPageComponent: React.FC<
             <Footer
                 state={getValues().tila}
                 latest={versio === Math.max(...(getValues().koodiVersio || []))}
+                locked={getValues().tila === 'HYVAKSYTTY' || getValues().koodiUri === undefined}
                 returnPath={
                     (koodiUri && `/koodi/view/${koodiUri}/${koodiVersio}`) ||
                     (koodistoUri && `/koodisto/view/${koodistoUri}`) ||
@@ -234,33 +208,6 @@ const KoodiMuokkausPageComponent: React.FC<
                 }
                 save={handleSubmit((a) => save(a))}
                 localisationPrefix={'KOODI'}
-                versionDialog={(close: () => void) => (
-                    <ConfirmationDialog
-                        action={() => {
-                            versioningAction(getValues());
-                            close();
-                        }}
-                        close={close}
-                        confirmationMessage={{
-                            id: 'KOODI_VERSIOI_CONFIRMATION',
-                            defaultMessage: 'Kyllä, versioidaan koodi',
-                        }}
-                        buttonText={{ id: 'VAHVISTA_VERSIOINTI', defaultMessage: 'Vahvista versiointi' }}
-                    >
-                        <>
-                            <FormattedMessage
-                                id={'KOODI_VERSIOI_TITLE'}
-                                defaultMessage={'Versioi koodi'}
-                                tagName={'h2'}
-                            />
-                            <FormattedMessage
-                                id={'KOODI_VERSIOI_DESCRIPTION'}
-                                defaultMessage={'Koodista luodaan uusi versio'}
-                                tagName={'p'}
-                            />
-                        </>
-                    </ConfirmationDialog>
-                )}
                 removeDialog={(close: () => void) => (
                     <ConfirmationDialog
                         action={() => {
