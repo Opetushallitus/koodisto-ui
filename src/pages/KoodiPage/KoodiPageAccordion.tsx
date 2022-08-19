@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion } from '../../components/Accordion';
 import { useIntl } from 'react-intl';
-import { RelationTable } from './RelationTable';
+import { KoodiRelationsTable } from './KoodiRelationsTable';
 import { Koodi } from '../../types';
 import { UseFieldArrayReturn } from 'react-hook-form';
 
@@ -31,7 +31,7 @@ export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
                 { count: koodi.sisaltyyKoodeihin?.length }
             ),
             panelComponent: (
-                <RelationTable
+                <KoodiRelationsTable
                     relationSources={koodi?.koodisto?.sisaltyyKoodistoihin?.map((a) => ({
                         koodistoUri: a.koodistoUri,
                         versio: a.koodistoVersio,
@@ -52,7 +52,7 @@ export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
                 { count: koodi.sisaltaaKoodit?.length }
             ),
             panelComponent: (
-                <RelationTable
+                <KoodiRelationsTable
                     relationSources={koodi?.koodisto?.sisaltaaKoodistot?.map((a) => ({
                         koodistoUri: a.koodistoUri,
                         versio: a.koodistoVersio,
@@ -73,7 +73,7 @@ export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
                 { count: koodi.rinnastuuKoodeihin?.length }
             ),
             panelComponent: (
-                <RelationTable
+                <KoodiRelationsTable
                     relationSources={koodi?.koodisto?.rinnastuuKoodistoihin?.map((a) => ({
                         koodistoUri: a.koodistoUri,
                         versio: a.koodistoVersio,

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { KoodistoRelation, ListKoodisto, PageKoodisto } from '../../types';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { IconWrapper } from '../../components/IconWapper';
-import { SuhdeModal } from './SuhdeModal';
+import { KoodistoSuhdeModal } from './KoodistoSuhdeModal';
 import { ColumnDef, CellContext } from '@tanstack/react-table';
 import { UseFieldArrayReturn } from 'react-hook-form';
 import { StyledPopup } from '../../components/Modal/Modal';
@@ -142,7 +142,7 @@ export const KoodistoRelationsTable: React.FC<KoodistoRelationsTableProps> = ({
                 >
                     {
                         ((close) => (
-                            <SuhdeModal
+                            <KoodistoSuhdeModal
                                 oldRelations={koodistoRelations}
                                 save={(a) => addNewKoodistoToRelations(a)}
                                 close={close}

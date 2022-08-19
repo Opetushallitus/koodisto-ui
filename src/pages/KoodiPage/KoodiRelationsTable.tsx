@@ -8,7 +8,7 @@ import { casMeLocaleAtom } from '../../api/kayttooikeus';
 import type { KoodiRelation, Koodi } from '../../types';
 import { ColumnDef, CellContext } from '@tanstack/react-table';
 import { UseFieldArrayReturn } from 'react-hook-form';
-import { SuhdeModal } from './SuhdeModal';
+import { KoodiSuhdeModal } from './KoodiSuhdeModal';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { IconWrapper } from '../../components/IconWapper';
 import { StyledPopup } from '../../components/Modal/Modal';
@@ -30,7 +30,7 @@ const RemoveSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElem
         </Button>
     );
 };
-export const RelationTable: React.FC<RelationTableProps> = ({
+export const KoodiRelationsTable: React.FC<RelationTableProps> = ({
     relations,
     fieldArrayReturn,
     editable,
@@ -141,7 +141,7 @@ export const RelationTable: React.FC<RelationTableProps> = ({
 
     const suhdeModal = useCallback(
         (close) => (
-            <SuhdeModal
+            <KoodiSuhdeModal
                 relationSources={relationSources || []}
                 save={addNewKoodiToRelations}
                 close={() => {
