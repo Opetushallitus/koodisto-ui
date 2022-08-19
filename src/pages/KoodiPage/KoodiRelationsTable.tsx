@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { Table } from '../../components/Table';
-import { translateMultiLocaleText } from '../../utils';
+import { translateMultiLocaleText, metadataToMultiLocaleText } from '../../utils';
 import { useAtom } from 'jotai';
 import { casMeLocaleAtom } from '../../api/kayttooikeus';
 import type { KoodiRelation, Koodi } from '../../types';
@@ -53,21 +53,9 @@ export const KoodiRelationsTable: React.FC<RelationTableProps> = ({
                 fieldArrayReturn.replace([
                     ...relations,
                     ...koodi.map((a: Koodi) => ({
-                        koodistoNimi: {
-                            fi: a.koodisto?.koodistoUri || '',
-                            sv: a.koodisto?.koodistoUri || '',
-                            en: a.koodisto?.koodistoUri || '',
-                        },
-                        nimi: {
-                            fi: a.metadata.find((b) => b.kieli === 'FI')?.['nimi'] || '',
-                            sv: a.metadata.find((b) => b.kieli === 'SV')?.['nimi'] || '',
-                            en: a.metadata.find((b) => b.kieli === 'EN')?.['nimi'] || '',
-                        },
-                        kuvaus: {
-                            fi: a.metadata.find((b) => b.kieli === 'FI')?.['kuvaus'] || '',
-                            sv: a.metadata.find((b) => b.kieli === 'SV')?.['kuvaus'] || '',
-                            en: a.metadata.find((b) => b.kieli === 'EN')?.['kuvaus'] || '',
-                        },
+                        koodistoNimi: metadataToMultiLocaleText(a.koodisto.metadata, 'nimi'),
+                        nimi: metadataToMultiLocaleText(a.metadata, 'nimi'),
+                        kuvaus: metadataToMultiLocaleText(a.metadata, 'kuvaus'),
                         koodiUri: a.koodiUri,
                         koodiVersio: a.versio,
                     })),
