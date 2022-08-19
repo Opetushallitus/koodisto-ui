@@ -136,7 +136,7 @@ export const RelationTable: React.FC<RelationTableProps> = ({
             ]) ||
                 []),
         ],
-        [formatMessage, locale]
+        [editable, formatMessage, locale, removeKoodiFromRelations]
     );
 
     const suhdeModal = useCallback(
