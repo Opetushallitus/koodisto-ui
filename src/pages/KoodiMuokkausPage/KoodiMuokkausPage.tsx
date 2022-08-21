@@ -112,6 +112,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 versio={+(koodiVersio || 0)}
                 disabled={disabled}
                 koodistoUri={newKoodiKoodistoUri || undefined}
+                isEditing={!!isEditing}
             />
         )
     );
@@ -123,15 +124,22 @@ const KoodiMuokkausPageComponent: React.FC<
         versio: number;
         disabled: boolean;
         koodistoUri?: string;
+        isEditing: boolean;
     } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, deleteAction, control, getValues, versio, disabled, koodistoUri }) => {
+> = ({ register, handleSubmit, save, deleteAction, control, getValues, versio, disabled, koodistoUri, isEditing }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     return (
         <>
             <KoodiCrumbTrail koodi={getValues()} koodistoUriParam={koodistoUri} />
             <MainHeaderContainer>
-                <FormattedMessage id={'KOODI_MUOKKAA_SIVU_TITLE'} defaultMessage={'Muokkaa koodia'} tagName={'h1'} />
+                {(isEditing && (
+                    <FormattedMessage
+                        id={'KOODI_MUOKKAA_SIVU_TITLE'}
+                        defaultMessage={'Muokkaa koodia'}
+                        tagName={'h1'}
+                    />
+                )) || <FormattedMessage id={'KOODI_LISAA_SIVU_TITLE'} defaultMessage={'Lisää koodi'} tagName={'h1'} />}
             </MainHeaderContainer>
             <MainContainer>
                 <MainContainerRow>
