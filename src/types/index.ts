@@ -154,6 +154,7 @@ export type KoodiRelation = {
 export type Koodi = {
     koodisto?: { koodistoUri: string };
     koodistoUri: string;
+    koodistoVersion?: number;
     koodiUri: string;
     resourceUri: string;
     versio: number;

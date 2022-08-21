@@ -9,7 +9,6 @@ import {
     MainContainerRowContent,
 } from '../../components/Containers';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { CrumbTrail } from '../../components/CrumbTrail';
 import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi } from '../../api/koodi';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { Koodi } from '../../types';
@@ -18,6 +17,7 @@ import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { Footer, ConfirmationDialog } from '../../components/Footer';
 import { DatePickerController, InputArrayController } from '../../components/controllers';
 import { success } from '../../components/Notification';
+import { KoodiCrumbTrail } from '../KoodiPage/KoodiCrumbTrail';
 
 const successNotification = (koodiUri: string) => {
     success({
@@ -129,7 +129,7 @@ const KoodiMuokkausPageComponent: React.FC<
     const { formatMessage } = useIntl();
     return (
         <>
-            <CrumbTrail trail={[{ key: koodiUri || 'newKoodiUri', label: koodiUri || '' }]} />
+            <KoodiCrumbTrail koodi={getValues()} koodistoUriParam={koodistoUri} />
             <MainHeaderContainer>
                 <FormattedMessage id={'KOODI_MUOKKAA_SIVU_TITLE'} defaultMessage={'Muokkaa koodia'} tagName={'h1'} />
             </MainHeaderContainer>

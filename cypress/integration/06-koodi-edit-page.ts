@@ -14,7 +14,7 @@ describe('Koodi edit page', () => {
         cy.intercept(`${API_INTERNAL_PATH}/koodi/kunta_020/2`, { fixture: 'koodiPage.json' });
         cy.get('button[name=KOODISIVU_MUOKKAA_KOODIA_BUTTON]').should('be.visible').click();
         cy.contains('Muokkaa koodia').should('be.visible');
-        cy.contains('kunta_020').should('be.visible');
+        cy.contains('kunta').should('be.visible');
     });
     it('can modify koodi', () => {
         cy.intercept('PUT', `${API_INTERNAL_PATH}/koodi`, (req) => {

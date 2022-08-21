@@ -7,15 +7,22 @@ import type { Koodi, PageKoodisto } from '../../types';
 import { fetchPageKoodisto } from '../../api/koodisto';
 import Spin from '@opetushallitus/virkailija-ui-components/Spin';
 
-export const KoodiCrumbTrail: React.FC<{ koodi: Koodi }> = ({ koodi }) => {
+export const KoodiCrumbTrail: React.FC<{ koodi: Koodi; koodistoUriParam?: string }> = ({ koodi, koodistoUriParam }) => {
     const [lang] = useAtom(casMeLangAtom);
     const [koodisto, setKoodisto] = useState<PageKoodisto | undefined>(undefined);
+    const koodistoUri = koodi.koodistoUri || koodistoUriParam;
     useEffect(() => {
         (async () => {
-            const data = await fetchPageKoodisto({ koodistoUri: koodi.koodistoUri, lang });
-            setKoodisto(data);
+            if (koodistoUri) {
+                const data = await fetchPageKoodisto({
+                    koodistoUri,
+                    versio: koodi.koodistoVersion,
+                    lang,
+                });
+                setKoodisto(data);
+            }
         })();
-    }, [koodi.koodistoUri, lang]);
+    }, [koodistoUri, koodi.koodistoVersion, lang]);
     const trail = [
         ...((koodisto && [
             {
