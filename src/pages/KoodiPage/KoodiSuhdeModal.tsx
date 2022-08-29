@@ -6,6 +6,8 @@ import { KoodiTable } from '../../components/Table';
 import { fetchKoodistoKoodis } from '../../api/koodi';
 import { Loading } from '../../components/Loading';
 import { SuhdeModalFooter } from '../../modals/SuhdeModal';
+import { useAtom } from 'jotai';
+import { koodistoListAtom } from '../../api/koodisto';
 
 type SuhdeModalProps = {
     close: () => void;
@@ -15,16 +17,20 @@ type SuhdeModalProps = {
 export const KoodiSuhdeModal: React.FC<SuhdeModalProps> = ({ close, save, relationSources }) => {
     const [selected, setSelected] = useState<KoodiList[]>([]);
     const [koodiList, setKoodiList] = useState<KoodiList[] | undefined>(undefined);
+    const [atomData] = useAtom(koodistoListAtom);
     useEffect(() => {
         const controller = new AbortController();
         (async () => {
-            const list = await relationSources.reduce(
-                async (p, c) => [
+            const list = await relationSources.reduce(async (p, c) => {
+                const koodistoNimi = atomData.find((koodisto) => koodisto.koodistoUri === c.koodistoUri)?.nimi || '';
+                return [
                     ...(await p),
-                    ...((await fetchKoodistoKoodis(c.koodistoUri, c.versio, controller)) || []),
-                ],
-                Promise.resolve([] as KoodiList[])
-            );
+                    ...((await fetchKoodistoKoodis(c.koodistoUri, c.versio, controller)) || []).map((a) => ({
+                        ...a,
+                        koodistoNimi,
+                    })),
+                ];
+            }, Promise.resolve([] as KoodiList[]));
 
             list && setKoodiList(list);
         })();

@@ -8,7 +8,6 @@ import { casMeLangAtom } from '../../api/kayttooikeus';
 import { ColumnDef, CellContext } from '@tanstack/react-table';
 import { Table } from './Table';
 import { sortBy } from 'lodash';
-import { koodistoListAtom } from '../../api/koodisto';
 
 type Props = {
     koodiList: KoodiList[];
@@ -18,16 +17,7 @@ type Props = {
 export const KoodiTable: React.FC<Props> = ({ koodiList, modal, setSelected }) => {
     const { formatMessage } = useIntl();
     const [lang] = useAtom(casMeLangAtom);
-    const [atomData] = useAtom(koodistoListAtom);
-    const data = useMemo<KoodiList[]>(
-        () =>
-            sortBy([...koodiList], (a) => a.koodiArvo).map((a) => ({
-                ...a,
-                koodistoNimi: atomData.find((koodisto) => koodisto.koodistoUri === a.koodistoUri)?.nimi || '',
-            })),
-        [atomData, koodiList]
-    );
-
+    const data = useMemo<KoodiList[]>(() => sortBy([...koodiList], (a) => a.koodiArvo), [koodiList]);
     const [, setFilteredCount] = useState<number>(data.length);
 
     const columns = React.useMemo<ColumnDef<KoodiList>[]>(
