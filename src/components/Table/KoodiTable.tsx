@@ -21,12 +21,9 @@ export const KoodiTable: React.FC<Props> = ({ koodiList, modal, setSelected }) =
     const [atomData] = useAtom(koodistoListAtom);
     const data = useMemo<KoodiList[]>(
         () =>
-            sortBy([...koodiList], (a) => [a.koodiArvo]).map((a) => ({
+            sortBy([...koodiList], (a) => a.koodiArvo).map((a) => ({
                 ...a,
-                koodistoNimi:
-                    atomData.find(
-                        (koodisto) => koodisto.koodistoUri === a.koodistoUri && koodisto.versio === a.koodistoVersio
-                    )?.nimi || '',
+                koodistoNimi: atomData.find((koodisto) => koodisto.koodistoUri === a.koodistoUri)?.nimi || '',
             })),
         [atomData, koodiList]
     );
