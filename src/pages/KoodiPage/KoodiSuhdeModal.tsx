@@ -37,7 +37,7 @@ export const KoodiSuhdeModal: React.FC<SuhdeModalProps> = ({ close, save, relati
         return () => {
             controller.abort();
         };
-    }, [relationSources]);
+    }, [atomData, relationSources]);
     return (
         <Modal
             header={<FormattedMessage id={'KOODI_SUHDE_MODAL_HEADER'} defaultMessage={'Valitse koodit'} />}
