@@ -32,7 +32,7 @@ describe('The Koodi Edit page can edit relations', () => {
     });
     it('shows koodis and can select', () => {
         cy.get('input[type=checkbox]').eq(1).click();
-        cy.get('button[name=SUHDEMODAL_LISAA]').click();
+        cy.get('button[name=SUHDEMODAL_VALITSE]').click();
     });
     it('shows added relations', () => {
         cy.get('div').contains('Sisältyy koodeihin (3)').should('be.visible');

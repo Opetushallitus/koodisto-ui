@@ -1,9 +1,14 @@
 import React from 'react';
 import { Accordion } from '../../components/Accordion';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { KoodiRelationsTable } from './KoodiRelationsTable';
-import { Koodi } from '../../types';
+import { Koodi, KoodiList } from '../../types';
 import { UseFieldArrayReturn } from 'react-hook-form';
+import styled from 'styled-components';
+import Button from '@opetushallitus/virkailija-ui-components/Button';
+import { StyledPopup } from '../../components/Modal/Modal';
+import { KoodiSuhdeModal } from './KoodiSuhdeModal';
+import { fetchPageKoodi } from '../../api/koodi';
 
 type KoodiPageAccordionProps = {
     koodi: Koodi;
@@ -12,6 +17,13 @@ type KoodiPageAccordionProps = {
     sisaltaaKooditReturn?: UseFieldArrayReturn<Koodi>;
     rinnastuuKoodeihinReturn?: UseFieldArrayReturn<Koodi>;
 };
+const AccordionContainer = styled.div`
+    padding-top: 1rem;
+`;
+const AccordionHeaderContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
 export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
     koodi,
     editable,
@@ -86,5 +98,44 @@ export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
         },
     ];
 
-    return <Accordion data={data} />;
+    const addRelationsToForm = async (fromKoodiList: KoodiList[]) => {
+        for (const fromKoodi of fromKoodiList) {
+            const fromKoodiData = await fetchPageKoodi(fromKoodi.koodiUri, fromKoodi.versio);
+            sisaltyyKoodeihinReturn?.append(fromKoodiData?.sisaltyyKoodeihin || []);
+            sisaltaaKooditReturn?.append(fromKoodiData?.sisaltaaKoodit || []);
+            rinnastuuKoodeihinReturn?.append(fromKoodiData?.rinnastuuKoodeihin || []);
+        }
+    };
+
+    return (
+        <AccordionContainer>
+            <AccordionHeaderContainer>
+                <FormattedMessage id={'KOODI_SUHTEET_TITLE'} defaultMessage={'Koodin suhteet'} tagName={'h2'} />
+                {editable && (
+                    <StyledPopup
+                        trigger={
+                            <Button name={'KOODI_KOPIOI_SUHTEET_BUTTON'} variant={'text'}>
+                                <FormattedMessage
+                                    id={'KOODI_KOPIOI_SUHTEET_BUTTON'}
+                                    defaultMessage={'Kopioi suhteet koodilta'}
+                                />
+                            </Button>
+                        }
+                        modal
+                    >
+                        {(close: () => void) => (
+                            <KoodiSuhdeModal
+                                relationSources={[
+                                    { koodistoUri: koodi.koodisto.koodistoUri, versio: koodi.koodisto.versio },
+                                ]}
+                                save={(koodiList) => koodiList.length && addRelationsToForm(koodiList)}
+                                close={close}
+                            />
+                        )}
+                    </StyledPopup>
+                )}
+            </AccordionHeaderContainer>
+            <Accordion data={data} />
+        </AccordionContainer>
+    );
 };

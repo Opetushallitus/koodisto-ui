@@ -184,7 +184,6 @@ export const KoodiRelationsTable: React.FC<RelationTableProps> = ({
                         <Button
                             disabled={relationSources.length === 0}
                             name={'TAULUKKO_LISAA_KOODISUHTEITA_BUTTON'}
-                            onClick={(e: React.ChangeEvent<HTMLInputElement>) => console.log(e)}
                             variant={'text'}
                         >
                             <ButtonLabelPrefix>
