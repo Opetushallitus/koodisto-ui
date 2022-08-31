@@ -48,9 +48,7 @@
             "kuvaus": "arvosanat"
         }
     ],
-    "koodistoVersio": [
-        1
-    ],
+    "koodistoVersio": [1],
     "sisaltyyKoodistoihin": [
         {
             "koodistoUri": "aiheet",
