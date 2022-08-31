@@ -25,6 +25,7 @@ const RemoveSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElem
     return (
         <Button name={'TAULUKKO_POISTA_KOODISUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
             <ButtonLabelPrefix>
+                v
                 <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
             </ButtonLabelPrefix>
         </Button>
