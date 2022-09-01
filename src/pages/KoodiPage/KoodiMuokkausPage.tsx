@@ -10,15 +10,16 @@ import {
 } from '../../components/Containers';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { KoodiCrumbTrail } from '../KoodiPage/KoodiCrumbTrail';
-import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi } from '../../api/koodi';
+import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi, fetchKoodistoKoodis } from '../../api/koodi';
 import { useForm, UseFormReturn, useFieldArray, ArrayPath } from 'react-hook-form';
-import { Koodi, KoodiRelation } from '../../types';
+import { Koodi, KoodiRelation, KoodiList } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { Footer, ConfirmationDialog } from '../../components/Footer';
 import { DatePickerController, InputArrayController } from '../../components/controllers';
 import { success } from '../../components/Notification';
 import { KoodiPageAccordion } from './KoodiPageAccordion';
+import Button from '@opetushallitus/virkailija-ui-components/Button';
 
 const successNotification = (koodiUri: string) => {
     success({
@@ -50,9 +51,11 @@ export const KoodiMuokkausPage: React.FC = () => {
     const isEditing = koodiUri && koodiVersio;
     const [searchParams] = useSearchParams();
     const newKoodiKoodistoUri = searchParams.get('koodistoUri');
+    const newKoodiKoodistoVersio = searchParams.get('koodistoVersio');
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
     const [disabled, setDisabled] = useState<boolean>(false);
+    const [koodit, setKoodit] = useState<KoodiList[]>([]);
     const formReturn = useForm<Koodi>({
         shouldUseNativeValidation: true,
         defaultValues: {
@@ -65,9 +68,20 @@ export const KoodiMuokkausPage: React.FC = () => {
         if (isEditing) {
             (async () => {
                 setLoading(true);
-                const data = await fetchPageKoodi(koodiUri, +koodiVersio);
-                data && formReturn.reset(data);
-                setDisabled(data?.tila !== 'LUONNOS');
+                const pageKoodi = await fetchPageKoodi(koodiUri, +koodiVersio);
+                pageKoodi && formReturn.reset(pageKoodi);
+                setDisabled(pageKoodi?.tila !== 'LUONNOS');
+                setLoading(false);
+            })();
+        } else {
+            (async () => {
+                setLoading(true);
+                console.log(newKoodiKoodistoUri, newKoodiKoodistoVersio);
+                const koodiList =
+                    (await (newKoodiKoodistoUri &&
+                        newKoodiKoodistoVersio &&
+                        fetchKoodistoKoodis(newKoodiKoodistoUri, Number(newKoodiKoodistoVersio)))) || [];
+                koodiList && setKoodit(koodiList);
                 setLoading(false);
             })();
         }
@@ -104,12 +118,25 @@ export const KoodiMuokkausPage: React.FC = () => {
     const deleteAction = async (koodi: Koodi) =>
         modifyAction(koodi, async (koodi) => ((await deleteKoodi(koodi)) ? koodi : undefined), deleteSuccess);
 
+    const setNextNumber = async () => {
+        const nextNumber = (
+            (koodit
+                .map((a) => a.koodiArvo)
+                .map((a) => Number(a))
+                .filter(Boolean)
+                .reduce((p, c) => (p < c ? c : p), 0) || 0) + 1
+        )
+            .toString()
+            .padStart(3, '0');
+        formReturn.setValue('koodiArvo', nextNumber);
+    };
     return (
         (loading && <Loading />) || (
             <KoodiMuokkausPageComponent
                 {...formReturn}
                 save={save}
                 deleteAction={deleteAction}
+                setNextNumber={setNextNumber}
                 disabled={disabled}
                 koodistoUri={newKoodiKoodistoUri || undefined}
                 isEditing={!!isEditing}
@@ -122,12 +149,25 @@ const KoodiMuokkausPageComponent: React.FC<
     {
         save: (a: Koodi) => void;
         deleteAction: (koodi: Koodi) => void;
+        setNextNumber: () => void;
         disabled: boolean;
         koodistoUri?: string;
         isEditing: boolean;
         versio: number;
     } & UseFormReturn<Koodi>
-> = ({ register, handleSubmit, save, deleteAction, control, getValues, isEditing, versio, disabled, koodistoUri }) => {
+> = ({
+    register,
+    handleSubmit,
+    save,
+    deleteAction,
+    setNextNumber,
+    control,
+    getValues,
+    isEditing,
+    versio,
+    disabled,
+    koodistoUri,
+}) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
     const sisaltyyKoodeihinReturn = useFieldArray<Koodi, ArrayPath<Koodi>, keyof KoodiRelation | 'id'>({
@@ -160,6 +200,12 @@ const KoodiMuokkausPageComponent: React.FC<
                     <MainContainerRowContent>
                         <Input {...register('koodiArvo')} disabled={disabled} />
                     </MainContainerRowContent>
+                    <Button name={'KOODI_MUOKKAA_SEURAAVA_NUMERO'} variant={'text'} onClick={setNextNumber}>
+                        <FormattedMessage
+                            id={'KOODI_MUOKKAA_SEURAAVA_NUMERO'}
+                            defaultMessage={'Seuraava juokseva numero'}
+                        />
+                    </Button>
                 </MainContainerRow>
                 <MainContainerRow>
                     <InputArrayController<Koodi>
