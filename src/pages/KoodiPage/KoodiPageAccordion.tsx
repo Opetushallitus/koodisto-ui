@@ -2,13 +2,14 @@ import React from 'react';
 import { Accordion } from '../../components/Accordion';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { KoodiRelationsTable } from './KoodiRelationsTable';
-import { Koodi, KoodiList } from '../../types';
+import { Koodi, KoodiList, KoodiRelation } from '../../types';
 import { UseFieldArrayReturn } from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { StyledPopup } from '../../components/Modal/Modal';
 import { KoodiSuhdeModal } from './KoodiSuhdeModal';
 import { fetchPageKoodi } from '../../api/koodi';
+import { uniqWith } from 'lodash';
 
 type KoodiPageAccordionProps = {
     koodi: Koodi;
@@ -99,12 +100,29 @@ export const KoodiPageAccordion: React.FC<KoodiPageAccordionProps> = ({
     ];
 
     const addRelationsToForm = async (fromKoodiList: KoodiList[]) => {
-        for (const fromKoodi of fromKoodiList) {
-            const fromKoodiData = await fetchPageKoodi(fromKoodi.koodiUri, fromKoodi.versio);
-            sisaltyyKoodeihinReturn?.append(fromKoodiData?.sisaltyyKoodeihin || []);
-            sisaltaaKooditReturn?.append(fromKoodiData?.sisaltaaKoodit || []);
-            rinnastuuKoodeihinReturn?.append(fromKoodiData?.rinnastuuKoodeihin || []);
-        }
+        const joinRelations = (p: KoodiRelation[], c: KoodiRelation[]) =>
+            uniqWith([...p, ...c], (a, b) => a.koodiUri === b.koodiUri && a.koodiVersio === b.koodiVersio);
+
+        const newRelations = await (
+            await Promise.all(
+                fromKoodiList.map(async (fromKoodi) => fetchPageKoodi(fromKoodi.koodiUri, fromKoodi.versio))
+            )
+        ).reduce(
+            async (p, c) => ({
+                sisaltyyKoodeihin: [...(await p).sisaltyyKoodeihin, ...(c?.sisaltyyKoodeihin || [])],
+                sisaltaaKoodit: [...(await p).sisaltaaKoodit, ...(c?.sisaltaaKoodit || [])],
+                rinnastuuKoodeihin: [...(await p).rinnastuuKoodeihin, ...(c?.rinnastuuKoodeihin || [])],
+            }),
+            Promise.resolve({
+                sisaltyyKoodeihin: [],
+                sisaltaaKoodit: [],
+                rinnastuuKoodeihin: [],
+            } as { sisaltyyKoodeihin: KoodiRelation[]; sisaltaaKoodit: KoodiRelation[]; rinnastuuKoodeihin: KoodiRelation[] })
+        );
+
+        sisaltaaKooditReturn?.replace(joinRelations(koodi.sisaltaaKoodit, newRelations.sisaltaaKoodit));
+        sisaltyyKoodeihinReturn?.replace(joinRelations(koodi.sisaltyyKoodeihin, newRelations.sisaltyyKoodeihin));
+        rinnastuuKoodeihinReturn?.replace(joinRelations(koodi.rinnastuuKoodeihin, newRelations.rinnastuuKoodeihin));
     };
 
     return (

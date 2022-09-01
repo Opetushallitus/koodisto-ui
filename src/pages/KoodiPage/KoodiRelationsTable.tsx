@@ -14,6 +14,7 @@ import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { IconWrapper } from '../../components/IconWapper';
 import { StyledPopup } from '../../components/Modal/Modal';
 import { ButtonLabelPrefix } from '../../components/Containers';
+import { findIndex, uniqWith } from 'lodash';
 
 type RelationTableProps = {
     editable: boolean;
@@ -25,7 +26,6 @@ const RemoveSuhdeButton: React.FC<{ onClick: (e: React.ChangeEvent<HTMLInputElem
     return (
         <Button name={'TAULUKKO_POISTA_KOODISUHTEITA_BUTTON'} onClick={onClick} variant={'text'}>
             <ButtonLabelPrefix>
-                v
                 <IconWrapper icon={'ci:trash-full'} inline={true} height={'1.2rem'} />
             </ButtonLabelPrefix>
         </Button>
@@ -49,18 +49,27 @@ export const KoodiRelationsTable: React.FC<RelationTableProps> = ({
         [fieldArrayReturn]
     );
     const addNewKoodiToRelations = useCallback(
-        (koodi: KoodiList[]) => {
+        (koodiList: KoodiList[]) => {
             fieldArrayReturn &&
-                fieldArrayReturn.replace([
-                    ...relations,
-                    ...koodi.map((a: KoodiList) => ({
-                        koodistoNimi: { fi: a.koodistoNimi || '', sv: a.koodistoNimi || '', en: a.koodistoNimi || '' },
-                        nimi: metadataToMultiLocaleText(a.metadata, 'nimi'),
-                        kuvaus: metadataToMultiLocaleText(a.metadata, 'kuvaus'),
-                        koodiUri: a.koodiUri,
-                        koodiVersio: a.versio,
-                    })),
-                ]);
+                fieldArrayReturn.replace(
+                    uniqWith(
+                        [
+                            ...relations,
+                            ...koodiList.map((a: KoodiList) => ({
+                                koodistoNimi: {
+                                    fi: a.koodistoNimi || '',
+                                    sv: a.koodistoNimi || '',
+                                    en: a.koodistoNimi || '',
+                                },
+                                nimi: metadataToMultiLocaleText(a.metadata, 'nimi'),
+                                kuvaus: metadataToMultiLocaleText(a.metadata, 'kuvaus'),
+                                koodiUri: a.koodiUri,
+                                koodiVersio: a.versio,
+                            })),
+                        ],
+                        (a, b) => a.koodiUri === b.koodiUri && a.koodiVersio === b.koodiVersio
+                    )
+                );
         },
         [fieldArrayReturn, relations]
     );
