@@ -14,7 +14,7 @@ import Button from '@opetushallitus/virkailija-ui-components/Button';
 import { IconWrapper } from '../../components/IconWapper';
 import { StyledPopup } from '../../components/Modal/Modal';
 import { ButtonLabelPrefix } from '../../components/Containers';
-import { findIndex, uniqWith } from 'lodash';
+import { uniqWith } from 'lodash';
 
 type RelationTableProps = {
     editable: boolean;
