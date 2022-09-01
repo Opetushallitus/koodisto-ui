@@ -76,7 +76,6 @@ export const KoodiMuokkausPage: React.FC = () => {
         } else {
             (async () => {
                 setLoading(true);
-                console.log(newKoodiKoodistoUri, newKoodiKoodistoVersio);
                 const koodiList =
                     (await (newKoodiKoodistoUri &&
                         newKoodiKoodistoVersio &&
