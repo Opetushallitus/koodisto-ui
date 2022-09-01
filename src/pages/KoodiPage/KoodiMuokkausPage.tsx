@@ -85,7 +85,7 @@ export const KoodiMuokkausPage: React.FC = () => {
                 setLoading(false);
             })();
         }
-    }, [koodiUri, koodiVersio, formReturn, isEditing]);
+    }, [koodiUri, koodiVersio, formReturn, isEditing, newKoodiKoodistoUri, newKoodiKoodistoVersio]);
     const save = async (koodi: Koodi) => {
         if (isEditing) await persist(koodi, updateKoodi);
         else await persist(koodi, createKoodi);
