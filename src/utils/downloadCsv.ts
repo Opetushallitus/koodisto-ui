@@ -60,5 +60,5 @@ export const downloadCsv = async ({
     const csv = Papa.unparse(csvData, { quotes: true, quoteChar: '"', delimiter: '\t', newline: '\r\n' });
     const blob = convertCsvToExcelAcceptedBlob(csv);
     pushBlobToUser({ fileName: `${koodistoUri}.csv`, blob });
-    info({ title: 'CSV_DOWNLOAD_NOTIFICATION_TITLE', message: 'CSV tiedoston lataus onnistui' });
+    info({ title: 'CSV_DOWNLOAD_NOTIFICATION_TITLE', message: 'CSV_DOWNLOAD_NOTIFICATION_SUCCESS' });
 };
