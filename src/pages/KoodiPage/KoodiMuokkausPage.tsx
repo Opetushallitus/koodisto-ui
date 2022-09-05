@@ -65,25 +65,27 @@ export const KoodiMuokkausPage: React.FC = () => {
         },
     });
     useEffect(() => {
+        setLoading(true);
         if (isEditing) {
             (async () => {
-                setLoading(true);
                 const pageKoodi = await fetchPageKoodi(koodiUri, +koodiVersio);
                 pageKoodi && formReturn.reset(pageKoodi);
+                const koodiList =
+                    (await (pageKoodi?.koodisto &&
+                        fetchKoodistoKoodis(pageKoodi.koodisto.koodistoUri, Number(pageKoodi.koodisto.versio)))) || [];
+                koodiList && setKoodit(koodiList);
                 setDisabled(pageKoodi?.tila !== 'LUONNOS');
-                setLoading(false);
             })();
         } else {
             (async () => {
-                setLoading(true);
                 const koodiList =
                     (await (newKoodiKoodistoUri &&
                         newKoodiKoodistoVersio &&
                         fetchKoodistoKoodis(newKoodiKoodistoUri, Number(newKoodiKoodistoVersio)))) || [];
                 koodiList && setKoodit(koodiList);
-                setLoading(false);
             })();
         }
+        setLoading(false);
     }, [koodiUri, koodiVersio, formReturn, isEditing, newKoodiKoodistoUri, newKoodiKoodistoVersio]);
     const save = async (koodi: Koodi) => {
         if (isEditing) await persist(koodi, updateKoodi);
