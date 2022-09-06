@@ -139,12 +139,17 @@ export const KoodistoMuokkausPage: React.FC = () => {
         persistFunction: (props: { koodisto: PageKoodisto; lang: Kieli }) => Promise<PageKoodisto | undefined>
     ) => {
         setLoading(true);
+        const refreshKoodistoList = !koodisto.koodistoUri;
         const updated = await persistFunction({ koodisto, lang });
         setLoading(false);
         if (updated) {
             successNotification(updated.koodistoUri);
             reset(updated);
-            navigate(`/koodisto/view/${updated.koodistoUri}/${updated.versio}`);
+            if (refreshKoodistoList) {
+                navigate(`/koodisto/view/${updated.koodistoUri}`);
+            } else {
+                navigate(`/koodisto/view/${updated.koodistoUri}/${updated.versio}`);
+            }
         }
     };
 

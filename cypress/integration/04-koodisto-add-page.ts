@@ -48,6 +48,8 @@ describe('The Koodisto Add page', () => {
         cy.get('input[name="metadata[2][nimi]"]').should('be.visible').type('nimi-1655458944744');
         cy.get('textarea[name="metadata[0][kuvaus]"]').should('be.visible').type('nimi-1655458944744');
         cy.get('button[name="KOODISTO_TALLENNA"]').should('be.visible').click();
-        cy.get('h1').contains('nimi-1655458944744').should('be.visible');
+        cy.location().should((location) => {
+            expect(location.pathname).to.eq('/koodisto-app/');
+        });
     });
 });
