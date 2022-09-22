@@ -19,7 +19,7 @@ export const translateMetadata = ({
 }: {
     metadata: Metadata[];
     lang: Kieli;
-}): Metadata | undefined => metadata.find((a) => a.kieli === lang);
+}): Metadata | undefined => metadata.find((a) => a.kieli === lang) || metadata.find((a) => a.kieli === 'FI');
 
 export const metadataToMultiLocaleText = (metadata: Metadata[], field: keyof Metadata): Record<Locale, string> => ({
     fi: metadata.find((b) => b.kieli === 'FI')?.[field] || '',
