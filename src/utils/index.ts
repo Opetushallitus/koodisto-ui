@@ -32,4 +32,6 @@ export const parseApiDate = (a: ApiDate): Date => {
 export const parseUIDate = (a: Date): ApiDate => {
     return !!a && (moment(a).format('YYYY-MM-DD') as ApiDate);
 };
+export const kieliSorter = (o: Metadata) => (o.kieli === 'FI' ? 1 : o.kieli === 'SV' ? 2 : 3);
+
 export { downloadCsv } from './downloadCsv';

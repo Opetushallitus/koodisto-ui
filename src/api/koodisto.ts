@@ -13,11 +13,12 @@ import {
     Tila,
 } from '../types';
 import { casMeLangAtom } from './kayttooikeus';
-import { parseApiDate, translateMetadata, parseUIDate, translateMultiLocaleText } from '../utils';
+import { parseApiDate, translateMetadata, parseUIDate, translateMultiLocaleText, kieliSorter } from '../utils';
 import { errorHandlingWrapper } from './errorHandling';
 import axios, { AxiosResponse } from 'axios';
 import { fetchOrganisaatioNimi } from './organisaatio';
 import { asyncAtomWithReset } from './jotaiUtils';
+import { sortBy } from 'lodash';
 
 const urlAtom = atom<string>(`${API_INTERNAL_PATH}/koodisto`);
 
@@ -168,6 +169,7 @@ const mapApiPageKoodistoToPageKoodisto = ({
     );
     return {
         ...api,
+        metadata: sortBy(api.metadata, kieliSorter),
         organisaatioNimi,
         koodistoRyhmaUri: {
             label: translateMetadata({ metadata: api.koodistoRyhmaMetadata, lang })?.nimi || api.koodistoRyhmaUri,
