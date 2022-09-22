@@ -1,11 +1,10 @@
 import type { CSVUpsertKoodi, MapToApiObject, Koodi, KoodiMetadata, Tila, KoodiRelation, KoodiList } from '../types';
-import { ApiDate, Kieli } from '../types';
+import { ApiDate } from '../types';
 import { errorHandlingWrapper } from './errorHandling';
 import axios, { AxiosResponse } from 'axios';
 import { API_INTERNAL_PATH, API_BASE_PATH } from '../context/constants';
 import { ApiPageKoodisto } from './koodisto';
-import { parseApiDate, parseUIDate, kieliSorter } from '../utils';
-import { sortBy } from 'lodash';
+import { parseApiDate, parseUIDate, fillMetadata } from '../utils';
 
 type ApiKoodi = MapToApiObject<Koodi>;
 type ApiKoodiList = MapToApiObject<KoodiList>;
@@ -43,14 +42,12 @@ export const mapApiKoodiList = (
     voimassaAlkuPvm: parseApiDate(api.voimassaAlkuPvm),
     voimassaLoppuPvm: api.voimassaLoppuPvm && parseApiDate(api.voimassaLoppuPvm),
 });
+
 export const mapApiKoodi = ({ api }: { api: ApiKoodi }): Koodi => {
-    const metadata = [...api.metadata];
-    (['FI', 'SV', 'EN'] as Kieli[]).forEach(
-        (kieli) => metadata.find((a) => a.kieli === kieli) || api.metadata.push({ ...metadata[0], kieli })
-    );
+    const metadata = fillMetadata(api.metadata);
     return {
         ...api,
-        metadata: sortBy(api.metadata, kieliSorter),
+        metadata: metadata,
         paivitysPvm: parseApiDate(api.paivitysPvm),
         voimassaAlkuPvm: parseApiDate(api.voimassaAlkuPvm),
         voimassaLoppuPvm: api.voimassaLoppuPvm && parseApiDate(api.voimassaLoppuPvm),
