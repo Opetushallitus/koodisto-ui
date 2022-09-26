@@ -13,7 +13,7 @@ import { useResetAtom } from 'jotai/utils';
 import { KoodiCrumbTrail } from '../KoodiPage/KoodiCrumbTrail';
 import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi, fetchKoodistoKoodis } from '../../api/koodi';
 import { koodistoListAtom } from '../../api/koodisto';
-import { useForm, UseFormReturn, useFieldArray, ArrayPath } from 'react-hook-form';
+import { useForm, UseFormReturn, useFieldArray } from 'react-hook-form';
 import { Koodi, KoodiRelation, KoodiList } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
@@ -180,17 +180,17 @@ const KoodiMuokkausPageComponent: React.FC<
 }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
-    const sisaltyyKoodeihinReturn = useFieldArray<Koodi, ArrayPath<Koodi>, keyof KoodiRelation | 'id'>({
+    const sisaltyyKoodeihinReturn = useFieldArray<Koodi, 'sisaltyyKoodeihin', keyof KoodiRelation | 'id'>({
         control,
-        name: 'sisaltyyKoodeihin' as ArrayPath<Koodi>,
+        name: 'sisaltyyKoodeihin',
     });
-    const rinnastuuKoodeihinReturn = useFieldArray<Koodi, ArrayPath<Koodi>, keyof KoodiRelation | 'id'>({
+    const rinnastuuKoodeihinReturn = useFieldArray<Koodi, 'rinnastuuKoodeihin', keyof KoodiRelation | 'id'>({
         control,
-        name: 'rinnastuuKoodeihin' as ArrayPath<Koodi>,
+        name: 'rinnastuuKoodeihin',
     });
-    const sisaltaaKooditReturn = useFieldArray<Koodi, ArrayPath<Koodi>, keyof KoodiRelation | 'id'>({
+    const sisaltaaKooditReturn = useFieldArray<Koodi, 'sisaltaaKoodit', keyof KoodiRelation | 'id'>({
         control,
-        name: 'sisaltaaKoodit' as ArrayPath<Koodi>,
+        name: 'sisaltaaKoodit',
     });
     return (
         <>
