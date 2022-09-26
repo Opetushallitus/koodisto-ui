@@ -14,7 +14,7 @@ import { KoodiCrumbTrail } from '../KoodiPage/KoodiCrumbTrail';
 import { fetchPageKoodi, updateKoodi, createKoodi, deleteKoodi, fetchKoodistoKoodis } from '../../api/koodi';
 import { koodistoListAtom } from '../../api/koodisto';
 import { useForm, UseFormReturn, useFieldArray } from 'react-hook-form';
-import { Koodi, KoodiRelation, KoodiList } from '../../types';
+import { Koodi, KoodiList } from '../../types';
 import { Loading } from '../../components/Loading';
 import Input from '@opetushallitus/virkailija-ui-components/Input';
 import { Footer, ConfirmationDialog } from '../../components/Footer';
@@ -180,15 +180,15 @@ const KoodiMuokkausPageComponent: React.FC<
 }) => {
     const { koodiUri, koodiVersio } = useParams();
     const { formatMessage } = useIntl();
-    const sisaltyyKoodeihinReturn = useFieldArray<Koodi, 'sisaltyyKoodeihin', keyof KoodiRelation | 'id'>({
+    const sisaltyyKoodeihinReturn = useFieldArray<Koodi, 'sisaltyyKoodeihin'>({
         control,
         name: 'sisaltyyKoodeihin',
     });
-    const rinnastuuKoodeihinReturn = useFieldArray<Koodi, 'rinnastuuKoodeihin', keyof KoodiRelation | 'id'>({
+    const rinnastuuKoodeihinReturn = useFieldArray<Koodi, 'rinnastuuKoodeihin'>({
         control,
         name: 'rinnastuuKoodeihin',
     });
-    const sisaltaaKooditReturn = useFieldArray<Koodi, 'sisaltaaKoodit', keyof KoodiRelation | 'id'>({
+    const sisaltaaKooditReturn = useFieldArray<Koodi, 'sisaltaaKoodit'>({
         control,
         name: 'sisaltaaKoodit',
     });
