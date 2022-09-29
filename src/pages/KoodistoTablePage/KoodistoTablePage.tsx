@@ -30,7 +30,7 @@ const ContentContainer = styled.div`
     display: block;
     max-width: 100%;
 `;
-const contentStyle = { width: '500px', padding: 0 };
+const contentStyle = { width: '500px' };
 export const KoodistoTablePage: React.FC = () => {
     const { koodistoRyhmaUri } = useParams();
     const navigate = useNavigate();

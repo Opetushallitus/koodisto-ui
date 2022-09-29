@@ -69,7 +69,14 @@ export const Modal: React.FC<Props> = ({ onClose, footer, header, body }: Props)
 const overlayStyle = { background: 'rgba(0,0,0,0.5)' };
 const contentStyle = { width: '80vw', padding: 0 };
 export const ModalPopup: React.FC<PopupProps & React.RefAttributes<PopupActions>> = (props) => (
-    <Popup modal {...{ overlayStyle, contentStyle, ...props }}>
+    <Popup
+        modal
+        {...{
+            ...props,
+            overlayStyle: { ...overlayStyle, ...props.overlayStyle },
+            contentStyle: { ...contentStyle, ...props.contentStyle },
+        }}
+    >
         {props.children}
     </Popup>
 );
