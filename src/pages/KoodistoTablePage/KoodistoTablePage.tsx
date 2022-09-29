@@ -59,12 +59,14 @@ export const KoodistoTablePage: React.FC = () => {
                     }
                     {...{ contentStyle }}
                 >
-                    <KoodistoRyhmaModal
-                        koodistoRyhmaUri={koodistoRyhmaUri}
-                        closeModal={() => {
-                            navigate('/');
-                        }}
-                    />
+                    {(close: () => void) => (
+                        <KoodistoRyhmaModal
+                            koodistoRyhmaUri={koodistoRyhmaUri}
+                            closeModal={() => {
+                                close();
+                            }}
+                        />
+                    )}
                 </ModalPopup>
             </MainHeaderContainer>
             <MainContainer>
