@@ -18,6 +18,7 @@ const koodistoService = createProxyMiddleware('http://localhost:8080/koodisto-se
 app.use(cors());
 app.use('/kayttooikeus-service', apiMocker('src/api/kayttooikeus-service'));
 app.use('/organisaatio-service', apiMocker('src/api/organisaatio-service'));
+app.use('/virkailija-raamit', apiMocker('src/api/virkailija-raamit'));
 app.use('/lokalisointi', apiMocker('src/api/lokalisointi'));
 app.use('/koodisto-service', koodistoService);
 console.info(`Mock API Server is up and running at: http://localhost:${port}`);

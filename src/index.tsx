@@ -7,7 +7,6 @@ import { ROOT_OID } from './context/constants';
 import './index.css';
 import { ErrorPage } from './pages/ErrorPage';
 import { Loading } from './components/Loading';
-import { Raamit } from './components/Raamit';
 import createTheme from '@opetushallitus/virkailija-ui-components/createTheme';
 import { ThemeProvider } from 'styled-components';
 import { casMeLocaleAtom } from './api/kayttooikeus';
@@ -66,9 +65,7 @@ ReactDOM.render(
                 <ErrorBoundary>
                     <React.Suspense fallback={<Loading />}>
                         <Initialize>
-                            <Raamit>
-                                <App />
-                            </Raamit>
+                            <App />
                         </Initialize>
                     </React.Suspense>
                 </ErrorBoundary>

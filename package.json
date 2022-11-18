@@ -4,6 +4,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@opetushallitus/virkailija-raamit": "^1.0.0",
         "@opetushallitus/virkailija-ui-components": "^0.4.7",
         "@tanstack/match-sorter-utils": "^8.1.1",
         "@tanstack/react-table": "^8.5.11",

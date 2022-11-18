@@ -6,6 +6,8 @@ import { Notification } from './components/Notification';
 import { KoodistoPage, KoodistoMuokkausPage, KoodistoRedirectPage } from './pages/KoodistoPage';
 import { KoodiPage, KoodiMuokkausPage } from './pages/KoodiPage';
 import { Loading } from './components/Loading';
+// @ts-ignore
+import Raamit from '@opetushallitus/virkailija-raamit/Raamit';
 
 export const PageBase = styled.div`
     width: 100%;
@@ -20,6 +22,7 @@ const App: React.FC = () => {
     return (
         <BrowserRouter basename={'/koodisto-app'}>
             <Notification />
+            <Raamit />
             <PageBase>
                 <React.Suspense fallback={<Loading />}>
                     <Routes>
